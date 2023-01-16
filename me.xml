@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE student PUBLIC "-//Portland State University//DTD CS410J Grade Book//EN" "http://www.cs.pdx.edu/~whitlock/dtds/gradebook.dtd">
+<student enrolled-section="undergraduate">
+<id>davvan</id>
+<firstName>David</firstName>
+<lastName>Van</lastName>
+<email>davvan@pdx.edu</email>
+<major>Computer Science</major>
+<notes>
+<note>David Van would like to learn I'd like to learn how to efficiently use IDE, version control,ftware</note>
+<note>David Van has these comments: I'm really new to these java stuff like packages, pa</note>
+</notes>
+</student>
