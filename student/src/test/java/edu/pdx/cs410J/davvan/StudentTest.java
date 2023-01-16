@@ -21,5 +21,10 @@ public class StudentTest
     var pat = new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
     assertThat(pat.getName(), equalTo(name));
   }
+  @Test
+  void allStudentSayThisClassIsTooMuchWork(){
+    Student student = new Student("Name", new ArrayList<>(), 0.0, "Doesn't matter");
+    assertThat(student.says(), equalTo("This class is too much work"));
+  }
 
 }
