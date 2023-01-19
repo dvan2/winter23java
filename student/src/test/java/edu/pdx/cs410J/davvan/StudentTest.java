@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the Student class.  In addition to the JUnit annotations,
@@ -45,6 +46,12 @@ public class StudentTest
     //Assert (Then)
     assertThat(daveString, equalTo
             ("The result is Dave has a GPA of 3.64 and is taking 3 classes: Algorithms, Operating Systems, and Java. He says \"This class is too much work\""));
+  }
+
+  @Test
+  void nullNameThrowsNullPointerException(){
+    assertThrows(NullPointerException.class, () -> new Student(null, null, 3.45, null));
+
   }
 
 }
