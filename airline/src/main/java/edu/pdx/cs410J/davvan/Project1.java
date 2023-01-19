@@ -18,6 +18,10 @@ public class Project1 {
     for (String arg : args) {
       System.out.println(arg);
     }
+
+    int len= args.length;
+    for(String arg: args)
+      System.out.println(arg);
   }
 
 }
