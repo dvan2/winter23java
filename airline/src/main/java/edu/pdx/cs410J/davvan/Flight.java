@@ -3,6 +3,16 @@ package edu.pdx.cs410J.davvan;
 import edu.pdx.cs410J.AbstractFlight;
 
 public class Flight extends AbstractFlight {
+
+  //A flight's data:
+  private final int flightNumber;
+  private final String src;
+
+  Flight(int flightnumber, String source){
+  this.flightNumber= flightnumber;
+  this.src= source;
+
+}
   @Override
   public int getNumber() {
     return 42;
@@ -26,5 +36,9 @@ public class Flight extends AbstractFlight {
   @Override
   public String getArrivalString() {
     throw new UnsupportedOperationException("This method is not implemented yet");
+  }
+
+  public void display(){
+    System.out.println(this.flightNumber + this.src);
   }
 }
