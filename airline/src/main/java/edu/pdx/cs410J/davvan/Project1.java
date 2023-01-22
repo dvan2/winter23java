@@ -2,6 +2,10 @@ package edu.pdx.cs410J.davvan;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import static java.lang.Integer.parseInt;
 
 /**
@@ -10,26 +14,38 @@ import static java.lang.Integer.parseInt;
 public class Project1 {
 
   @VisibleForTesting
-  static boolean isValidDateAndTime(String dateAndTime) {
+  static boolean isValidDateAndTime(String date, String time) {
+    SimpleDateFormat date_format= new SimpleDateFormat("MM/dd/yyyy");
+    SimpleDateFormat hour_format= new SimpleDateFormat("hh:mm");
+    try{
+      date_format.parse(date);
+    }catch(ParseException e){
+      System.err.println("Invalid date input");
+      return false;
+    }
+    try{
+      hour_format.parse(time);
+    }catch(ParseException e){
+      System.err.println("Invalid hour input.");
+      return false;
+    }
     return true;
+
   }
 
   public static void main(String[] args) {
-    //System.err.println("Missing command line arguments");
-
     if(args.length == 0) {
       System.err.println("Missing command line arguments");
-      //System.exit(1);
-    }else {
-      int len = args.length;
-      Flight flight = new Flight(parseInt(args[0]), args[1]);  // Refer to one of Dave's classes so that we can be sure it is on the classpath
-
-      flight.display();
+      return;
     }
 
 
+    Flight flight = new Flight(parseInt(args[1]), args[2], args[3]);
 
-
+    if(!isValidDateAndTime(args[3], args[4]))
+      return;
+    Airline an_airline= new Airline(args[0], flight);
+    an_airline.displayAirline();
 
   }
 

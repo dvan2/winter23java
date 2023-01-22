@@ -31,10 +31,17 @@ public class FlightTest {
   @Test
   @Disabled
   void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
-    Flight flight = new Flight(0, "1");
+    Flight flight = new Flight(0, "1", "01/01/2000 12:12");
     assertThat(flight.getDeparture(), is(nullValue()));
   }
 
+  /*
+  @Test
+  void flightDisplaysInformation(){
+    Flight flight = new Flight(343, "ABC","12:12:2000 12:12");
+    assertThat(flight.toString(), equalTo("123 ABC 12:12:2000 12:12"));
+  }
 
+   */
   
 }
