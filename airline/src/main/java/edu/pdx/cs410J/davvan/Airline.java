@@ -40,7 +40,8 @@ public class Airline extends AbstractAirline<Flight> {
   public void displayAirline(){
     System.out.print(name + " ");
     if(flight!= null){
-      flight.display();
+      System.out.println(flight);
     }
   }
+
 }

@@ -37,15 +37,20 @@ public class Project1 {
     return true;
 
   }
-  static boolean isValidCode(String code){
-    if(code.length()!= 3)
-      return false;
-    return true;
-  }
+
+
 
   public static void main(String[] args) {
     if(args.length == 0) {
       System.err.println("Missing command line arguments");
+      return;
+    }
+
+    //check flight number
+    try{
+      parseInt(args[1]);
+    }catch(NumberFormatException e){
+      System.err.println("Flight number must be a number.");
       return;
     }
 
@@ -57,14 +62,15 @@ public class Project1 {
     String full_depart_d= args[3] + " " + args[4];
     String full_arrive_d= args[6] + " " + args[7];
 
-    if(!isValidCode(args[2])){
-      System.err.println("Source airport code has invalid length. Must be 3 character.");
-    }
-    if(!isValidCode(args[5])){
-      System.err.println("Destination airport code has invalid length. Must be 3 character.");
-    }
+
     Flight flight = new Flight(parseInt(args[1]), args[2], full_depart_d,
             args[5], full_arrive_d);
+    try{
+      flight.hasValidCode();
+    }catch(IllegalArgumentException e){
+      System.out.println(e);
+      return;
+    }
 
     Airline an_airline= new Airline(args[0], flight);
     an_airline.displayAirline();

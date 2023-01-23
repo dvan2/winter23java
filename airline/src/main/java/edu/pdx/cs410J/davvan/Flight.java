@@ -73,5 +73,13 @@ public class Flight extends AbstractFlight {
     this.arrive_date= flight.arrive_date;
   }
 
+  public void hasValidCode() throws IllegalArgumentException{
+    if(this.src.length() != 3)
+      throw new IllegalArgumentException("Source airport code has invalid length. Must be 3 character.");
+
+    if(this.dest.length() != 3)
+      throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
+  }
+
 
 }
