@@ -42,6 +42,5 @@ public class Airline extends AbstractAirline<Flight> {
     if(flight!= null){
       flight.display();
     }
-    return;
   }
 }

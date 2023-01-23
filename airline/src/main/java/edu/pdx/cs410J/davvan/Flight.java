@@ -8,9 +8,11 @@ public class Flight extends AbstractFlight {
 
 
 
-  private  int flightNumber;
+  private  int flight_number;
   private  String src;
-  private  String date;
+  private  String depart_date;
+  private String dest;
+  private String arrive_date;
 
   /**This constructor can be used to create a new instance of a <code>Flight</code>.
    *
@@ -18,41 +20,45 @@ public class Flight extends AbstractFlight {
    *
    * @param source 3-letter code of Source airport.
    */
-  Flight(int flight_number, String source, String date){
-    this.flightNumber= flight_number;
+  Flight(int flight_number, String source, String departure_d, String destination, String arrival_d){
+    this.flight_number = flight_number;
     this.src= source;
-    this.date= date;
+    this.depart_date = departure_d;
+    this.dest= destination;
+    this.arrive_date= arrival_d;
+
 }
   @Override
   public int getNumber() {
-    return 42;
+    return flight_number;
   }
 
   @Override
   public String getSource() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return this.src;
   }
 
   @Override
   public String getDepartureString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return this.depart_date;
   }
 
   @Override
   public String getDestination() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return this.dest;
   }
 
   @Override
   public String getArrivalString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return this.arrive_date;
   }
 
   /**
    * Displays the contents of a flight.
    */
   public void display(){
-    System.out.println(this.flightNumber + ", "+ this.src + ", "+ this.date);
+    System.out.println(this.flight_number + ", "+ this.src + ", "+ this.depart_date + ", " +
+      this.dest+ " " + this.arrive_date);
   }
 
   /**
@@ -60,8 +66,12 @@ public class Flight extends AbstractFlight {
    * @param flight
    */
   public Flight(Flight flight){
-    this.flightNumber= flight.flightNumber;
+    this.flight_number = flight.flight_number;
     this.src= flight.src;
-    this.date= flight.date;
+    this.depart_date = flight.depart_date;
+    this.dest= flight.dest;
+    this.arrive_date= flight.arrive_date;
   }
+
+
 }

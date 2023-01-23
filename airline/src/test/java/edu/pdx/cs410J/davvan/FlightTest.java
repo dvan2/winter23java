@@ -14,34 +14,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 public class FlightTest {
 
-
-
-  /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
-  /*
   @Test
-
-  void initiallyAllFlightsHaveTheSameNumber() {
-    Flight flight = new Flight();
-    assertThat(flight.getNumber(), equalTo(42));
-  }
-*/
-  @Test
-  @Disabled
-  void forProject1ItIsOkayIfGetDepartureTimeReturnsNull() {
-    Flight flight = new Flight(0, "1", "01/01/2000 12:12");
-    assertThat(flight.getDeparture(), is(nullValue()));
+  void onlyThreeLetterCode(String code){
+    Flight flight = new Flight(123, "ABCD","12:12:2000 12:12", "PDXX", "1/1/2022 1:1");
+    assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12:12:2000 12:12 arrives PDX at 1/1/2022 1:1"));
   }
 
-  /*
   @Test
-  void flightDisplaysInformation(){
-    Flight flight = new Flight(343, "ABC","12:12:2000 12:12");
-    assertThat(flight.toString(), equalTo("123 ABC 12:12:2000 12:12"));
+  void flightContainsInformation(){
+    Flight flight = new Flight(123, "ABC","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
+    assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12:12:2000 12:12 arrives PDX at 1/1/2022 1:1"));
   }
 
-   */
+
   
 }
