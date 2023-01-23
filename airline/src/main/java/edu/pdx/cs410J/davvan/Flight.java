@@ -81,5 +81,4 @@ public class Flight extends AbstractFlight {
       throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
   }
 
-
 }

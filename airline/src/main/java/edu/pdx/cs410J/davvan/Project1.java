@@ -46,25 +46,38 @@ public class Project1 {
       return;
     }
 
+    int options= 0;
+    boolean print= false;
+    boolean readme= false;
+    //assume options always comes first
+    if(args[0].equals("-print") || args[1].equals("-print")) {
+      print= true;
+      options++;
+    }
+    if(args[0].equals("-README") || args[1].equals("-README")) {
+      readme = true;
+      options++;
+    }
+
     //check flight number
     try{
-      parseInt(args[1]);
+      System.out.println(options);
+      parseInt(args[1 + options]);
     }catch(NumberFormatException e){
       System.err.println("Flight number must be a number.");
       return;
     }
 
-    if(!isValidDateAndTime(args[3], args[4]))
+    if(!isValidDateAndTime(args[3 + options], args[4+ options]))
       return;
-    if(!isValidDateAndTime(args[6], args[7]))
+    if(!isValidDateAndTime(args[6+ options], args[7 + options]))
       return;
 
-    String full_depart_d= args[3] + " " + args[4];
-    String full_arrive_d= args[6] + " " + args[7];
+    String full_depart_d= args[3+ options] + " " + args[4+ options];
+    String full_arrive_d= args[6 + options] + " " + args[7 + options];
 
-
-    Flight flight = new Flight(parseInt(args[1]), args[2], full_depart_d,
-            args[5], full_arrive_d);
+    Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], full_depart_d,
+            args[5 + options], full_arrive_d);
     try{
       flight.hasValidCode();
     }catch(IllegalArgumentException e){
@@ -72,7 +85,9 @@ public class Project1 {
       return;
     }
 
-    Airline an_airline= new Airline(args[0], flight);
-    an_airline.displayAirline();
+    Airline an_airline= new Airline(args[0 + options], flight);
+    if(print)
+      an_airline.displayAirline();
+
   }
 }
