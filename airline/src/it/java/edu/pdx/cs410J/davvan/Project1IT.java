@@ -29,10 +29,15 @@ class Project1IT extends InvokeMainTestCase {
   }
 
   @Test
-  @Disabled
   void testProgramWithPrintOption(){
-      MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "PDX", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123 departs abc at 12/12/2000 12:12 arrives PDX at 1/1/2022 10:10"));
+      MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 343 departs DEN at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
+  }
+
+@Test
+  void testTooManyArguments(){
+      MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX","TUL", "1/1/2022", "1:1");
+      assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight."));
   }
 
 }

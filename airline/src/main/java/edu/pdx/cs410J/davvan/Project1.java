@@ -47,9 +47,6 @@ public class Project1 {
       System.err.println("Missing command line arguments");
       return;
     }
-    for(int i=0; i<args.length; ++i){
-      System.out.println(i + ": " + args[i]);
-    }
 
     int options= 0;
     boolean print= false;
@@ -62,6 +59,11 @@ public class Project1 {
     if(args[0].equals("-README") || args[1].equals("-README")) {
       readme = true;
       options++;
+    }
+    //System.out.println(args.length);
+    if(args.length >8+ options){
+      System.err.println("There is too many arguments for a flight.");
+      return;
     }
 
     //check flight number

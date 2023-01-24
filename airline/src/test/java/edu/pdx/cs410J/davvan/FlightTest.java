@@ -39,11 +39,14 @@ public class FlightTest {
     assertEquals("Destination airport code has invalid length. Must be 3 character.",exception.getMessage());
   }
 
+
   @Test
   void flightContainsRightInformation(){
     Flight flight = new Flight(123, "ABC","12/12/2000 12:12", "PDX", "1/1/2022 1:1");
     assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
   }
+
+
 
 
   
