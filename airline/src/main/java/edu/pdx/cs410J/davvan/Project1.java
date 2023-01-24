@@ -30,6 +30,8 @@ public class Project1 {
       date_format.parse(date);
     }catch(ParseException e){
       System.err.println("Invalid date input");
+      System.out.println("HERE");
+      System.out.println(date);
       return false;
     }
     try{
@@ -49,6 +51,9 @@ public class Project1 {
       System.err.println("Missing command line arguments");
       return;
     }
+    for(int i=0; i<args.length; ++i){
+      System.out.println(i + ": " + args[i]);
+    }
 
     int options= 0;
     boolean print= false;
@@ -63,9 +68,9 @@ public class Project1 {
       options++;
     }
 
+
     //check flight number
     try{
-      System.out.println(options);
       parseInt(args[1 + options]);
     }catch(NumberFormatException e){
       System.err.println("Flight number must be a number.");
@@ -74,8 +79,10 @@ public class Project1 {
 
     if(!isValidDateAndTime(args[3 + options], args[4+ options]))
       return;
+
     if(!isValidDateAndTime(args[6+ options], args[7 + options]))
       return;
+
 
     String full_depart_d= args[3+ options] + " " + args[4+ options];
     String full_arrive_d= args[6 + options] + " " + args[7 + options];
@@ -90,8 +97,11 @@ public class Project1 {
     }
 
     Airline an_airline= new Airline(args[0 + options], flight);
-    if(print)
+
+    if(print) {
       an_airline.displayAirline();
+
+    }
     if(readme){
       try{
         InputStream read= Project1.class.getResourceAsStream("README.txt");
