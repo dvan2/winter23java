@@ -2,6 +2,10 @@ package edu.pdx.cs410J.davvan;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,6 +92,15 @@ public class Project1 {
     Airline an_airline= new Airline(args[0 + options], flight);
     if(print)
       an_airline.displayAirline();
-
+    if(readme){
+      try{
+        InputStream read= Project1.class.getResourceAsStream("README.txt");
+        BufferedReader reader= new BufferedReader(new InputStreamReader(read));
+        String my_readme= reader.readLine();
+        System.out.println(my_readme);
+      }catch(IOException e){
+        System.err.println("Error in trying to access Readme file.");
+      }
+    }
   }
 }

@@ -53,13 +53,6 @@ public class Flight extends AbstractFlight {
     return this.arrive_date;
   }
 
-  /**
-   * Displays the contents of a flight.
-   */
-  public void display(){
-    System.out.println(this.flight_number + ", "+ this.src + ", "+ this.depart_date + ", " +
-      this.dest+ " " + this.arrive_date);
-  }
 
   /**
    * This constructor builds a flight using an existing Flight.
