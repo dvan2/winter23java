@@ -30,8 +30,6 @@ public class Project1 {
       date_format.parse(date);
     }catch(ParseException e){
       System.err.println("Invalid date input");
-      System.out.println("HERE");
-      System.out.println(date);
       return false;
     }
     try{
@@ -43,8 +41,6 @@ public class Project1 {
     return true;
 
   }
-
-
 
   public static void main(String[] args) {
     if(args.length == 0) {
@@ -68,7 +64,6 @@ public class Project1 {
       options++;
     }
 
-
     //check flight number
     try{
       parseInt(args[1 + options]);
@@ -79,10 +74,8 @@ public class Project1 {
 
     if(!isValidDateAndTime(args[3 + options], args[4+ options]))
       return;
-
     if(!isValidDateAndTime(args[6+ options], args[7 + options]))
       return;
-
 
     String full_depart_d= args[3+ options] + " " + args[4+ options];
     String full_arrive_d= args[6 + options] + " " + args[7 + options];
@@ -100,7 +93,6 @@ public class Project1 {
 
     if(print) {
       an_airline.displayAirline();
-
     }
     if(readme){
       try{
