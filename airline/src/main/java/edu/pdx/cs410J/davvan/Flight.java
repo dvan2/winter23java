@@ -5,12 +5,10 @@ import edu.pdx.cs410J.AbstractFlight;
 /**This class implements information about a <code>Flight</code>.
  */
 public class Flight extends AbstractFlight {
-
-
   /**
    * Flight number.
    */
-  private  int flight_number;
+  private int flight_number;
 
   /**
    * 3-letter code for source airport.
@@ -43,7 +41,6 @@ public class Flight extends AbstractFlight {
     this.depart_date = departure_d;
     this.dest= destination;
     this.arrive_date= arrival_d;
-
 }
 
   /**
@@ -91,10 +88,9 @@ public class Flight extends AbstractFlight {
     return this.arrive_date;
   }
 
-
   /**
    * This constructor builds a flight using an existing <code>Flight</code> object.
-   * @param flight
+   * @param flight: an existing flight object
    */
   public Flight(Flight flight){
     this.flight_number = flight.flight_number;
@@ -116,5 +112,4 @@ public class Flight extends AbstractFlight {
     if(this.dest.length() != 3)
       throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
   }
-
 }

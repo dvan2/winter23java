@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -61,7 +60,6 @@ public class Project1 {
       return;
     }
 
-
     int options= 0;
     boolean print= false;
 
@@ -88,7 +86,6 @@ public class Project1 {
       System.err.println("There is too many arguments for a flight.");
       return;
     }
-
     if(args.length < NUM_ARGS + options){
       System.err.println("There is not enough arguments for a flight.");
       return;
@@ -115,12 +112,10 @@ public class Project1 {
     try{
       flight.hasValidCode();
     }catch(IllegalArgumentException e){
-      System.out.println(e);
       return;
     }
 
     Airline an_airline= new Airline(args[0 + options], flight);
-
     if(print) {
       an_airline.displayAirline();
     }

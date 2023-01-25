@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -118,5 +117,4 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","13:12", "PDX", "1/1/2022", "1:1");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid hour input."));
     }
-
 }
