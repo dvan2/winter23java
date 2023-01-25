@@ -18,14 +18,18 @@ import static java.lang.Integer.parseInt;
 public class Project1 {
   /**
    * This function is used to make sure date arguments are in the right format.
-   * @param date
-   * @param time
-   * @return
+   * If date and time is not valid an error is displayed.
+   * @param date: Check if this string is in mm/dd/yyyy format
+   * @param time: Check if this string is in hh:mm format
+   * @return returns true if date and time is valid and false otherwise.
    */
   @VisibleForTesting
   static boolean isValidDateAndTime(String date, String time) {
+    //Used online resources: https://www.javatpoint.com/java-simpledateformat
     SimpleDateFormat date_format= new SimpleDateFormat("MM/dd/yyyy");
     SimpleDateFormat hour_format= new SimpleDateFormat("hh:mm");
+    date_format.setLenient(false);
+    hour_format.setLenient(false);
     try{
       date_format.parse(date);
     }catch(ParseException e){
@@ -44,7 +48,6 @@ public class Project1 {
 
   /**
    * Keep track of the total number of arguments expected
-   * @param NUM_ARGS
    */
   static final int NUM_ARGS= 8;
 
@@ -80,22 +83,6 @@ public class Project1 {
       options= 1;
       print= true;
     }
-
-
-    /*
-    //If readme is present, read from file and exit
-    if(args[0].equals("-README") || (args.length >1 && args[1].equals("-README"))){
-      System.out.println("HERE");
-      try {
-        InputStream read = Project1.class.getResourceAsStream("README.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(read));
-        String my_readme = reader.readLine();
-        System.out.println(my_readme);
-      } catch (IOException e) {
-        System.err.println("Cannot read from file.");
-        return;
-      }
-    }*/
 
     if(args.length > NUM_ARGS+ options){
       System.err.println("There is too many arguments for a flight.");

@@ -11,7 +11,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * An integration test for the {@link Project1} main class.
  */
 class Project1IT extends InvokeMainTestCase {
-
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
      */
@@ -101,4 +100,23 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
         assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
     }
+
+    @Test
+    void notNumberFlight(){
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "abc", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Flight number must be a number."));
+    }
+
+    @Test
+    void invalidDate(){
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "13/12/0","12:12", "PDX", "1/1/2022", "1:1");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid date input"));
+    }
+
+    @Test
+    void invalidTime(){
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","13:12", "PDX", "1/1/2022", "1:1");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid hour input."));
+    }
+
 }
