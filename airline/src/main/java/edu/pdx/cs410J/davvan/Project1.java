@@ -42,28 +42,49 @@ public class Project1 {
 
   }
 
+  static final int NUM_ARGS= 8;
+
   public static void main(String[] args) {
     if(args.length == 0) {
-      System.err.println("Missing command line arguments");
+      System.out.println("To use this program enter information about a flight in this order: ");
+      System.out.println("Airline name, flight number, 3 letter source airport code, departure date in the format of mm/dd/yyyy hh:mm," +
+              " 3 letter destination airport code and arrival date in the format mm/dd/yyyy hh:mm.");
+      System.out.println("Use the -print or -README options before the arguments to display information about a flight or " +
+              "read information about the program.");
       return;
     }
+
 
     int options= 0;
     boolean print= false;
     boolean readme= false;
-    //assume options always comes first
-    if(args[0].equals("-print") || args[1].equals("-print")) {
-      print= true;
-      options++;
+
+    //verify there's at least 1 argument for README
+    //Implement so that user can use -README option alone to open readme.
+    if(args.length == 1 && !args[0].equals("-README")){
+      System.err.println("Not enough arguments for flight.  Use -README to read ");
     }
+
+
+
+    //assume options always comes first
     if(args[0].equals("-README") || args[1].equals("-README")) {
       readme = true;
       options++;
     }
-    //System.out.println(args.length);
-    if(args.length >8+ options){
+    if(args[0].equals("-print") || args[1].equals("-print")) {
+      print= true;
+      options++;
+    }
+
+
+    if(args.length > NUM_ARGS+ options){
       System.err.println("There is too many arguments for a flight.");
       return;
+    }
+
+    if(args.length < NUM_ARGS + options){
+      System.err.println("There is not enough arguments for a flight.");
     }
 
     //check flight number
