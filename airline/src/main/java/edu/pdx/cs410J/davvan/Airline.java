@@ -8,11 +8,15 @@ public class Airline extends AbstractAirline<Flight> {
   private final String name;
   private Flight flight;
 
+  /**
+   * A constructor that creates airline with just a name.
+   * @param name
+   */
   public Airline(String name){
     this.name= name;
   }
 
-  /** A constructor that also creates a flight for an airline.
+  /** A constructor for <code>Airline</code> that creates an airline, provided a name and a <code>Flight</code> object.
    *
    * @param name
    * @param flight
@@ -37,6 +41,9 @@ public class Airline extends AbstractAirline<Flight> {
     throw new UnsupportedOperationException("This method is not implemented yet");
   }
 
+  /**
+   * This method displays the name of an airline and its flight that it has.
+   */
   public void displayAirline(){
     System.out.print(name + " ");
     if(flight!= null){

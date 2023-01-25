@@ -66,6 +66,11 @@ public class Flight extends AbstractFlight {
     this.arrive_date= flight.arrive_date;
   }
 
+  /**
+   * This method checks if the airport source and destination is exactly 3 character long.
+   * If the strings are not 3 character long, an IllegalArgumentException is thrown.
+   * @throws IllegalArgumentException
+   */
   public void hasValidCode() throws IllegalArgumentException{
     if(this.src.length() != 3)
       throw new IllegalArgumentException("Source airport code has invalid length. Must be 3 character.");

@@ -19,6 +19,9 @@ class Project1IT extends InvokeMainTestCase {
         return invokeMain( Project1.class, args );
     }
 
+    //a variable to test README
+    final String readme_test= "David Van";
+
   /**
    * Tests that invoking the main method with no arguments issues an error
    */
@@ -35,31 +38,36 @@ class Project1IT extends InvokeMainTestCase {
   }
 
   @Test
-  void testPrintWithPrintAndReadmeOption(){
-      MainMethodResult result = invokeMain(Project1.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 343 departs DEN at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
+  void readmeOnlyArgument(){
+      MainMethodResult result = invokeMain(Project1.class,"-README");
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
   @Test
-  void testPrintWithReadmeAndPrintOption(){
-      MainMethodResult result = invokeMain(Project1.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 343 departs DEN at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
+  void readmeAndPrintOnly(){
+      MainMethodResult result = invokeMain(Project1.class,"-README", "-print");
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
 
   @Test
-  void testReadmeFileOpens(){
+  void printOnly(){
+      MainMethodResult result = invokeMain(Project1.class, "-print");
+      assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
+  }
+
+  @Test
+  void readmeFirstOptionWithPrint(){
       MainMethodResult result = invokeMain(Project1.class,"-README", "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Project 1 is a simple program where the user is able to use the command line arguments to create a flight."));
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
 
   @Test
-  void ReadmeFileSecondOption(){
+  void readmeFileSecondOption(){
       MainMethodResult result = invokeMain(Project1.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Project 1 is a simple program where the user is able to use the command line arguments to create a flight."));
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
 
-
   @Test
-  void testTooManyArgumentsWithPrint(){
+  void tooManyArgumentsWithPrint(){
       MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX","TUL", "1/1/2022", "1:1");
       assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight."));
   }
@@ -67,7 +75,7 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testTooManyArgumentsWithPrintAndReadme(){
       MainMethodResult result = invokeMain(Project1.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX","TUL", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight."));
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
 
   @Test
@@ -77,13 +85,20 @@ class Project1IT extends InvokeMainTestCase {
   }
 
   @Test
-  @Disabled
   void notEnoughArguments(){
       MainMethodResult result = invokeMain(Project1.class, "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
       assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
   }
 
+  @Test
+  void notEnoughArgumentsWithPrintAndReadme(){
+      MainMethodResult result = invokeMain(Project1.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
+      assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
+  }
 
-
-
+    @Test
+    void notEnoughArgumentsWithPrint(){
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
+        assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
+    }
 }

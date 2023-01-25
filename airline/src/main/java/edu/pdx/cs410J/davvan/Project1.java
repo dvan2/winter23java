@@ -42,6 +42,10 @@ public class Project1 {
 
   }
 
+  /**
+   * Keep track of the total number of arguments expected
+   * @param NUM_ARGS
+   */
   static final int NUM_ARGS= 8;
 
   public static void main(String[] args) {
@@ -57,26 +61,41 @@ public class Project1 {
 
     int options= 0;
     boolean print= false;
-    boolean readme= false;
 
-    //verify there's at least 1 argument for README
-    //Implement so that user can use -README option alone to open readme.
-    if(args.length == 1 && !args[0].equals("-README")){
-      System.err.println("Not enough arguments for flight.  Use -README to read ");
+    //Make sure to check if arg[1] exists before indexing
+    if(args[0].equals("-README") || (args.length>1 && args[1].equals("-README"))){
+      System.out.println("HERE");
+      //read from file
+      try {
+        InputStream read = Project1.class.getResourceAsStream("README.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(read));
+        String my_readme = reader.readLine();
+        System.out.println(my_readme);
+      } catch (IOException e) {
+        System.err.println("Cannot read from file.");
+      }
+      return;
     }
-
-
-
-    //assume options always comes first
-    if(args[0].equals("-README") || args[1].equals("-README")) {
-      readme = true;
-      options++;
-    }
-    if(args[0].equals("-print") || args[1].equals("-print")) {
+    if(args[0].equals("-print") || (args.length> 1 && args[1].equals("-print"))){
+      options= 1;
       print= true;
-      options++;
     }
 
+
+    /*
+    //If readme is present, read from file and exit
+    if(args[0].equals("-README") || (args.length >1 && args[1].equals("-README"))){
+      System.out.println("HERE");
+      try {
+        InputStream read = Project1.class.getResourceAsStream("README.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(read));
+        String my_readme = reader.readLine();
+        System.out.println(my_readme);
+      } catch (IOException e) {
+        System.err.println("Cannot read from file.");
+        return;
+      }
+    }*/
 
     if(args.length > NUM_ARGS+ options){
       System.err.println("There is too many arguments for a flight.");
@@ -85,6 +104,7 @@ public class Project1 {
 
     if(args.length < NUM_ARGS + options){
       System.err.println("There is not enough arguments for a flight.");
+      return;
     }
 
     //check flight number
@@ -116,16 +136,6 @@ public class Project1 {
 
     if(print) {
       an_airline.displayAirline();
-    }
-    if(readme){
-      try{
-        InputStream read= Project1.class.getResourceAsStream("README.txt");
-        BufferedReader reader= new BufferedReader(new InputStreamReader(read));
-        String my_readme= reader.readLine();
-        System.out.println(my_readme);
-      }catch(IOException e){
-        System.err.println("Error in trying to access Readme file.");
-      }
     }
   }
 }
