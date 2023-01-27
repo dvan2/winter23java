@@ -15,6 +15,10 @@ import static java.lang.Integer.parseInt;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
+
+  public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
+  public static final String TOO_MANY_ARGS = "There is too many arguments for a flight.";
+
   /**
    * This function is used to make sure date arguments are in the right format.
    * If date and time is not valid an error is displayed.
@@ -26,7 +30,7 @@ public class Project1 {
   static boolean isValidDateAndTime(String date, String time) {
     //Used online resources: https://www.javatpoint.com/java-simpledateformat
     SimpleDateFormat date_format= new SimpleDateFormat("MM/dd/yyyy");
-    SimpleDateFormat hour_format= new SimpleDateFormat("hh:mm");
+    SimpleDateFormat hour_format= new SimpleDateFormat("HH:mm");
     date_format.setLenient(false);
     hour_format.setLenient(false);
     try{
@@ -77,10 +81,9 @@ public class Project1 {
 
     int current= 0;
     while (current < args.length && (args[current].charAt(0) == '-')){
-
       boolean readme_current= args[current].equals("-README");
       boolean print_current = args[current].equals("-print");
-      if((readme_current) && (print_current)) {
+      if((!readme_current) && (!print_current)) {
         System.err.println("There is an invalid option.  Please check spelling.");
         return;
       }
@@ -100,11 +103,11 @@ public class Project1 {
     }
 
     if(args.length > NUM_ARGS+ options){
-      System.err.println("There is too many arguments for a flight.");
+      System.err.println(TOO_MANY_ARGS);
       return;
     }
     if(args.length < NUM_ARGS + options){
-      System.err.println("There is not enough arguments for a flight.");
+      System.err.println(NOT_ENOUGH_ARGS);
       return;
     }
 
@@ -124,7 +127,7 @@ public class Project1 {
     String full_depart_d= args[3+ options] + " " + args[4+ options];
     String full_arrive_d= args[6 + options] + " " + args[7 + options];
 
-    Flight flight = new Flight(args[0], parseInt(args[1 + options]), args[2 + options], full_depart_d,
+    Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], full_depart_d,
             args[5 + options], full_arrive_d);
     try{
       flight.hasValidCode();

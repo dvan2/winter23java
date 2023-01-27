@@ -11,6 +11,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * An integration test for the {@link Project1} main class.
  */
 class Project1IT extends InvokeMainTestCase {
+
+    public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
+
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
      */
@@ -51,7 +54,7 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void printOnly(){
       MainMethodResult result = invokeMain(Project1.class, "-print");
-      assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
+      assertThat(result.getTextWrittenToStandardError(), containsString(NOT_ENOUGH_ARGS));
   }
 
   @Test
@@ -87,7 +90,7 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void notEnoughArguments(){
       MainMethodResult result = invokeMain(Project1.class, "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
+      assertThat(result.getTextWrittenToStandardError(), containsString(NOT_ENOUGH_ARGS));
   }
 
   @Test
@@ -99,7 +102,7 @@ class Project1IT extends InvokeMainTestCase {
     @Test
     void notEnoughArgumentsWithPrint(){
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");
-        assertThat(result.getTextWrittenToStandardError(), containsString("There is not enough arguments for a flight."));
+        assertThat(result.getTextWrittenToStandardError(), containsString(NOT_ENOUGH_ARGS));
     }
 
     @Test
@@ -116,7 +119,7 @@ class Project1IT extends InvokeMainTestCase {
 
     @Test
     void invalidTime(){
-        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","13:12", "PDX", "1/1/2022", "1:1");
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","24:12", "PDX", "1/1/2022", "1:1");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid hour input."));
     }
 
@@ -125,9 +128,7 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Delta"));
     }
-
     @Test
-    @Disabled
     void lessThanThreeLetterSourceAirport(){
         MainMethodResult result = invokeMain(Project1.class, "Test10", "123", "P", "12/12/2023","12:12", "PDX", "03/03/2023", "16:12");
         assertThat(result.getTextWrittenToStandardError(), containsString("Source airport code has invalid length. Must be 3 character."));

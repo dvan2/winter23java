@@ -7,7 +7,6 @@ import static java.lang.Character.isDigit;
 /**This class implements information about a <code>Flight</code>.
  */
 public class Flight extends AbstractFlight {
-  private final String airline_name;
   /**
    * Flight number.
    */
@@ -38,8 +37,7 @@ public class Flight extends AbstractFlight {
    * @param destination 3-letter code for destination airport.
    * @param arrival_d Flight arrival date in mm/dd/yyyy hh:mm format
    */
-  Flight(String airline_name, int flight_number, String source, String departure_d, String destination, String arrival_d){
-    this.airline_name= airline_name;
+  Flight(int flight_number, String source, String departure_d, String destination, String arrival_d){
     this.flight_number = flight_number;
     this.src= source;
     this.depart_date = departure_d;
@@ -82,7 +80,6 @@ public class Flight extends AbstractFlight {
   public String getDestination() {
     return this.dest;
   }
-
   /**
    * Gets private field
    * @return arrive_date
@@ -91,13 +88,11 @@ public class Flight extends AbstractFlight {
   public String getArrivalString() {
     return this.arrive_date;
   }
-
   /**
    * This constructor builds a flight using an existing <code>Flight</code> object.
    * @param flight: an existing flight object
    */
   public Flight(Flight flight){
-    this.airline_name= flight.airline_name;
     this.flight_number = flight.flight_number;
     this.src= flight.src;
     this.depart_date = flight.depart_date;
@@ -116,7 +111,6 @@ public class Flight extends AbstractFlight {
     if(this.src.length() != 3) {
       throw new IllegalArgumentException("Source airport code has invalid length. Must be 3 character.");
     }
-
     for (int i=0; i<3; ++i) {
       if (Character.isDigit(src.charAt(i))) {
         throw new IllegalArgumentException("Source airport code cannot contain number.");
@@ -127,13 +121,10 @@ public class Flight extends AbstractFlight {
       throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
     }
 
-
     for (int i=0; i<3; ++i){
       if(Character.isDigit(dest.charAt(i))){
         throw new IllegalArgumentException("Source airport code cannot contain number.");
       }
     }
   }
-
-
 }

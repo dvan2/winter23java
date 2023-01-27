@@ -27,7 +27,7 @@ public class Airline extends AbstractAirline<Flight> {
    * @param name: name of the airport.
    * @param flight: An existing <code>Flight</code> object.
    */
-  public Airline(String name, Flight flight) {
+  public Airline(String name,Flight flight) {
     this.name = name;
     this.flight= new Flight(flight);
   }

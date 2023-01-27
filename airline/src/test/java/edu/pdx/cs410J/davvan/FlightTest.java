@@ -1,7 +1,5 @@
 package edu.pdx.cs410J.davvan;
 
-import net.bytebuddy.implementation.bytecode.Throw;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -21,7 +19,7 @@ public class FlightTest {
     //source: https://www.codejava.net/testing/junit-test-exception-examples-how-to-assert-an-exception-is-thrown
     Throwable exception= assertThrows
             (IllegalArgumentException.class, () -> {
-      Flight flight = new Flight("Airline", 123, "ABCC","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
+      Flight flight = new Flight(123, "ABCC","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
       flight.hasValidCode();
     });
     assertEquals("Source airport code has invalid length. Must be 3 character.",exception.getMessage());
@@ -32,23 +30,33 @@ public class FlightTest {
     //source: https://www.codejava.net/testing/junit-test-exception-examples-how-to-assert-an-exception-is-thrown
     Throwable exception= assertThrows
             (IllegalArgumentException.class, () -> {
-              Flight flight = new Flight("Airline", 123, "ABC","12:12:2000 12:12", "PDXX", "1/1/2022 1:1");
+              Flight flight = new Flight(123, "ABC","12:12:2000 12:12", "PDXX", "1/1/2022 1:1");
               flight.hasValidCode();
             });
     assertEquals("Destination airport code has invalid length. Must be 3 character.",exception.getMessage());
   }
   @Test
   void sourceAirportLessThanThreeLetter(){
-    Throwable exception= assertThrows
-            (IllegalArgumentException.class, () -> {
-              Flight flight = new Flight("Delta", 123, "P","12:12:2000 12:12", "PD", "1/1/2022 1:1");
-              flight.hasValidCode();
-            });
-    assertEquals("Source airport code has invalid length. Must be 3 character.",exception.getMessage());
+  Throwable exception= assertThrows
+        (IllegalArgumentException.class, () -> {
+          Flight flight = new Flight(123, "P","12:12:2000 12:12", "PD", "1/1/2022 1:1");
+          flight.hasValidCode();
+        });
+  assertEquals("Source airport code has invalid length. Must be 3 character.",exception.getMessage());
+  }
+
+  @Test
+  void airportCodeHasNumber(){
+  Throwable exception= assertThrows
+      (IllegalArgumentException.class, () -> {
+          Flight flight = new Flight(123, "PD1","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
+          flight.hasValidCode();
+      });
+  assertEquals("Source airport code cannot contain number.",exception.getMessage());
   }
   @Test
   void flightContainsRightInformation(){
-    Flight flight = new Flight("Hi", 123, "ABC","12/12/2000 12:12", "PDX", "1/1/2022 1:1");
+    Flight flight = new Flight(123, "ABC","12/12/2000 12:12", "PDX", "1/1/2022 1:1");
     assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
   }
 }
