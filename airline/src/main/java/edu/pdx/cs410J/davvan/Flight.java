@@ -2,30 +2,33 @@ package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AbstractFlight;
 
+import static java.lang.Character.isDigit;
+
 /**This class implements information about a <code>Flight</code>.
  */
 public class Flight extends AbstractFlight {
+  private final String airline_name;
   /**
    * Flight number.
    */
-  private int flight_number;
+  private final int flight_number;
 
   /**
    * 3-letter code for source airport.
    */
-  private  String src;
+  private final String src;
   /**
    * Flight departure date
    */
-  private  String depart_date;
+  private final String depart_date;
   /**
    * 3-letter code for destination airport.
    */
-  private String dest;
+  private final String dest;
   /**
    * Flight arrival date.
    */
-  private String arrive_date;
+  private final String arrive_date;
 
   /**
    * This constructor can be used to create a new instance of a <code>Flight</code> if passed all these parameters.
@@ -35,7 +38,8 @@ public class Flight extends AbstractFlight {
    * @param destination 3-letter code for destination airport.
    * @param arrival_d Flight arrival date in mm/dd/yyyy hh:mm format
    */
-  Flight(int flight_number, String source, String departure_d, String destination, String arrival_d){
+  Flight(String airline_name, int flight_number, String source, String departure_d, String destination, String arrival_d){
+    this.airline_name= airline_name;
     this.flight_number = flight_number;
     this.src= source;
     this.depart_date = departure_d;
@@ -93,6 +97,7 @@ public class Flight extends AbstractFlight {
    * @param flight: an existing flight object
    */
   public Flight(Flight flight){
+    this.airline_name= flight.airline_name;
     this.flight_number = flight.flight_number;
     this.src= flight.src;
     this.depart_date = flight.depart_date;
@@ -106,10 +111,29 @@ public class Flight extends AbstractFlight {
    * @throws IllegalArgumentException
    */
   public void hasValidCode() throws IllegalArgumentException{
-    if(this.src.length() != 3)
+    //Online source to check for a character:
+    // https://www.tutorialspoint.com/how-to-check-if-a-given-character-is-a-number-letter-in-java
+    if(this.src.length() != 3) {
       throw new IllegalArgumentException("Source airport code has invalid length. Must be 3 character.");
+    }
 
-    if(this.dest.length() != 3)
+    for (int i=0; i<3; ++i) {
+      if (Character.isDigit(src.charAt(i))) {
+        throw new IllegalArgumentException("Source airport code cannot contain number.");
+      }
+    }
+
+    if(this.dest.length() != 3){
       throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
+    }
+
+
+    for (int i=0; i<3; ++i){
+      if(Character.isDigit(dest.charAt(i))){
+        throw new IllegalArgumentException("Source airport code cannot contain number.");
+      }
+    }
   }
+
+
 }

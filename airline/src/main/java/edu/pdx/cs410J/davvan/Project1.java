@@ -42,7 +42,20 @@ public class Project1 {
       return false;
     }
     return true;
+  }
 
+  public static void openReadme() throws IOException{
+
+    try {
+      InputStream read = Project1.class.getResourceAsStream("README.txt");
+      BufferedReader reader = new BufferedReader(new InputStreamReader(read));
+      String my_readme;
+      while ((my_readme = reader.readLine()) != null) {
+        System.out.println(my_readme);
+      }
+    } catch (IOException e) {
+      throw new IOException("Cannot read from file.");
+    }
   }
 
   /**
@@ -59,27 +72,31 @@ public class Project1 {
               "read information about the program.");
       return;
     }
-
     int options= 0;
     boolean print= false;
 
-    //Make sure to check if arg[1] exists before indexing
-    if(args[0].equals("-README") || (args.length>1 && args[1].equals("-README"))){
-      System.out.println("HERE");
-      //read from file
-      try {
-        InputStream read = Project1.class.getResourceAsStream("README.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(read));
-        String my_readme = reader.readLine();
-        System.out.println(my_readme);
-      } catch (IOException e) {
-        System.err.println("Cannot read from file.");
+    int current= 0;
+    while (current < args.length && (args[current].charAt(0) == '-')){
+
+      boolean readme_current= args[current].equals("-README");
+      boolean print_current = args[current].equals("-print");
+      if((readme_current) && (print_current)) {
+        System.err.println("There is an invalid option.  Please check spelling.");
+        return;
       }
-      return;
-    }
-    if(args[0].equals("-print") || (args.length> 1 && args[1].equals("-print"))){
-      options= 1;
-      print= true;
+      if(readme_current){
+        try {
+          openReadme();
+        }catch (IOException e){
+          e.getMessage();
+        }
+        return;
+      }
+      if(print_current){
+        print = true;
+        ++options;
+      }
+      ++current;
     }
 
     if(args.length > NUM_ARGS+ options){
@@ -107,11 +124,12 @@ public class Project1 {
     String full_depart_d= args[3+ options] + " " + args[4+ options];
     String full_arrive_d= args[6 + options] + " " + args[7 + options];
 
-    Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], full_depart_d,
+    Flight flight = new Flight(args[0], parseInt(args[1 + options]), args[2 + options], full_depart_d,
             args[5 + options], full_arrive_d);
     try{
       flight.hasValidCode();
     }catch(IllegalArgumentException e){
+      System.err.println(e.getMessage());
       return;
     }
 
@@ -120,4 +138,6 @@ public class Project1 {
       an_airline.displayAirline();
     }
   }
+
+
 }

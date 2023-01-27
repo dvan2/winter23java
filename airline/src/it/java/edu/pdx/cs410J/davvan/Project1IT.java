@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,7 +19,8 @@ class Project1IT extends InvokeMainTestCase {
     }
 
     //a variable to test README
-    final String readme_test= "David Van";
+    //Online source to test line break: https://stackoverflow.com/questions/41674408/java-test-system-output-including-new-lines-with-assertequals
+    final String readme_test= "David Van\r\nProject 1 is a s";
 
   /**
    * Tests that invoking the main method with no arguments issues an error
@@ -117,4 +119,18 @@ class Project1IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","13:12", "PDX", "1/1/2022", "1:1");
         assertThat(result.getTextWrittenToStandardError(), containsString("Invalid hour input."));
     }
+
+    @Test
+    void futureDate(){
+        MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Delta"));
+    }
+
+    @Test
+    @Disabled
+    void lessThanThreeLetterSourceAirport(){
+        MainMethodResult result = invokeMain(Project1.class, "Test10", "123", "P", "12/12/2023","12:12", "PDX", "03/03/2023", "16:12");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Source airport code has invalid length. Must be 3 character."));
+    }
+
 }
