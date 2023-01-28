@@ -2,7 +2,10 @@ package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class Airline extends AbstractAirline<Flight> {
   /**
@@ -12,7 +15,8 @@ public class Airline extends AbstractAirline<Flight> {
   /**
    * An airline contains a flight object.
    */
-  private Flight flight;
+  //private Flight flight;
+  private ArrayList<Flight> flightList;
 
   /**
    * A constructor that creates airline with just a name.
@@ -29,7 +33,9 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Airline(String name,Flight flight) {
     this.name = name;
-    this.flight= new Flight(flight);
+    if(flightList==null) {
+      this.addFlight(flight);
+    }
   }
 
   /**
@@ -43,7 +49,12 @@ public class Airline extends AbstractAirline<Flight> {
 
   @Override
   public void addFlight(Flight flight) {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    if(flightList== null){
+      flightList= new ArrayList<>();
+      flightList.add(flight);
+      return;
+    }
+    flightList.add(flight);
   }
 
   @Override
@@ -56,8 +67,11 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public void displayAirline(){
     System.out.print(name + " ");
-    if(flight!= null){
-      System.out.println(flight);
+    if(flightList!= null){
+      Iterator<Flight> i= flightList.iterator();
+      while(i.hasNext()){
+        System.out.println(i.next());
+      }
     }
   }
 
