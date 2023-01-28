@@ -21,7 +21,7 @@ class Project1IT extends InvokeMainTestCase {
 
     //a variable to test README
     //Online source to test line break: https://stackoverflow.com/questions/41674408/java-test-system-output-including-new-lines-with-assertequals
-    final String readme_test= "David Van\r\nProject 1 is a simple";
+    final String readme_test= "Project 1 is a simple ";
 
   /**
    * Tests that invoking the main method with no arguments issues an error
