@@ -91,7 +91,7 @@ public class Flight extends AbstractFlight {
   }
   /**
    * This constructor builds a flight using an existing <code>Flight</code> object.
-   * @param flight: an existing flight object
+   * @param flight an existing flight object
    */
   public Flight(Flight flight){
     this.flight_number = flight.flight_number;

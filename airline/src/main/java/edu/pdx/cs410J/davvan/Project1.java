@@ -15,14 +15,20 @@ import static java.lang.Integer.parseInt;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
+  /**
+   * Use this string to output no enough arguments.
+   */
   public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
+  /**
+   * Use this string to output too many arguments.
+   */
   public static final String TOO_MANY_ARGS = "There is too many arguments for a flight.";
 
   /**
    * This function is used to make sure date arguments are in the right format.
    * If date and time is not valid an error is displayed.
-   * @param date: Check if this string is in mm/dd/yyyy format
-   * @param time: Check if this string is in hh:mm format
+   * @param date Check if this string is in mm/dd/yyyy format
+   * @param time Check if this string is in HH:mm format
    * @return returns true if date and time is valid and false otherwise.
    */
   @VisibleForTesting
@@ -48,7 +54,7 @@ public class Project1 {
   }
 
   /**
-   * This method opens the README.txt which exists in resources
+   * This method opens the README.txt which exists in resources.
    * Throws an IOException if there is an error reading from file
    * @throws IOException
    */

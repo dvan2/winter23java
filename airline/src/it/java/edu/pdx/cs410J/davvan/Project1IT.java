@@ -10,6 +10,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 class Project1IT extends InvokeMainTestCase {
 
+    /**
+     * Use this constant to output not enough arguments.
+     */
     public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
 
     /**
