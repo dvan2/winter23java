@@ -15,7 +15,6 @@ import static java.lang.Integer.parseInt;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
-
   public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
   public static final String TOO_MANY_ARGS = "There is too many arguments for a flight.";
 
@@ -48,6 +47,11 @@ public class Project1 {
     return true;
   }
 
+  /**
+   * This method opens the README.txt which exists in resources
+   * Throws an IOException if there is an error reading from file
+   * @throws IOException
+   */
   public static void openReadme() throws IOException{
 
     try {
@@ -141,6 +145,4 @@ public class Project1 {
       an_airline.displayAirline();
     }
   }
-
-
 }
