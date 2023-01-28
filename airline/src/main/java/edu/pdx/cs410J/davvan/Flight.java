@@ -80,8 +80,9 @@ public class Flight extends AbstractFlight {
   public String getDestination() {
     return this.dest;
   }
+
   /**
-   * Gets private field
+   * Gets private field: arrive_date
    * @return arrive_date
    */
   @Override

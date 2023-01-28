@@ -16,7 +16,7 @@ public class Airline extends AbstractAirline<Flight> {
 
   /**
    * A constructor that creates airline with just a name.
-   * @param name: name of the airport.
+   * @param name name of the airport.
    */
   public Airline(String name){
     this.name= name;
@@ -24,8 +24,8 @@ public class Airline extends AbstractAirline<Flight> {
 
   /** A constructor for <code>Airline</code> that creates an airline, provided a name and a <code>Flight</code> object.
    *
-   * @param name: name of the airport.
-   * @param flight: An existing <code>Flight</code> object.
+   * @param name name of the airport.
+   * @param flight An existing <code>Flight</code> object.
    */
   public Airline(String name,Flight flight) {
     this.name = name;
