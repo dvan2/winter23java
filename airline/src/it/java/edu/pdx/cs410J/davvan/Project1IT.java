@@ -1,9 +1,7 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
