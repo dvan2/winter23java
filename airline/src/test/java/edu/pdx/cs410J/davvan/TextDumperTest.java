@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.ParserException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -13,6 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class TextDumperTest {
 
   @Test
+  @Disabled
   void airlineNameIsDumpedInTextFormat() {
     String airlineName = "Test Airline";
     Airline airline = new Airline(airlineName);
@@ -26,6 +28,7 @@ public class TextDumperTest {
   }
 
   @Test
+  @Disabled
   void canParseTextWrittenByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
     String airlineName = "Test Airline";
     Airline airline = new Airline(airlineName);

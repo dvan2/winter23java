@@ -2,12 +2,10 @@ package edu.pdx.cs410J.davvan;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
@@ -23,6 +21,19 @@ public class Project1 {
    * Use this string to output too many arguments.
    */
   public static final String TOO_MANY_ARGS = "There is too many arguments for a flight.";
+  public static void usage() {
+    System.out.println("usage: java -jar target/airline-2023.0.0.jar [options] <args>");
+    System.out.println("args are (in this order):");
+    System.out.printf("airline:\tThe name of the airline\n" +
+            "flightNumber:\tThe flight number\n" +
+            "src:\tThree-letter code of departure airport\n" +
+            "depart:\tDeparture date and time (mm/dd/yyyy HH:mm)\n" +
+            "dest:\tThree-letter code for arrival airport\n" +
+            "arrive:\tArrival date and time (mm/dd/yyyy HH:mm\n\n" +
+            "Options are (options may appear in any order):\n" +
+            "-print:\tPrints a description of the newly added flight\n" +
+            "-README\tPrints a README for this project and exits.\n");
+  }
 
   /**
    * This function is used to make sure date arguments are in the right format.
@@ -41,13 +52,27 @@ public class Project1 {
     try{
       date_format.parse(date);
     }catch(ParseException e){
-      System.err.println("Invalid date input");
+      System.err.print("Invalid date input");
       return false;
     }
     try{
       hour_format.parse(time);
     }catch(ParseException e){
-      System.err.println("Invalid hour input.");
+      System.err.print("Invalid hour input");
+      return false;
+    }
+    int countslash= 0;
+    for(int i=0; i<date.length(); i++){
+      if(date.charAt(i) == '/'){
+        ++countslash;
+      }
+    }
+    if(date.length() > 10 || countslash>2){
+      System.err.print("Date is malformed");
+      return false;
+    }
+    if(time.length()> 5){
+      System.err.print("Time is malformed");
       return false;
     }
     return true;
@@ -79,11 +104,7 @@ public class Project1 {
 
   public static void main(String[] args) {
     if(args.length == 0) {
-      System.out.println("To use this program enter information about a flight in this order: ");
-      System.out.println("Airline name, flight number, 3 letter source airport code, departure date in the format of mm/dd/yyyy hh:mm," +
-              " 3 letter destination airport code and arrival date in the format mm/dd/yyyy hh:mm.");
-      System.out.println("Use the -print or -README options before the arguments to display information about a flight or " +
-              "read information about the program.");
+      usage();
       return;
     }
     int options= 0;
@@ -129,13 +150,22 @@ public class Project1 {
       return;
     }
 
-    if(!isValidDateAndTime(args[3 + options], args[4+ options]))
+    String raw_depart_date = args[3 + options];
+    String raw_depart_time = args[4 + options];
+    if(!isValidDateAndTime(raw_depart_date, raw_depart_time)){
+      System.err.println(" in departure fields.");
       return;
-    if(!isValidDateAndTime(args[6+ options], args[7 + options]))
-      return;
+    }
 
-    String full_depart_d= args[3+ options] + " " + args[4+ options];
-    String full_arrive_d= args[6 + options] + " " + args[7 + options];
+    String raw_arrival_date = args[6 + options];
+    String raw_arrival_time = args[7 + options];
+    if(!isValidDateAndTime(raw_arrival_date, raw_arrival_time)){
+      System.err.println(" in arrival fields.");
+      return;
+    }
+
+    String full_depart_d= raw_depart_date + " " + raw_depart_time;
+    String full_arrive_d= raw_arrival_date + " " + raw_arrival_time;
 
     Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], full_depart_d,
             args[5 + options], full_arrive_d);
@@ -150,5 +180,13 @@ public class Project1 {
     if(print) {
       an_airline.displayAirline();
     }
+    try {
+      FileWriter file= new FileWriter("airline.txt");
+      TextDumper my_dumper= new TextDumper(file);
+      my_dumper.dump(an_airline);
+    }catch(IOException e){
+      System.err.println("Error reading from file.");
+    }
+
   }
 }

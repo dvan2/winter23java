@@ -2,6 +2,7 @@ package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AbstractAirline;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -12,10 +13,7 @@ public class Airline extends AbstractAirline<Flight> {
    * name of the airport.
    */
   private final String name;
-  /**
-   * An airline contains a flight object.
-   */
-  //private Flight flight;
+
   private ArrayList<Flight> flightList;
 
   /**
@@ -59,7 +57,7 @@ public class Airline extends AbstractAirline<Flight> {
 
   @Override
   public Collection<Flight> getFlights() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return flightList;
   }
 
   /**

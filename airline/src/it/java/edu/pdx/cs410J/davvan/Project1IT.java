@@ -14,6 +14,7 @@ class Project1IT extends InvokeMainTestCase {
      * Use this constant to output not enough arguments.
      */
     public static final String NOT_ENOUGH_ARGS = "There are not enough arguments for a flight.";
+    public static final String INVALID_HR_DEPART = "Invalid hour input in departure fields.";
 
     /**
      * Invokes the main method of {@link Project1} with the given arguments.
@@ -32,7 +33,7 @@ class Project1IT extends InvokeMainTestCase {
   @Test
   void testNoCommandLineArguments() {
       MainMethodResult result = invokeMain();
-      assertThat(result.getTextWrittenToStandardOut(), containsString("To use this program enter information about a flight in this order:"));
+      assertThat(result.getTextWrittenToStandardOut(), containsString("usage: java -jar target/airline-2023.0.0.jar [options] <args>"));
   }
 
   @Test
@@ -121,7 +122,7 @@ class Project1IT extends InvokeMainTestCase {
     @Test
     void invalidTime(){
         MainMethodResult result = invokeMain(Project1.class, "-print", "Delta", "123", "DEN", "12/12/2000","24:12", "PDX", "1/1/2022", "1:1");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Invalid hour input."));
+        assertThat(result.getTextWrittenToStandardError(), containsString(INVALID_HR_DEPART));
     }
 
     @Test
