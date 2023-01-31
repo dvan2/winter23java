@@ -128,4 +128,9 @@ public class Flight extends AbstractFlight {
       }
     }
   }
+
+  public String writeFlight(){
+    return this.flight_number + " " + this.src + " " +
+            this.depart_date + " " +this.dest + " " +this.arrive_date;
+  }
 }

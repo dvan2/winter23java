@@ -73,4 +73,15 @@ public class Airline extends AbstractAirline<Flight> {
     }
   }
 
+  public String getAirline(){
+    String result= "";
+    if(this.name != null){
+      result += this.name + " ";
+    }
+    for(Flight flight : flightList){
+      result+= flight.writeFlight();
+    }
+
+    return result;
+  }
 }

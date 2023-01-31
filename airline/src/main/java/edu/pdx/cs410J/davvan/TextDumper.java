@@ -21,7 +21,7 @@ public class TextDumper implements AirlineDumper<Airline> {
     try (
       PrintWriter pw = new PrintWriter(this.writer)
       ) {
-      pw.println(airline);
+      pw.println(airline.getAirline());
 
       pw.flush();
     }
