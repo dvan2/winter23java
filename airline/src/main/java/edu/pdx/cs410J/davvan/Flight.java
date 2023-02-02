@@ -129,8 +129,12 @@ public class Flight extends AbstractFlight {
     }
   }
 
+  /**
+   * This method is used by airline to get all its flight.
+   * @return : String where each flight field is separated by space and each flight starts on new line.
+   */
   public String writeFlight(){
-    return this.flight_number + " " + this.src + " " +
+    return "\n" + this.flight_number + " " + this.src + " " +
             this.depart_date + " " +this.dest + " " +this.arrive_date;
   }
 }

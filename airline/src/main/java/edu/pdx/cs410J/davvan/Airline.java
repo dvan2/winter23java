@@ -22,7 +22,13 @@ public class Airline extends AbstractAirline<Flight> {
    */
   public Airline(String name){
     this.name= name;
+    this.flightList= null;
   }
+  public Airline(){
+    this.name = null;
+    this.flightList= null;
+  }
+
 
   /** A constructor for <code>Airline</code> that creates an airline, provided a name and a <code>Flight</code> object.
    *
@@ -73,15 +79,19 @@ public class Airline extends AbstractAirline<Flight> {
     }
   }
 
+  /**
+   * This method returns an all flights in an airline as a string.
+   * Each field is separated by a space and different flights starts on a new line.
+   * @return : Formatted string containing all flights of an airline object.
+   */
   public String getAirline(){
     String result= "";
-    if(this.name != null){
-      result += this.name + " ";
+    if(flightList== null){
+      return null;
     }
     for(Flight flight : flightList){
       result+= flight.writeFlight();
     }
-
     return result;
   }
 }

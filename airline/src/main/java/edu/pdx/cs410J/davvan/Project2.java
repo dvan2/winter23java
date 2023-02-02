@@ -1,18 +1,18 @@
 package edu.pdx.cs410J.davvan;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1 {
+public class Project2 {
   /**
    * Use this string to output no enough arguments.
    */
@@ -32,7 +32,8 @@ public class Project1 {
             "arrive:\tArrival date and time (mm/dd/yyyy HH:mm\n\n" +
             "Options are (options may appear in any order):\n" +
             "-print:\tPrints a description of the newly added flight\n" +
-            "-README\tPrints a README for this project and exits.\n");
+            "-README\tPrints a README for this project and exits.\n" +
+            "-textFile <filename>\tTo add flights to an existing airline or create new airline.");
   }
 
   /**
@@ -86,7 +87,7 @@ public class Project1 {
   public static void openReadme() throws IOException{
 
     try {
-      InputStream read = Project1.class.getResourceAsStream("README.txt");
+      InputStream read = Project2.class.getResourceAsStream("README.txt");
       BufferedReader reader = new BufferedReader(new InputStreamReader(read));
       String my_readme;
       while ((my_readme = reader.readLine()) != null) {
@@ -109,12 +110,15 @@ public class Project1 {
     }
     int options= 0;
     boolean print= false;
+    boolean file_present= false;
+    String file_name= "";
 
     int current= 0;
     while (current < args.length && (args[current].charAt(0) == '-')){
       boolean readme_current= args[current].equals("-README");
       boolean print_current = args[current].equals("-print");
-      if((!readme_current) && (!print_current)) {
+      boolean text_file_current= args[current].equals("-textFile");
+      if((!readme_current) && (!print_current) && (!text_file_current)) {
         System.err.println("There is an invalid option.  Please check spelling.");
         return;
       }
@@ -129,6 +133,15 @@ public class Project1 {
       if(print_current){
         print = true;
         ++options;
+      }
+      if(text_file_current){
+        file_present= true;
+        if(args[current +1]== null){
+          System.err.println("Error.  No file name provided.");
+          return;
+        }
+        file_name+= args[current + 1];
+        options+= 2;
       }
       ++current;
     }
@@ -180,13 +193,54 @@ public class Project1 {
     if(print) {
       an_airline.displayAirline();
     }
-    try {
-      FileWriter file= new FileWriter("airline.txt");
-      TextDumper my_dumper= new TextDumper(file);
-      my_dumper.dump(an_airline);
+
+    //STARTING PROJECT2 HERE
+    if(!file_present){
+      return;
+    }
+    String file_airline;
+
+    boolean print_airline = true;
+    try{
+      BufferedReader read_airline_name= new BufferedReader(new FileReader(file_name));
+      file_airline = read_airline_name.readLine();
+
+
+      if(file_airline== null) {
+        //we need to print the name.
+        print_airline = true;
+        read_airline_name.close();
+      } else if (file_airline.equals(an_airline.getName())) {
+        print_airline= false;
+      } else if (!file_airline.equals(an_airline.getName())) { //if the names don't match
+        System.err.println("Error. The airline name provided does not match the airline from file." +
+                "Cannot add to the file.");
+        return;
+      }
+    }catch(FileNotFoundException e){
+
     }catch(IOException e){
       System.err.println("Error reading from file.");
+      return;
+    }
+    try {
+      FileWriter to_dump = new FileWriter(file_name, true);
+      TextDumper dumper = new TextDumper(to_dump, print_airline);
+      dumper.dump(an_airline);
+    } catch (IOException e) {
+      System.err.println("Cannot open file");
+      return;
     }
 
+    try{
+      FileReader to_read= new FileReader(file_name);
+      TextParser in= new TextParser(to_read);
+      Airline new_airline = in.parse();
+      //System.out.println(new_airline.getAirline());
+    }catch(FileNotFoundException e){
+      System.err.println("Unable to read from file.");
+    }catch(ParserException e){
+      System.err.println("Unable to parse from file.");
+    }
   }
 }
