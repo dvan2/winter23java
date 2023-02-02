@@ -154,7 +154,7 @@ class Project2IT extends InvokeMainTestCase {
     @Test
     void noFileProvided() {
         MainMethodResult result = invokeMain(Project2.class, "-print" , "airline.txt", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Delta Flight 123"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight"));
     }
 
 
