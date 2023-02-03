@@ -28,7 +28,7 @@ class Project2IT extends InvokeMainTestCase {
     }
 
     //a variable to test README
-    final String readme_test= "Project 1 is a simple ";
+    final String readme_test= "Like Project 1,";
 
   /**
    * Tests that invoking the main method with no arguments issues an error

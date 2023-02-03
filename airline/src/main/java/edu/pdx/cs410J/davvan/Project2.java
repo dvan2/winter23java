@@ -4,6 +4,9 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -193,11 +196,21 @@ public class Project2 {
     if(print) {
       an_airline.displayAirline();
     }
+    try {
+      File a_file = new File("davvan/p1.txt");
+      a_file.createNewFile();
+    }catch(NullPointerException e){
+      System.out.println("can't open");
+    }catch(IOException e){
+      System.out.println("can't");
+    }
+
 
     //STARTING PROJECT2 HERE
     if(!file_present){
       return;
     }
+
     String file_airline;
 
     boolean print_airline = true;
@@ -224,6 +237,11 @@ public class Project2 {
       return;
     }
     try {
+
+
+
+
+      //System.out.println(my_file.getAbsolutePath());
       FileWriter to_dump = new FileWriter(file_name, true);
       TextDumper dumper = new TextDumper(to_dump, print_airline);
       dumper.dump(an_airline);

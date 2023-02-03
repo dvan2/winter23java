@@ -1,8 +1,12 @@
 David Van
-Project 1 is a simple program where the user is able to use the command line arguments to create a flight.
-2 options are available along with 6 arguments for information about airline and flight.
+Like Project 1, in Project2, the user is still able to enter information about an airline and use print or readme option to tell the program what to do.
 
-The options should come before the arguments.  Available options are -README and -print.  These commands must come before the information about the airlines.
+In Project2, however, new functionality is added so that the airline entered can be saved in a file.
+A user can create a new airline and optionally use the textfile option to save that airline.
+If the file already exists, the program will check if the airline name matches.  If matches, the flight will be added to the file.
+If the file exists but the airline name doesn't match, the program will not add the flight to the file.
+
+The options should come before the arguments.  Available options are -README and -print -textFile <filename>.  These commands must come before the information about the airlines.
 To use this program properly, ensure that the options are spelled correctly and the arguments comes in the order that is specified.
 
 The 6 arguments and their orders are:
