@@ -145,6 +145,8 @@ public class Project2 {
         }
         file_name+= args[current + 1];
         options+= 2;
+        //skip the next argument which will be the file name
+        ++current;
       }
       ++current;
     }
@@ -196,14 +198,6 @@ public class Project2 {
     if(print) {
       an_airline.displayAirline();
     }
-    try {
-      File a_file = new File("davvan/p1.txt");
-      a_file.createNewFile();
-    }catch(NullPointerException e){
-      System.out.println("can't open");
-    }catch(IOException e){
-      System.out.println("can't");
-    }
 
 
     //STARTING PROJECT2 HERE
@@ -238,10 +232,6 @@ public class Project2 {
     }
     try {
 
-
-
-
-      //System.out.println(my_file.getAbsolutePath());
       FileWriter to_dump = new FileWriter(file_name, true);
       TextDumper dumper = new TextDumper(to_dump, print_airline);
       dumper.dump(an_airline);
@@ -254,7 +244,6 @@ public class Project2 {
       FileReader to_read= new FileReader(file_name);
       TextParser in= new TextParser(to_read);
       Airline new_airline = in.parse();
-      //System.out.println(new_airline.getAirline());
     }catch(FileNotFoundException e){
       System.err.println("Unable to read from file.");
     }catch(ParserException e){

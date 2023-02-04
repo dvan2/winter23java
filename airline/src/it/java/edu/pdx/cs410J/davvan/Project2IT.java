@@ -4,6 +4,7 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.File;
 import java.io.StringWriter;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -140,20 +141,26 @@ class Project2IT extends InvokeMainTestCase {
     }
 
     @Test
-    void writesToFile() {
-        MainMethodResult result = invokeMain(Project2.class, "-print" ,"-textFile", "airline.txt", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
+    void writesToFile(@TempDir File tempDir) {
+        String temp_file= "airline1.txt";
+        File temp= new File(tempDir, temp_file);
+        MainMethodResult result = invokeMain(Project2.class, "-print" ,"-textFile", temp_file, "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123"));
     }
 
     @Test
-    void dontWriteIfBadArgument() {
-        MainMethodResult result = invokeMain(Project2.class, "-print" ,"-textFile", "airline.txt", "Delta", "123", "DENN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
+    void dontWriteIfBadArgument(@TempDir File tempDir) {
+        String temp_file= "airline1.txt";
+        File temp= new File(tempDir, temp_file);
+        MainMethodResult result = invokeMain(Project2.class, "-print" ,"-textFile", temp_file, "Delta", "123", "DENN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
         assertThat(result.getTextWrittenToStandardError(), containsString("Source airport code has invalid length. Must be 3 character."));
     }
 
     @Test
-    void noFileProvided() {
-        MainMethodResult result = invokeMain(Project2.class, "-print" , "airline.txt", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
+    void noFileProvided(@TempDir File tempDir) {
+        String temp_file= "airline1.txt";
+        File temp= new File(tempDir, temp_file);
+        MainMethodResult result = invokeMain(Project2.class, "-print" , temp_file, "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
         assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight"));
     }
 
