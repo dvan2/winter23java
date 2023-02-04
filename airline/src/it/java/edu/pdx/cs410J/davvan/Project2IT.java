@@ -164,6 +164,14 @@ class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight"));
     }
 
+    @Test
+    void writesToFileWithPrintOptionAfterFile(@TempDir File tempDir) {
+        String temp_file= "src/test/resources/edu/pdx/cs410J/davvan/airlinetest.txt";
+        File temp= new File(tempDir, temp_file);
+        MainMethodResult result = invokeMain(Project2.class  ,"-textFile", temp_file, "-print", "Delta", "123", "DEN", "12/12/2000","12:12", "PDX", "03/03/2023", "12:12");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123"));
+    }
+
 
 
 

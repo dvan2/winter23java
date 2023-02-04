@@ -245,9 +245,10 @@ public class Project2 {
       TextParser in= new TextParser(to_read);
       Airline new_airline = in.parse();
     }catch(FileNotFoundException e){
-      System.err.println("Unable to read from file.");
+      System.err.println("Unable open the file.");
     }catch(ParserException e){
-      System.err.println("Unable to parse from file.");
+      System.err.println(e.getMessage());
+      System.err.println("Unable to parse from the file.");
     }
   }
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import static edu.pdx.cs410J.davvan.Project2.isValidDateAndTime;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -50,22 +51,38 @@ public class TextParser implements AirlineParser<Airline> {
         if(file_args.length != 7){
           throw new ParserException("Error. Arguments mismatch.");
         }
-        int flight_num= parseInt(file_args[0]);
+        int flight_num;
+        try {
+          flight_num = parseInt(file_args[0]);
+        }catch(NumberFormatException e){
+          throw new ParserException("Flight number from text file was invalid.  Must be a number");
+        }
         String source= file_args[1];
         String departure= file_args[2] + " " + file_args[3];
         String destination= file_args[4];
         String arrival = file_args[5] + " "  +file_args[6];
 
+        if(!isValidDateAndTime(file_args[2], file_args[3])){
+          throw new ParserException(" in the file on information about a flight's departure field.");
+        }
+        if(!isValidDateAndTime(file_args[5], file_args[6])){
+          throw new ParserException(" in the file on information about a flight's arrival field.");
+        }
+
         Flight new_flight= new Flight(flight_num, source, departure, destination, arrival);
+        try{
+          new_flight.hasValidCode();
+        }catch(IllegalArgumentException e){
+          throw new ParserException("File has invalid flight information." + e.getMessage());
+        }
         new_airline.addFlight(new_flight);
       }
 
       return new_airline;
     }catch(IOException e){
-      System.out.println("Here");
-      throw new ParserException("Cannot parse from file.");
+      throw new ParserException("Cannot parse from file. An IOException occured.");
     }catch(ParserException e){
-      throw new ParserException("Cannot parse the airline info.");
+      throw new ParserException(e.getMessage());
     }
   }
 }
