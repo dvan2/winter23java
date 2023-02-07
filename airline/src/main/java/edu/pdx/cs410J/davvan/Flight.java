@@ -1,12 +1,17 @@
 package edu.pdx.cs410J.davvan;
-
 import edu.pdx.cs410J.AbstractFlight;
 
-import static java.lang.Character.isDigit;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**This class implements information about a <code>Flight</code>.
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
+
+
+
   /**
    * Flight number.
    */
@@ -19,7 +24,10 @@ public class Flight extends AbstractFlight {
   /**
    * Flight departure date
    */
-  private final String depart_date;
+  private final Date depart_date;
+
+
+
   /**
    * 3-letter code for destination airport.
    */
@@ -27,7 +35,7 @@ public class Flight extends AbstractFlight {
   /**
    * Flight arrival date.
    */
-  private final String arrive_date;
+  private final Date arrive_date;
 
   /**
    * This constructor can be used to create a new instance of a <code>Flight</code> if passed all these parameters.
@@ -37,7 +45,7 @@ public class Flight extends AbstractFlight {
    * @param destination 3-letter code for destination airport.
    * @param arrival_d Flight arrival date in mm/dd/yyyy hh:mm format
    */
-  Flight(int flight_number, String source, String departure_d, String destination, String arrival_d){
+  Flight(int flight_number, String source, Date departure_d, String destination, Date arrival_d){
     this.flight_number = flight_number;
     this.src= source;
     this.depart_date = departure_d;
@@ -54,6 +62,8 @@ public class Flight extends AbstractFlight {
     return flight_number;
   }
 
+
+
   /**
    * Gets private field: src
    * @return src
@@ -69,7 +79,10 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getDepartureString() {
-    return this.depart_date;
+    String good_date= DateFormat.getDateInstance(DateFormat.SHORT).format(depart_date);
+
+    System.out.println("Good date: " +good_date);
+    return good_date;
   }
 
   /**
@@ -87,7 +100,7 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getArrivalString() {
-    return this.arrive_date;
+    return this.arrive_date.toString();
   }
   /**
    * This constructor builds a flight using an existing <code>Flight</code> object.
@@ -136,5 +149,11 @@ public class Flight extends AbstractFlight {
   public String writeFlight(){
     return "\n" + this.flight_number + " " + this.src + " " +
             this.depart_date + " " +this.dest + " " +this.arrive_date;
+  }
+
+  @Override
+  public int compareTo(Flight o) {
+    int result= compareTo(o);
+    return result;
   }
 }

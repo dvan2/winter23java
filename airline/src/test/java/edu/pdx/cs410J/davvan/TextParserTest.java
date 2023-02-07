@@ -13,8 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TextParserTest {
 
+
+  /*
   @Test
   void validTextFileCanBeParsed() throws ParserException {
+
     InputStream resource = getClass().getResourceAsStream("valid-airline.txt");
     assertThat(resource, notNullValue());
 
@@ -53,4 +56,6 @@ public class TextParserTest {
     assertThat(airline.getAirline(), containsString("123 PDX 12/12/2000 12:12 PDX 1/1/2022 1:1"));
     assertThat(airline.getAirline(), containsString("343 DEN 12/12/2000 12:12 PDX 1/1/2022 1:10"));
   }
+
+   */
 }

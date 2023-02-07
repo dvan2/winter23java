@@ -4,11 +4,9 @@ import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
 import java.io.*;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static java.lang.Integer.parseInt;
 
@@ -47,10 +45,15 @@ public class Project2 {
    * @return returns true if date and time is valid and false otherwise.
    */
   @VisibleForTesting
-  static boolean isValidDateAndTime(String date, String time) {
+  static boolean isValidDateAndTime(String date, String time, String hours) {
+    if(!hours.equalsIgnoreCase("am") && !hours.equalsIgnoreCase("pm")){
+      System.err.println("Invalid am/pm input.");
+      return false;
+    }
+
     //Used online resources: https://www.javatpoint.com/java-simpledateformat
     SimpleDateFormat date_format= new SimpleDateFormat("MM/dd/yyyy");
-    SimpleDateFormat hour_format= new SimpleDateFormat("HH:mm");
+    SimpleDateFormat hour_format= new SimpleDateFormat("hh:mm");
     date_format.setLenient(false);
     hour_format.setLenient(false);
     try{
@@ -82,6 +85,17 @@ public class Project2 {
     return true;
   }
 
+  static public Date createDate(String full_date) throws ParseException {
+    SimpleDateFormat my_format= new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    Date formated_date;
+    try {
+      formated_date= my_format.parse(full_date);
+    }catch(ParseException e){
+      throw new ParseException("There was a problem parsing the date at: ", e.getErrorOffset());
+    }
+    return formated_date;
+  }
+
   /**
    * This method opens the README.txt which exists in resources.
    * Throws an IOException if there is an error reading from file
@@ -104,7 +118,7 @@ public class Project2 {
   /**
    * Keep track of the total number of arguments expected
    */
-  static final int NUM_ARGS= 8;
+  static final int NUM_ARGS= 10;
 
   public static void main(String[] args) {
     if(args.length == 0) {
@@ -170,23 +184,35 @@ public class Project2 {
 
     String raw_depart_date = args[3 + options];
     String raw_depart_time = args[4 + options];
-    if(!isValidDateAndTime(raw_depart_date, raw_depart_time)){
+    String raw_depart_m = args[5 + options];
+    if(!isValidDateAndTime(raw_depart_date, raw_depart_time, raw_depart_m)){
       System.err.println(" in departure fields.");
       return;
     }
 
-    String raw_arrival_date = args[6 + options];
-    String raw_arrival_time = args[7 + options];
-    if(!isValidDateAndTime(raw_arrival_date, raw_arrival_time)){
+    String raw_arrival_date = args[7 + options];
+    String raw_arrival_time = args[8 + options];
+    String raw_arrival_m = args[9 + options];
+    if(!isValidDateAndTime(raw_arrival_date, raw_arrival_time, raw_arrival_m)){
       System.err.println(" in arrival fields.");
       return;
     }
 
-    String full_depart_d= raw_depart_date + " " + raw_depart_time;
-    String full_arrive_d= raw_arrival_date + " " + raw_arrival_time;
 
-    Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], full_depart_d,
-            args[5 + options], full_arrive_d);
+    String full_depart_d= raw_depart_date + " " + raw_depart_time + " " + raw_depart_m;
+    String full_arrive_d= raw_arrival_date + " " + raw_arrival_time + " " + raw_arrival_m;
+    Date depart_date;
+    Date arrive_date;
+    try{
+      depart_date= createDate(full_depart_d);
+      arrive_date= createDate(full_arrive_d);
+    }catch(ParseException e){
+      e.getMessage();
+      return;
+    }
+
+    Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], depart_date,
+            args[6 + options], arrive_date);
     try{
       flight.hasValidCode();
     }catch(IllegalArgumentException e){
@@ -231,7 +257,6 @@ public class Project2 {
       return;
     }
     try {
-
       FileWriter to_dump = new FileWriter(file_name, true);
       TextDumper dumper = new TextDumper(to_dump, print_airline);
       dumper.dump(an_airline);

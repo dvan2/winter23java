@@ -5,9 +5,11 @@ import edu.pdx.cs410J.ParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.ParseException;
+import java.util.Date;
 
+import static edu.pdx.cs410J.davvan.Project2.createDate;
 import static edu.pdx.cs410J.davvan.Project2.isValidDateAndTime;
 import static java.lang.Integer.parseInt;
 
@@ -48,7 +50,7 @@ public class TextParser implements AirlineParser<Airline> {
       String current_line;
       while((current_line = br.readLine()) != null){
         String [] file_args= current_line.split(" ");
-        if(file_args.length != 7){
+        if(file_args.length != 9){
           throw new ParserException("Error. Arguments mismatch.");
         }
         int flight_num;
@@ -58,18 +60,27 @@ public class TextParser implements AirlineParser<Airline> {
           throw new ParserException("Flight number from text file was invalid.  Must be a number");
         }
         String source= file_args[1];
-        String departure= file_args[2] + " " + file_args[3];
-        String destination= file_args[4];
-        String arrival = file_args[5] + " "  +file_args[6];
+        String departure= file_args[2] + " " + file_args[3] + " " + file_args[4];
+        String destination= file_args[5];
+        String arrival = file_args[6] + " "  +file_args[7] + " " + file_args[8];
 
-        if(!isValidDateAndTime(file_args[2], file_args[3])){
+        if(!isValidDateAndTime(file_args[2], file_args[3], file_args[4])){
           throw new ParserException(" in the file on information about a flight's departure field.");
         }
-        if(!isValidDateAndTime(file_args[5], file_args[6])){
+        if(!isValidDateAndTime(file_args[5], file_args[6], file_args[7])){
           throw new ParserException(" in the file on information about a flight's arrival field.");
         }
 
-        Flight new_flight= new Flight(flight_num, source, departure, destination, arrival);
+        Date formated_depart;
+        Date formated_arrive;
+        try{
+          formated_depart= createDate(departure);
+          formated_arrive= createDate(arrival);
+        }catch(ParseException e){
+          throw new ParserException(e.getMessage());
+        }
+
+        Flight new_flight= new Flight(flight_num, source, formated_depart, destination, formated_arrive);
         try{
           new_flight.hasValidCode();
         }catch(IllegalArgumentException e){

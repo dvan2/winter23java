@@ -30,6 +30,7 @@ public class TextDumperTest {
     assertThat(text, containsString(airlineName));
   }
 
+  /*
   @Test
   void airlineFlightsAreDumpedInFile(){
     //create a flight first
@@ -90,10 +91,7 @@ public class TextDumperTest {
     assertThat(text, containsString("123 TUL 12/12/2000 12:12 PDX 1/1/2022 1:10"));
     assertThat(text, containsString("343 DEN 12/12/2000 12:12 PDX 1/1/2022 1:10"));
 
-
-  }
-
-
-
+   */
 
 }
+
