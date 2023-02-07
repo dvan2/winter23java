@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.davvan;
 
+import edu.pdx.cs410J.AirportNames;
+
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
@@ -211,6 +213,8 @@ public class Project2 {
       return;
     }
 
+
+
     Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], depart_date,
             args[6 + options], arrive_date);
     try{
@@ -265,6 +269,7 @@ public class Project2 {
       return;
     }
 
+    /*
     try{
       FileReader to_read= new FileReader(file_name);
       TextParser in= new TextParser(to_read);
@@ -275,5 +280,6 @@ public class Project2 {
       System.err.println(e.getMessage());
       System.err.println("Unable to parse from the file.");
     }
+     */
   }
 }

@@ -1,9 +1,12 @@
 package edu.pdx.cs410J.davvan;
 import edu.pdx.cs410J.AbstractFlight;
+import edu.pdx.cs410J.AirportNames;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 
 /**This class implements information about a <code>Flight</code>.
@@ -79,10 +82,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getDepartureString() {
-    String good_date= DateFormat.getDateInstance(DateFormat.SHORT).format(depart_date);
-
-    System.out.println("Good date: " +good_date);
-    return good_date;
+    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US).format(depart_date);
   }
 
   /**
@@ -100,7 +100,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   @Override
   public String getArrivalString() {
-    return this.arrive_date.toString();
+    return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.US).format(arrive_date);
   }
   /**
    * This constructor builds a flight using an existing <code>Flight</code> object.
@@ -140,6 +140,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         throw new IllegalArgumentException("Source airport code cannot contain number.");
       }
     }
+
+    //check if valid airport code
+    if(AirportNames.getName(this.src)== null){
+      throw new IllegalArgumentException("Source airport code doesn't exists.");
+    }
+    if(AirportNames.getName(this.dest)== null){
+      throw new IllegalArgumentException("Destination airport code doesn't exists.");
+    }
+
   }
 
   /**
@@ -153,7 +162,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   @Override
   public int compareTo(Flight o) {
-    int result= compareTo(o);
-    return result;
+    int result= 0;
+    if(this.src.equalsIgnoreCase(o.src)){
+      return this.depart_date.compareTo(o.depart_date);
+    }
+    return this.src.compareTo(o.src);
   }
 }
