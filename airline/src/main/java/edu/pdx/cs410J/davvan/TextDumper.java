@@ -30,7 +30,7 @@ public class TextDumper implements AirlineDumper<Airline> {
 
   /**
    * This method can set the <code>print_airline</code> private field to signify if dumper should print airline name.
-   * @param to_set
+   * @param to_set : A value to be set to indicate dumper to not print airline.
    */
   public void setPrintName(boolean to_set){
     this.print_airline = to_set;
@@ -39,7 +39,7 @@ public class TextDumper implements AirlineDumper<Airline> {
   /**
    * This method dumps the content of an airline.
    * If <code>print_airline</code> is true, it will print the airline name otherwise it will only print the flights.
-   * @param airline
+   * @param airline : An airline object to dump.
    */
   @Override
   public void dump(Airline airline) {

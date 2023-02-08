@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.Date;
 
-import static edu.pdx.cs410J.davvan.Project2.createDate;
+import static edu.pdx.cs410J.davvan.Project3.createDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
@@ -36,8 +36,8 @@ public class PrettyPrinterTest {
 
         String text = sw.toString();
         assertThat(text, containsString("Delta Airlines:"));
-        assertThat(text, containsString("Flight 123 departs TUL on Dec 12, 2010 1:00 PM"));
-        assertThat(text, containsString("Flight 123 arrives PDX on Dec 12, 2010 1:20 PM"));
+        assertThat(text, containsString("Flight 123 departs Tulsa, OK (TUL) on Dec 12, 2010 1:00 PM"));
+        assertThat(text, containsString("Flight 123 arrives Portland, OR (PDX) on Dec 12, 2010 1:20 PM"));
         assertThat(text, containsString("20 minutes"));
     }
 }

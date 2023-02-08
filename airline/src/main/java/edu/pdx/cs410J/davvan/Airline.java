@@ -4,14 +4,21 @@ import edu.pdx.cs410J.AbstractAirline;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * Airline class stores information about an airline
+ */
 public class Airline extends AbstractAirline<Flight> {
   /**
    * name of the airport.
    */
   private final String name;
 
+  /**
+   * An airline stores a collection of flights.
+   */
   private ArrayList<Flight> flightList;
 
   /**
@@ -22,6 +29,10 @@ public class Airline extends AbstractAirline<Flight> {
     this.name= name;
     this.flightList= null;
   }
+
+  /**
+   * default constructor sets name and collection to null
+   */
   public Airline(){
     this.name = null;
     this.flightList= null;
@@ -49,6 +60,10 @@ public class Airline extends AbstractAirline<Flight> {
     return this.name;
   }
 
+  /**
+   * This method adds a flight to the collection of flights in an airline
+   * @param flight : A flight object to add.
+   */
   @Override
   public void addFlight(Flight flight) {
     if(flightList== null){
@@ -81,7 +96,7 @@ public class Airline extends AbstractAirline<Flight> {
    * This method returns an all flights in an airline as a string.
    * Each field is separated by a space and different flights starts on a new line.
    * @return : Formatted string containing all flights of an airline object.
-   * @param format_pattern
+   * @param format_pattern : a SimpleDateFormat pattern
    */
   public String getAirline(String format_pattern){
     String result= "";
@@ -94,11 +109,17 @@ public class Airline extends AbstractAirline<Flight> {
     return result;
   }
 
+  /**
+   * This function is used by <code>PrettyPrinter</code> to format the flights.
+   * @param format_pattern : A string for the SimpleDateFormat
+   * @return : returns all flights of an airline by calling <code>prettyWriteFlight</code>
+   */
   public String getPrettyAirline(String format_pattern){
     String result= "";
     if(flightList== null){
       return null;
     }
+    Collections.sort(flightList);
     for(Flight flight : flightList){
       result+= flight.prettyWriteFlight(format_pattern);
     }

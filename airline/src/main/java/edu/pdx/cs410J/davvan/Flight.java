@@ -154,17 +154,24 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   /**
    * This method is used by airline to get all its flight.
    * @return : String where each flight field is separated by space and each flight starts on new line.
-   * @param format_pattern
+   * @param format_pattern : A SimpleDateFormat pattern
    */
   public String writeFlight(String format_pattern){
     return "\n" + this.flight_number + " " + this.src + " " +
             orginalFormatDate(depart_date, format_pattern) + " " +this.dest + " " + orginalFormatDate(arrive_date, format_pattern);
   }
 
+  /**
+   * This method is used by PrettyPrinter to printout flights in a nice formatted way.
+   * @param format_pattern : A SimpleDateFormat pattern
+   * @return : A string that is formatted in an easy-to-read paragraph about flights.
+   */
   public String prettyWriteFlight(String format_pattern){
-    return "\nFlight " + this.flight_number + " departs " + this.src +
+    return "\nFlight " + this.flight_number + " departs " +
+            AirportNames.getName(this.src) + " ("  +this.src + ")" +
             " on " + orginalFormatDate(this.depart_date, format_pattern) +
-            "\nFlight " + this.flight_number + " arrives " + this.dest +
+            "\nFlight " + this.flight_number + " arrives "
+            + AirportNames.getName(this.dest) + " ("  +this.dest + ")" +
             " on " + orginalFormatDate(this.arrive_date, format_pattern) +
             "\nTotal Duration of the flight: " + calculateMinutes() + " minutes.\n";
   }
@@ -183,10 +190,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
-   * This function will format the date back into the format of MM/dd/yyyy hh:mm aa.
-   * Which is parsable by the parser
-   * @param a_date
-   * @param format_pattern
+   * This function will format the date back into the format specified, which is parsable by the parser
+   * @param a_date :A Date typed object
+   * @param format_pattern : A SimpleDateFormat pattern
    * @return String in the specified format
    */
   public String orginalFormatDate(Date a_date, String format_pattern){
@@ -200,6 +206,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     return result;
   }
 
+  /**
+   * This method compares the current instance of flight to another instance
+   * @param o the flight to be compared.
+   * @return : 0 if source airport and depart time is the same. Value Greater than 1 if this object's source is earlier in alphabet or if departure time is earlier.
+   * Less than 1 if vice-versa.
+   *
+   */
   @Override
   public int compareTo(Flight o) {
     if(this.src.equalsIgnoreCase(o.src)){

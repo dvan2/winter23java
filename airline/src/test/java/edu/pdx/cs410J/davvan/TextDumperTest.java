@@ -8,7 +8,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.Date;
 
-import static edu.pdx.cs410J.davvan.Project2.createDate;
+import static edu.pdx.cs410J.davvan.Project3.createDate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 

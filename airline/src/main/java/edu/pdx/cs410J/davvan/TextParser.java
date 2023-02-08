@@ -9,8 +9,8 @@ import java.io.Reader;
 import java.text.ParseException;
 import java.util.Date;
 
-import static edu.pdx.cs410J.davvan.Project2.createDate;
-import static edu.pdx.cs410J.davvan.Project2.isValidDateAndTime;
+import static edu.pdx.cs410J.davvan.Project3.createDate;
+import static edu.pdx.cs410J.davvan.Project3.isValidDateAndTime;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -25,7 +25,7 @@ public class TextParser implements AirlineParser<Airline> {
 
   /**
    * This constructor accepts a <code>Reader</code> object to read from.
-   * @param reader
+   * @param reader : A stream to read from.
    */
   public TextParser(Reader reader) {
     this.reader = reader;
