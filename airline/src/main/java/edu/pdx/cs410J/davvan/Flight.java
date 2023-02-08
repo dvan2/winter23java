@@ -6,7 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 /**This class implements information about a <code>Flight</code>.
@@ -154,20 +154,43 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   /**
    * This method is used by airline to get all its flight.
    * @return : String where each flight field is separated by space and each flight starts on new line.
+   * @param format_pattern
    */
-  public String writeFlight(){
+  public String writeFlight(String format_pattern){
     return "\n" + this.flight_number + " " + this.src + " " +
-            orginalFormatDate(depart_date) + " " +this.dest + " " + orginalFormatDate(arrive_date);
+            orginalFormatDate(depart_date, format_pattern) + " " +this.dest + " " + orginalFormatDate(arrive_date, format_pattern);
+  }
+
+  public String prettyWriteFlight(String format_pattern){
+    return "\nFlight " + this.flight_number + " departs " + this.src +
+            " on " + orginalFormatDate(this.depart_date, format_pattern) +
+            "\nFlight " + this.flight_number + " arrives " + this.dest +
+            " on " + orginalFormatDate(this.arrive_date, format_pattern) +
+            "\nTotal Duration of the flight: " + calculateMinutes() + " minutes.\n";
+  }
+
+  /**
+   * This function compares departure and arrival time.
+   * @return total time elapsed between departure and arrival.  Negative if arrival is before departure.
+   */
+  private long calculateMinutes(){
+    //Stack overflow source:
+    // https://stackoverflow.com/questions/17940200/how-to-find-the-duration-of-difference-between-two-dates-in-java
+    long difference=  this.arrive_date.getTime() - this.depart_date.getTime();
+
+    long total_minutes= TimeUnit.MILLISECONDS.toMinutes(difference);
+    return total_minutes;
   }
 
   /**
    * This function will format the date back into the format of MM/dd/yyyy hh:mm aa.
    * Which is parsable by the parser
    * @param a_date
+   * @param format_pattern
    * @return String in the specified format
    */
-  public String orginalFormatDate(Date a_date){
-    SimpleDateFormat orginal_format= new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+  public String orginalFormatDate(Date a_date, String format_pattern){
+    SimpleDateFormat orginal_format= new SimpleDateFormat(format_pattern);
     String result= null;
     try{
       result= orginal_format.format(a_date);

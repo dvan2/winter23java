@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.ParserException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
@@ -14,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TextParserTest {
 
 
-  /*
   @Test
   void validTextFileCanBeParsed() throws ParserException {
 
@@ -42,7 +40,7 @@ public class TextParserTest {
     TextParser parser = new TextParser(new InputStreamReader(resource));
     Airline airline = parser.parse();
     assertThat(airline.getName(), equalTo("Delta"));
-    assertThat(airline.getAirline(), containsString("123 PDX 12/12/2000 12:12 PDX 1/1/2022 1:1"));
+    assertThat(airline.getAirline("MM/dd/yyyy hh:mm a"), containsString("123 PDX 12/12/2000 01:00 PM PDX 01/01/2022 01:10 PM"));
   }
 
   @Test
@@ -53,9 +51,8 @@ public class TextParserTest {
     TextParser parser = new TextParser(new InputStreamReader(resource));
     Airline airline = parser.parse();
     assertThat(airline.getName(), equalTo("Delta"));
-    assertThat(airline.getAirline(), containsString("123 PDX 12/12/2000 12:12 PDX 1/1/2022 1:1"));
-    assertThat(airline.getAirline(), containsString("343 DEN 12/12/2000 12:12 PDX 1/1/2022 1:10"));
-  }
+    assertThat(airline.getAirline("MM/dd/yyyy hh:mm a"), containsString("123 PDX 10/10/2000 01:12 PM DEN 11/11/2010 02:00 PM"));
 
-   */
+    assertThat(airline.getAirline("MM/dd/yyyy hh:mm a"), containsString("123 PDX 12/12/2000 01:00 PM PDX 01/01/2022 01:10 PM"));
+  }
 }

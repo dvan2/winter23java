@@ -2,11 +2,9 @@ package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AbstractAirline;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class Airline extends AbstractAirline<Flight> {
   /**
@@ -83,14 +81,26 @@ public class Airline extends AbstractAirline<Flight> {
    * This method returns an all flights in an airline as a string.
    * Each field is separated by a space and different flights starts on a new line.
    * @return : Formatted string containing all flights of an airline object.
+   * @param format_pattern
    */
-  public String getAirline(){
+  public String getAirline(String format_pattern){
     String result= "";
     if(flightList== null){
       return null;
     }
     for(Flight flight : flightList){
-      result+= flight.writeFlight();
+      result+= flight.writeFlight(format_pattern);
+    }
+    return result;
+  }
+
+  public String getPrettyAirline(String format_pattern){
+    String result= "";
+    if(flightList== null){
+      return null;
+    }
+    for(Flight flight : flightList){
+      result+= flight.prettyWriteFlight(format_pattern);
     }
     return result;
   }

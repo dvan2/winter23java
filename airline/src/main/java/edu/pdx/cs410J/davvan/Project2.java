@@ -1,7 +1,5 @@
 package edu.pdx.cs410J.davvan;
 
-import edu.pdx.cs410J.AirportNames;
-
 import com.google.common.annotations.VisibleForTesting;
 import edu.pdx.cs410J.ParserException;
 
@@ -229,7 +227,6 @@ public class Project2 {
       an_airline.displayAirline();
     }
 
-
     //STARTING PROJECT2 HERE
     if(!file_present){
       return;
@@ -241,7 +238,6 @@ public class Project2 {
     try{
       BufferedReader read_airline_name= new BufferedReader(new FileReader(file_name));
       file_airline = read_airline_name.readLine();
-
 
       if(file_airline== null) {
         //we need to print the name.
@@ -273,6 +269,7 @@ public class Project2 {
       FileReader to_read= new FileReader(file_name);
       TextParser in= new TextParser(to_read);
       Airline new_airline = in.parse();
+      System.out.println(new_airline.getAirline("MM/dd/yyyy hh:mm a"));
     }catch(FileNotFoundException e){
       System.err.println("Unable open the file.");
     }catch(ParserException e){

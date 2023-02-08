@@ -42,12 +42,11 @@ class Project2IT extends InvokeMainTestCase {
       MainMethodResult result = invokeMain();
       assertThat(result.getTextWrittenToStandardOut(), containsString("usage: java -jar target/airline-2023.0.0.jar [options] <args>"));
   }
-  /*
 
   @Test
   void testProgramWithPrintOption() {
-      MainMethodResult result = invokeMain(Project2.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX", "1/1/2022", "1:1");
-      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 343 departs DEN at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
+      MainMethodResult result = invokeMain(Project2.class, "-print", "Delta", "343", "DEN", "12/12/2000", "12:12", "PM", "PDX", "1/1/2022", "1:1", "am");
+      assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 343 departs DEN at 12/12/00, 12:12 PM arrives PDX at 1/1/22, 1:01 AM"));
   }
 
   @Test
@@ -55,6 +54,7 @@ class Project2IT extends InvokeMainTestCase {
       MainMethodResult result = invokeMain(Project2.class,"-README");
       assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
+
   @Test
   void readmeAndPrintOnly(){
       MainMethodResult result = invokeMain(Project2.class,"-README", "-print");
@@ -79,6 +79,7 @@ class Project2IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardOut(), containsString(readme_test));
   }
 
+  /*
   @Test
   void tooManyArgumentsWithPrint(){
       MainMethodResult result = invokeMain(Project2.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PDX","TUL", "1/1/2022", "1:1");
@@ -93,10 +94,10 @@ class Project2IT extends InvokeMainTestCase {
 
   @Test
   void testTooManyArgumentsWithoutOptions(){
-      MainMethodResult result = invokeMain(Project2.class,  "Delta", "343", "DEN", "12/12/2000","12:12","PDX","TUL", "1/1/2022", "1:1");
+      MainMethodResult result = invokeMain(Project2.class,  "Delta", "343", "DEN", "12/12/2000","12:12", "PM","PDX","TUL", "1/1/2022", "1:1" , "AM");
       assertThat(result.getTextWrittenToStandardError(), containsString("There is too many arguments for a flight."));
   }
-
+/*
   @Test
   void notEnoughArguments(){
       MainMethodResult result = invokeMain(Project2.class, "Delta", "343", "DEN", "12/12/2000","12:12", "1/1/2022", "1:1");

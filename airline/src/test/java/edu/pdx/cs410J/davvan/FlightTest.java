@@ -84,8 +84,8 @@ public class FlightTest {
     System.out.println("Arrive: "+ arrive_date);
     Flight flight = new Flight(123, "PDX", depart_date, "TUL",arrive_date);
     flight.hasValidCode();
-    String result= flight.orginalFormatDate(depart_date);
-    String resulttwo= flight.orginalFormatDate(arrive_date);
+    String result= flight.orginalFormatDate(depart_date, "MM/dd/yyyy hh:mm a");
+    String resulttwo= flight.orginalFormatDate(arrive_date, "MM/dd/yyyy hh:mm a");
     assertThat(result, containsString("12/12/2000 01:00 PM"));
     assertThat(resulttwo, containsString("01/01/2010 01:20 PM"));
     }

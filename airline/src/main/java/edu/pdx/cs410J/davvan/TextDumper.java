@@ -50,7 +50,7 @@ public class TextDumper implements AirlineDumper<Airline> {
       if(print_airline){
         pw.print(airline.getName());
       }
-      pw.print(airline.getAirline());
+      pw.print(airline.getAirline("MM/dd/yyyy hh:mm a"));
 
       pw.flush();
     }
