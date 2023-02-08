@@ -67,7 +67,7 @@ public class TextParser implements AirlineParser<Airline> {
         if(!isValidDateAndTime(file_args[2], file_args[3], file_args[4])){
           throw new ParserException(" in the file on information about a flight's departure field.");
         }
-        if(!isValidDateAndTime(file_args[5], file_args[6], file_args[7])){
+        if(!isValidDateAndTime(file_args[6], file_args[7], file_args[8])){
           throw new ParserException(" in the file on information about a flight's arrival field.");
         }
 

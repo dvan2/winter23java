@@ -2,6 +2,10 @@ package edu.pdx.cs410J.davvan;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import static edu.pdx.cs410J.davvan.Project2.createDate;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -62,4 +66,27 @@ public class FlightTest {
   }
 
      */
+    @Test
+    void orginalFormatDateProduceCorrectDateBack(){
+    String date_string= "12/12/2000 1:00 pm";
+    System.out.println(date_string);
+
+    String arrive_string= "1/1/2010 1:20 pm";
+    Date depart_date= null;
+    Date arrive_date= null;
+    try{
+        depart_date= createDate(date_string);
+        arrive_date= createDate(arrive_string);
+
+    }catch(ParseException e){
+        System.err.println("Problem parsing");
+    }
+    System.out.println("Arrive: "+ arrive_date);
+    Flight flight = new Flight(123, "PDX", depart_date, "TUL",arrive_date);
+    flight.hasValidCode();
+    String result= flight.orginalFormatDate(depart_date);
+    String resulttwo= flight.orginalFormatDate(arrive_date);
+    assertThat(result, containsString("12/12/2000 01:00 PM"));
+    assertThat(resulttwo, containsString("01/01/2010 01:20 PM"));
+    }
 }

@@ -157,12 +157,28 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
   public String writeFlight(){
     return "\n" + this.flight_number + " " + this.src + " " +
-            this.depart_date + " " +this.dest + " " +this.arrive_date;
+            orginalFormatDate(depart_date) + " " +this.dest + " " + orginalFormatDate(arrive_date);
+  }
+
+  /**
+   * This function will format the date back into the format of MM/dd/yyyy hh:mm aa.
+   * Which is parsable by the parser
+   * @param a_date
+   * @return String in the specified format
+   */
+  public String orginalFormatDate(Date a_date){
+    SimpleDateFormat orginal_format= new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+    String result= null;
+    try{
+      result= orginal_format.format(a_date);
+    }catch(NullPointerException e){
+      System.err.println("Null argument");
+    }
+    return result;
   }
 
   @Override
   public int compareTo(Flight o) {
-    int result= 0;
     if(this.src.equalsIgnoreCase(o.src)){
       return this.depart_date.compareTo(o.depart_date);
     }

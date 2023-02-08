@@ -269,7 +269,6 @@ public class Project2 {
       return;
     }
 
-    /*
     try{
       FileReader to_read= new FileReader(file_name);
       TextParser in= new TextParser(to_read);
@@ -280,6 +279,5 @@ public class Project2 {
       System.err.println(e.getMessage());
       System.err.println("Unable to parse from the file.");
     }
-     */
   }
 }
