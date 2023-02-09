@@ -105,7 +105,7 @@ public class AboutExceptions {
         try {
             doUncheckedStuff();
         }catch(RuntimeException e){
-            System.out.println("hi");
+
         }
     }
 
