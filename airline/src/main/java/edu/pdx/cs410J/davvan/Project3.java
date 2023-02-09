@@ -245,6 +245,7 @@ public class Project3 {
             args[6 + options], arrive_date);
     try{
       flight.hasValidCode();
+      flight.hasValidDate();
     }catch(IllegalArgumentException e){
       System.err.println(e.getMessage());
       return;
