@@ -1,44 +1,44 @@
 package edu.pdx.cs410J.davvan;
 import edu.pdx.cs410J.AbstractFlight;
 import edu.pdx.cs410J.AirportNames;
+import edu.pdx.cs410J.ParserException;
+import org.w3c.dom.*;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 
+
 /**This class implements information about a <code>Flight</code>.
  */
 public class Flight extends AbstractFlight implements Comparable<Flight> {
-
-
-
   /**
    * Flight number.
    */
-  private final int flight_number;
+  private int flight_number;
 
   /**
    * 3-letter code for source airport.
    */
-  private final String src;
+  private String src;
   /**
    * Flight departure date
    */
-  private final Date depart_date;
-
-
+  private Date depart_date;
 
   /**
    * 3-letter code for destination airport.
    */
-  private final String dest;
+  private String dest;
   /**
    * Flight arrival date.
    */
-  private final Date arrive_date;
+  private Date arrive_date;
 
   /**
    * This constructor can be used to create a new instance of a <code>Flight</code> if passed all these parameters.
@@ -55,6 +55,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     this.dest= destination;
     this.arrive_date= arrival_d;
 }
+  Flight(){
+    this.flight_number= 0;
+    this.src= null;
+    this.depart_date= null;
+    this.dest= null;
+    this.arrive_date= null;
+  }
 
   /**
    * Gets private field: flight_number
@@ -64,8 +71,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   public int getNumber() {
     return flight_number;
   }
-
-
 
   /**
    * Gets private field: src
@@ -230,4 +235,84 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         throw new IllegalArgumentException("Depart date cannot be later than arrival date.");
       }
     }
+
+    public void fillFlight(Element root) throws ParserException {
+      NodeList entries= root.getChildNodes();
+      for(int i=0; i<entries.getLength(); i++){
+        Node node = entries.item(i);
+        if(!(node instanceof Element)){
+          continue;
+        }
+        Element entry= (Element) node;
+
+
+        switch(entry.getNodeName()) {
+          case "number":
+            this.flight_number= Integer.parseInt(entry.getFirstChild().getNodeValue());
+            System.out.println("Flight numbeer: " + this.flight_number);
+
+            break;
+          case "src":
+            this.src= entry.getFirstChild().getNodeValue();
+            System.out.println("Source: " + src);
+            break;
+
+          case "depart":
+            this.depart_date= fillDate(entry);
+            break;
+          case "dest":
+            this.dest = entry.getFirstChild().getNodeValue();
+            break;
+          case "arrive":
+            this.arrive_date= fillDate(entry);
+            System.out.println("arrival: " + this.arrive_date);
+            break;
+        }
+      }
+    }
+
+  private Date fillDate(Element root) throws ParserException {
+
+    String date = "";
+    NodeList entries= root.getChildNodes();
+    for(int i=0; i<entries.getLength(); i++) {
+      Node node = entries.item(i);
+      if (!(node instanceof Element)) {
+        continue;
+      }
+      Element entry = (Element) node;
+
+
+      switch (entry.getNodeName()) {
+        case "date":
+
+          date = entry.getAttribute("month") + "/" +
+                  entry.getAttribute("day") + "/" +
+                  entry.getAttribute("year") + " ";
+          break;
+
+        case "time":
+          date += entry.getAttribute("hour") + ":" +
+                  entry.getAttribute("minute");
+          break;
+      }
+    }
+    Date date_format= null;
+    try {
+      date_format= Project3.createDate(date, "MM/dd/yyyy HH:mm");
+    } catch (ParseException e) {
+      throw new ParserException("Invalid date in xml");
+    }
+    return date_format;
+
+  }
+
+  public Document dumpFlights(Document doc, Element root) {
+    Element flight_num = doc.createElement("flight");
+    root.appendChild(flight_num);
+
+    flight_num.appendChild(doc.createTextNode(Integer.toString(flight_number)));
+    return doc;
+
+  }
 }

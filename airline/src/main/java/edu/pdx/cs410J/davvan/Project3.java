@@ -108,6 +108,17 @@ public class Project3 {
     return formated_date;
   }
 
+  static public Date createDate(String full_date, String format_pattern) throws ParseException {
+    SimpleDateFormat my_format= new SimpleDateFormat(format_pattern);
+    Date formated_date;
+    try {
+      formated_date= my_format.parse(full_date);
+    }catch(ParseException e){
+      throw new ParseException("There was a problem parsing the date at: ", e.getErrorOffset());
+    }
+    return formated_date;
+  }
+
   /**
    * This method opens the README.txt which exists in resources.
    * Throws an IOException if there is an error reading from file

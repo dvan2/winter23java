@@ -1,6 +1,12 @@
 package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AbstractAirline;
+import edu.pdx.cs410J.ParserException;
+import org.checkerframework.checker.units.qual.A;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,6 +80,23 @@ public class Airline extends AbstractAirline<Flight> {
     flightList.add(flight);
   }
 
+  public void fillInFlights(Element root) throws ParserException {
+    NodeList flight_entries= root.getElementsByTagName("flight");
+    System.out.println(flight_entries.getLength());
+    for(int i=0; i< flight_entries.getLength(); i++) {
+      Flight flight= new Flight();
+      Node node= flight_entries.item(i);
+      if(!(node instanceof Element)){
+        System.out.println("Not node");
+        continue;
+      }
+      Element entry = (Element) node;
+      flight.fillFlight(entry);
+      System.out.println("we got flight: \n" + flight.toString());
+      addFlight(flight);
+    }
+  }
+
   @Override
   public Collection<Flight> getFlights() {
     return flightList;
@@ -124,5 +147,16 @@ public class Airline extends AbstractAirline<Flight> {
       result+= flight.prettyWriteFlight(format_pattern);
     }
     return result;
+  }
+
+  public Document dumpAirline(Document doc, Element root) {
+    Element name = doc.createElement("name");
+    root.appendChild(name);
+
+    name.appendChild(doc.createTextNode(this.name));
+    for(Flight flight : flightList){
+      doc = flight.dumpFlights(doc, root);
+    }
+    return doc;
   }
 }

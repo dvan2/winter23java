@@ -174,7 +174,7 @@ class Project3IT extends InvokeMainTestCase {
     }
 
     @Test
-    void writesToFileWithPrintOptionAfterFile(@TempDir File tempDir) {
+    void writesToFileWithPrintOptionAfterFile() {
         String temp_file= "airlinetest.txt";
         MainMethodResult result = invokeMain(Project3.class  ,"-textFile", temp_file, "-print", "Delta", "123", "DEN", "12/12/2000","12:12", "PM", "PDX", "03/03/2023", "12:12", "AM");
         assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123"));
