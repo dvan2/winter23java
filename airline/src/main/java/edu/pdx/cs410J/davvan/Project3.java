@@ -250,8 +250,6 @@ public class Project3 {
       return;
     }
 
-
-
     Flight flight = new Flight(parseInt(args[1 + options]), args[2 + options], depart_date,
             args[6 + options], arrive_date);
     try{

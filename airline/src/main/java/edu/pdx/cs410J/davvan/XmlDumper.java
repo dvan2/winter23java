@@ -42,22 +42,7 @@ public class XmlDumper implements AirlineDumper<Airline> {
 
             Element root = doc.getDocumentElement();
 
-            /*
-            Element name = doc.createElement("name");
-            root.appendChild(name);
-
-            String air_name = "Delta";
-            name.appendChild(doc.createTextNode(airline.getName()));
-
-             */
-
             doc= airline.dumpAirline(doc, root);
-            /*
-            Element flight_num = doc.createElement("flight");
-            root.appendChild(flight_num);
-            flight_num.appendChild(doc.createTextNode("1234"));
-
-             */
 
             Source src = new DOMSource(doc);
             Result res = new StreamResult(this.writer);

@@ -71,8 +71,6 @@ public class XmlDumperTest {
         Flight flight = new Flight(123, "TUL", depart_date, "PDX", arrive_date);
         Airline test_airline = new Airline("Delta", flight);
 
-        StringWriter sw = new StringWriter();
-
         //don't print airline name anymore
         Flight flight2 = new Flight(123, "TUL", depart_date2, "PDX", arrive_date);
         test_airline.addFlight(flight2);
@@ -81,6 +79,7 @@ public class XmlDumperTest {
         test_airline.addFlight(flight3);
 
         dumper.dump(test_airline);
+
 
 
     }
