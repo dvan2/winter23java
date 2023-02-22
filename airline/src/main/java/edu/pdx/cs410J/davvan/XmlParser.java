@@ -18,7 +18,6 @@ public class XmlParser implements AirlineParser {
 
     public Airline parse() throws ParserException{
         NodeList entries= root.getElementsByTagName("name");
-        System.out.println("airlines:" + entries.getLength());
 
         Node node = entries.item(0);
         Element entry = (Element) node;

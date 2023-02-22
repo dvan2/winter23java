@@ -23,7 +23,7 @@ public class XmlDumperTest {
     void canDumpXml(@TempDir File tempDir) throws ParserException, ParserConfigurationException, TransformerException, IOException {
         File textFile= new File("xdumper.xml");
         XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
-        String date_string = "12/12/2000 1:00 pm";
+        String date_string = "6/13/2000 1:00 pm";
 
         String arrive_string = "1/1/2010 1:20 pm";
         Date depart_date = null;
@@ -42,5 +42,46 @@ public class XmlDumperTest {
 
         StringWriter sw = new StringWriter();
         dumper.dump(test_airline);
+    }
+
+    @Test
+    void canDumpMultipleFlights(@TempDir File tempDir) throws IOException {
+        File textFile= new File("xdumper.xml");
+        XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
+        String date_string = "12/12/2000 1:00 pm";
+
+        String arrive_string = "1/1/2010 1:20 pm";
+        String arrive_string2 = "11/11/2020 12:01 AM";
+        String depart_string2 = "12/12/2022 12:12 PM";
+        Date depart_date = null;
+        Date arrive_date = null;
+        Date arrive_date2= null;
+        Date depart_date2 = null;
+        try {
+            depart_date = createDate(date_string);
+            arrive_date = createDate(arrive_string);
+            arrive_date2= createDate(arrive_string2);
+            depart_date2 = createDate(depart_string2);
+
+        } catch (ParseException e) {
+            System.err.println("Problem parsing");
+        }
+
+        //create a flight first
+        Flight flight = new Flight(123, "TUL", depart_date, "PDX", arrive_date);
+        Airline test_airline = new Airline("Delta", flight);
+
+        StringWriter sw = new StringWriter();
+
+        //don't print airline name anymore
+        Flight flight2 = new Flight(123, "TUL", depart_date2, "PDX", arrive_date);
+        test_airline.addFlight(flight2);
+
+        Flight flight3 = new Flight(343, "DEN", depart_date, "PDX", arrive_date2);
+        test_airline.addFlight(flight3);
+
+        dumper.dump(test_airline);
+
+
     }
 }

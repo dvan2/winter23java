@@ -82,17 +82,15 @@ public class Airline extends AbstractAirline<Flight> {
 
   public void fillInFlights(Element root) throws ParserException {
     NodeList flight_entries= root.getElementsByTagName("flight");
-    System.out.println(flight_entries.getLength());
     for(int i=0; i< flight_entries.getLength(); i++) {
       Flight flight= new Flight();
       Node node= flight_entries.item(i);
       if(!(node instanceof Element)){
-        System.out.println("Not node");
         continue;
       }
       Element entry = (Element) node;
       flight.fillFlight(entry);
-      System.out.println("we got flight: \n" + flight.toString());
+      System.out.println("we got flight: \n" + flight);
       addFlight(flight);
     }
   }
@@ -150,12 +148,17 @@ public class Airline extends AbstractAirline<Flight> {
   }
 
   public Document dumpAirline(Document doc, Element root) {
+
     Element name = doc.createElement("name");
     root.appendChild(name);
-
     name.appendChild(doc.createTextNode(this.name));
+
     for(Flight flight : flightList){
-      doc = flight.dumpFlights(doc, root);
+
+
+      Element flight_element = doc.createElement("flight");
+      root.appendChild(flight_element);
+      doc = flight.dumpFlights(doc, flight_element);
     }
     return doc;
   }

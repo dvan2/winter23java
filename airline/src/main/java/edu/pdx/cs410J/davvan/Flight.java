@@ -249,12 +249,10 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         switch(entry.getNodeName()) {
           case "number":
             this.flight_number= Integer.parseInt(entry.getFirstChild().getNodeValue());
-            System.out.println("Flight numbeer: " + this.flight_number);
 
             break;
           case "src":
             this.src= entry.getFirstChild().getNodeValue();
-            System.out.println("Source: " + src);
             break;
 
           case "depart":
@@ -265,7 +263,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
             break;
           case "arrive":
             this.arrive_date= fillDate(entry);
-            System.out.println("arrival: " + this.arrive_date);
             break;
         }
       }
@@ -308,11 +305,47 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   public Document dumpFlights(Document doc, Element root) {
-    Element flight_num = doc.createElement("flight");
+    Element flight_num = doc.createElement("number");
     root.appendChild(flight_num);
-
     flight_num.appendChild(doc.createTextNode(Integer.toString(flight_number)));
-    return doc;
 
+    Element src = doc.createElement("src");
+    root.appendChild(src);
+    src.appendChild(doc.createTextNode(this.src));
+
+    Element depart_elem = doc.createElement("depart");
+    root.appendChild(depart_elem);
+    doc = getDate( doc, depart_elem, this.depart_date);
+
+    Element dest_elem = doc.createElement("dest");
+    root.appendChild(dest_elem);
+    dest_elem.appendChild(doc.createTextNode(this.dest));
+
+    Element arrival_elem = doc.createElement("arrive");
+    root.appendChild(arrival_elem);
+    doc = getDate(doc, arrival_elem, this.arrive_date);
+
+    return doc;
+  }
+
+  public Document getDate(Document doc, Element root, Date depart_date){
+    Element date = doc.createElement("date");
+
+    String date_string= orginalFormatDate(depart_date, "MM/dd/yyyy/hh/mm");
+
+    String [] date_split = date_string.split("/", -2);
+    date.setAttribute("day", date_split[0]);
+    date.setAttribute("month", date_split[1]);
+    date.setAttribute("year", date_split[2]);
+
+    root.appendChild(date);
+
+    Element time = doc.createElement("time");
+
+    time.setAttribute("hour", date_split[3]);
+    time.setAttribute("minute", date_split[4]);
+    root.appendChild(time);
+
+    return doc;
   }
 }
