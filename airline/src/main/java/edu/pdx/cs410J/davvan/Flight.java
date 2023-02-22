@@ -236,7 +236,12 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       }
     }
 
-    public void fillFlight(Element root) throws ParserException {
+  /**
+   * This method is used to fill in flight information.
+   * @param root : Should pass in a flight element as root.
+   * @throws ParserException : If parser fails to parse because of bad xml.
+   */
+  public void fillFlight(Element root) throws ParserException {
       NodeList entries= root.getChildNodes();
       for(int i=0; i<entries.getLength(); i++){
         Node node = entries.item(i);
@@ -246,28 +251,59 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         Element entry= (Element) node;
 
 
-        switch(entry.getNodeName()) {
-          case "number":
-            this.flight_number= Integer.parseInt(entry.getFirstChild().getNodeValue());
+        try {
+          switch (entry.getNodeName()) {
+            case "number":
+              this.flight_number = getInteger(entry.getFirstChild().getNodeValue());
+              break;
+            case "src":
+              this.src = entry.getFirstChild().getNodeValue();
+              break;
 
-            break;
-          case "src":
-            this.src= entry.getFirstChild().getNodeValue();
-            break;
-
-          case "depart":
-            this.depart_date= fillDate(entry);
-            break;
-          case "dest":
-            this.dest = entry.getFirstChild().getNodeValue();
-            break;
-          case "arrive":
-            this.arrive_date= fillDate(entry);
-            break;
+            case "depart":
+              this.depart_date = fillDate(entry);
+              break;
+            case "dest":
+              this.dest = entry.getFirstChild().getNodeValue();
+              break;
+            case "arrive":
+              this.arrive_date = fillDate(entry);
+              break;
+          }
+        }catch(NullPointerException e){
+          throw new ParserException("Bad Xml content. Cannot get null element in Xml");
         }
+        catch(DOMException e) {
+          throw new ParserException("Bad content in xml.");
+        }
+      }
+      try {
+        this.hasValidCode();
+      }catch(IllegalArgumentException e){
+        throw new ParserException("Bad Xml content in Flight element: " + e.getMessage());
       }
     }
 
+  /**
+   * This method provides a way to throw my own exception message to get integers from xml.
+   * @param s : String to extract int from
+   * @return : int that is extracted
+   * @throws ParserException : if string wasn't int.
+   */
+    private int getInteger(String s) throws ParserException{
+      try{
+        return Integer.parseInt(s);
+      }catch(NumberFormatException e){
+        throw new ParserException(s + " is not an integer.");
+      }
+    }
+
+  /**
+   * This method is used by <code>fillFlight</code> to fill date elements.
+   * @param root : The root should be a date element
+   * @return : A date extracted from the xml.
+   * @throws ParserException : If date is invalid throws exception.
+   */
   private Date fillDate(Element root) throws ParserException {
 
     String date = "";
@@ -278,7 +314,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
         continue;
       }
       Element entry = (Element) node;
-
 
       switch (entry.getNodeName()) {
         case "date":
@@ -296,7 +331,9 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }
     Date date_format= null;
     try {
+
       date_format= Project3.createDate(date, "MM/dd/yyyy HH:mm");
+
     } catch (ParseException e) {
       throw new ParserException("Invalid date in xml");
     }
@@ -304,6 +341,12 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   }
 
+  /**
+   * This method builds on to an existing doc and appends flights to the doc object
+   * @param doc :An existing doc of airline
+   * @param root : Airline Root element
+   * @return : Document with added flights
+   */
   public Document dumpFlights(Document doc, Element root) {
     Element flight_num = doc.createElement("number");
     root.appendChild(flight_num);
@@ -328,6 +371,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     return doc;
   }
 
+  /**
+   * This method is used by <code>dumpFlights</code> to add date childnodes of src and depart
+   * @param doc
+   * @param root
+   * @param depart_date :The date to extract
+   * @return : Document object with added date elements with attributes.
+   */
   public Document getDate(Document doc, Element root, Date depart_date){
     Element date = doc.createElement("date");
 

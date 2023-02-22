@@ -17,14 +17,30 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * You'll need to update these unit tests as you build out you program.
  */
 public class FlightTest {
-    /*
-  @Test
+
+    public static final Date departvalid;
+    public static final Date ARRIVE_VALID;
+
+    static {
+        try {
+            ARRIVE_VALID = Project3.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            departvalid = Project3.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
   void sourceAirportMoreThanThreeLetter() throws Exception{
     //I found a way to test throwed exception online
     //source: https://www.codejava.net/testing/junit-test-exception-examples-how-to-assert-an-exception-is-thrown
     Throwable exception= assertThrows
             (IllegalArgumentException.class, () -> {
-      Flight flight = new Flight(123, "ABCC","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
+      Flight flight = new Flight(123, "ABCC", departvalid, "PDX", ARRIVE_VALID);
       flight.hasValidCode();
     });
     assertEquals("Source airport code has invalid length. Must be 3 character.",exception.getMessage());
@@ -35,7 +51,7 @@ public class FlightTest {
     //source: https://www.codejava.net/testing/junit-test-exception-examples-how-to-assert-an-exception-is-thrown
     Throwable exception= assertThrows
             (IllegalArgumentException.class, () -> {
-              Flight flight = new Flight(123, "ABC","12:12:2000 12:12", "PDXX", "1/1/2022 1:1");
+              Flight flight = new Flight(123, "ABC", departvalid, "PDXX", ARRIVE_VALID);
               flight.hasValidCode();
             });
     assertEquals("Destination airport code has invalid length. Must be 3 character.",exception.getMessage());
@@ -44,7 +60,7 @@ public class FlightTest {
   void sourceAirportLessThanThreeLetter(){
   Throwable exception= assertThrows
         (IllegalArgumentException.class, () -> {
-          Flight flight = new Flight(123, "P","12:12:2000 12:12", "PD", "1/1/2022 1:1");
+          Flight flight = new Flight(123, "P", departvalid, "PD", ARRIVE_VALID);
           flight.hasValidCode();
         });
   assertEquals("Source airport code has invalid length. Must be 3 character.",exception.getMessage());
@@ -54,18 +70,25 @@ public class FlightTest {
   void airportCodeHasNumber(){
   Throwable exception= assertThrows
       (IllegalArgumentException.class, () -> {
-          Flight flight = new Flight(123, "PD1","12:12:2000 12:12", "PDX", "1/1/2022 1:1");
+          Flight flight = new Flight(123, "PD1", departvalid, "PDX", ARRIVE_VALID);
           flight.hasValidCode();
       });
   assertEquals("Source airport code cannot contain number.",exception.getMessage());
   }
   @Test
   void flightContainsRightInformation(){
-    Flight flight = new Flight(123, "ABC","12/12/2000 12:12", "PDX", "1/1/2022 1:1");
-    assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12/12/2000 12:12 arrives PDX at 1/1/2022 1:1"));
+    Flight flight = new Flight(123, "ABC",departvalid, "PDX", ARRIVE_VALID);
+    assertThat(flight.toString(), equalTo("Flight 123 departs ABC at 12/12/00, 1:01 PM arrives PDX at 12/12/00, 1:01 PM"));
   }
 
-     */
+    @Test
+    void flightConstructor(){
+        Flight flight = new Flight(123, "ABC",departvalid, "PDX", ARRIVE_VALID);
+        Flight flight2 = new Flight(flight);
+        assertThat(flight2.toString(), equalTo("Flight 123 departs ABC at 12/12/00, 1:01 PM arrives PDX at 12/12/00, 1:01 PM"));
+    }
+
+
     @Test
     void orginalFormatDateProduceCorrectDateBack(){
     String date_string= "12/12/2000 1:00 pm";

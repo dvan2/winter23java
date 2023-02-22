@@ -54,6 +54,8 @@ public class XmlDumper implements AirlineDumper<Airline> {
             xform.transform(src, res);
         }catch (TransformerException | ParserConfigurationException e){
             throw new IOException("Error dumping to file");
+        }finally {
+            writer.close();
         }
 
     }

@@ -89,8 +89,11 @@ public class Airline extends AbstractAirline<Flight> {
         continue;
       }
       Element entry = (Element) node;
-      flight.fillFlight(entry);
-      System.out.println("we got flight: \n" + flight);
+      try {
+        flight.fillFlight(entry);
+      }catch(ParserException e){
+        throw new ParserException(e.getMessage());
+      }
       addFlight(flight);
     }
   }
@@ -161,5 +164,15 @@ public class Airline extends AbstractAirline<Flight> {
       doc = flight.dumpFlights(doc, flight_element);
     }
     return doc;
+  }
+
+  public void addAirline(Airline addedAir) throws IllegalArgumentException{
+    if(!this.name.equals(addedAir.getName())){
+      throw new IllegalArgumentException("Error.  Airline name in Xml didn't match.");
+
+    }
+    for(Flight flight: addedAir.flightList){
+      this.flightList.add(flight);
+    }
   }
 }

@@ -156,6 +156,7 @@ public class Project3 {
     boolean print= false;
     boolean file_present= false;
     boolean pretty_print= false;
+    boolean xml_present = false;
     String file_name= "";
     String pretty_out_string = "";
 
@@ -165,7 +166,8 @@ public class Project3 {
       boolean print_current = args[current].equals("-print");
       boolean text_file_current= args[current].equals("-textFile");
       boolean pretty_print_current = args[current].equals("-pretty");
-      if((!readme_current) && (!print_current) && (!text_file_current) && (!pretty_print_current)) {
+      boolean xml_current = args[current].equals("-xmlFile");
+      if((!readme_current) && (!print_current) && (!text_file_current) && (!pretty_print_current) &&(!xml_current)) {
         System.err.println("Unknown option command.  Please check spelling.");
         return;
       }
@@ -200,6 +202,21 @@ public class Project3 {
         }
         pretty_out_string+= args[current +1];
         options+= 2;
+        ++current;
+      }
+      if(xml_current) {
+        xml_present = true;
+        if(current + 2 > args.length) {
+          System.err.println("Error. No xml file name provided.");
+          return;
+        }
+        if(file_present) {
+          System.err.println("Cannot have -textFile and -xmlFile at the same time.");
+          return;
+        }
+        file_name+= args[current +1];
+        options += 2;
+        //skip file name
         ++current;
       }
       ++current;
@@ -297,7 +314,35 @@ public class Project3 {
         TextDumper dumper = new TextDumper(to_dump, print_airline);
         dumper.dump(main_airline);
       } catch (IOException e) {
-        System.err.println("Cannot open file");
+        return;
+      }
+    }
+    if(xml_present) {
+      Airline parsed_air = null;
+      //try reading from xml which might be empty
+      try {
+        XmlParser parser = new XmlParser(new FileReader(file_name));
+        parsed_air = parser.parse();
+      } catch (FileNotFoundException | ParserException e) {
+        //Continue if file doesn't exist.
+      }
+      XmlDumper dumper = null;
+      try {
+        if (parsed_air != null) {
+          parsed_air.addAirline(main_airline);
+        }
+        dumper = new XmlDumper(new FileWriter(file_name));
+        if (parsed_air != null) {
+          dumper.dump(parsed_air);
+        } else {
+          dumper.dump(main_airline);
+        }
+      } catch (IllegalArgumentException e) {
+        //Not same flight
+        System.err.println(e.getMessage());
+        return;
+      } catch (IOException e) {
+        System.err.println("Cannot dump to file." + e.getMessage());
         return;
       }
     }
@@ -328,9 +373,8 @@ public class Project3 {
       System.err.println("Unable open the file.");
     }catch(ParserException e){
       System.err.println(e.getMessage());
-      System.err.println("Unable to parse from the file.");
     } catch (IOException e) {
-      System.err.println("Unable to pretty print file.  IO exception.");
+
     }
   }
 }
