@@ -15,13 +15,25 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * This class allows airline to be dumped using XmlDumper object
+ */
 public class XmlDumper implements AirlineDumper<Airline> {
     private final Writer writer;
 
+    /**
+     * Constructor sets a write stream.
+     * @param writer
+     */
     public XmlDumper(Writer writer) {
         this.writer = writer;
     }
 
+    /**
+     * This method dumps an airline to an xml file
+     * @param airline : Airline to dump.
+     * @throws IOException
+     */
     @Override
     public void dump(Airline airline) throws IOException {
         AirlineXmlHelper helper = new AirlineXmlHelper();
@@ -57,6 +69,5 @@ public class XmlDumper implements AirlineDumper<Airline> {
         }finally {
             writer.close();
         }
-
     }
 }

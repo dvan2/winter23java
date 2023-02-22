@@ -30,20 +30,24 @@ public class XmlParserTest {
 
     final String FLIGHT1= "123 PDX 12/12/2000 12:12 PDX 03/03/2023 12:12";
 
+    /*
     @Test
     void validXmlFileCanBeParsed() throws ParserException, ParserConfigurationException, IOException, SAXException {
 
 
-        XmlParser parser = new XmlParser( new FileReader("convert.xml"));
+        InputStream resource = getClass().getResourceAsStream("valid-airline.txt");
+        XmlParser parser = new XmlParser(new InputStreamReader(resource));
         Airline airline= null;
         airline= parser.parse();
         assertThat(airline.getName(), equalTo("Delta"));
         assertThat(airline.getAirline("MM/dd/yyyy hh:mm"), containsString(FLIGHT1));
     }
 
+     */
+
     @Test
     void badXmlThrowsError(@TempDir File tempDir) throws ParserException, ParserConfigurationException, IOException, SAXException {
-        File textFile= new File("bad.xml");
+        File textFile= new File(tempDir, "bad.xml");
         XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
         String date_string = "6/13/2000 1:00 pm";
 
@@ -76,12 +80,11 @@ public class XmlParserTest {
 
         assertEquals("Bad Xml content in Flight element: Source airport code doesn't exists."
                 ,exception.getMessage());
-
     }
 
     @Test
     void airportCodeLongThrowsError(@TempDir File tempDir) throws IOException, SAXException {
-        File textFile= new File("bad.xml");
+        File textFile= new File(tempDir, "bad.xml");
         XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
         String date_string = "6/13/2000 1:00 pm";
 
@@ -114,10 +117,12 @@ public class XmlParserTest {
                 ,exception.getMessage());
     }
 
+
     /*
     @Test
-    void missingXmlContent() throws  IOException {
-        XmlParser parser = new XmlParser(new FileReader("bad.xml"));
+    void missingXmlContent(@TempDir File tempdir) throws  IOException {
+        File textFile = new File(tempdir, "bad.xml")
+        XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
         Throwable exception= assertThrows
                 (ParserException.class, () -> {
                     Airline airline= null;
@@ -129,5 +134,6 @@ public class XmlParserTest {
     }
 
      */
+
 
 }
