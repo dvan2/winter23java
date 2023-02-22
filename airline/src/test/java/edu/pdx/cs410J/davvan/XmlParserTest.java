@@ -114,8 +114,8 @@ public class XmlParserTest {
                 ,exception.getMessage());
     }
 
+    /*
     @Test
-    @Disabled
     void missingXmlContent() throws  IOException {
         XmlParser parser = new XmlParser(new FileReader("bad.xml"));
         Throwable exception= assertThrows
@@ -126,7 +126,8 @@ public class XmlParserTest {
 
         assertEquals("Bad Xml content. Cannot get null element in Xml"
                 ,exception.getMessage());
-
     }
+
+     */
 
 }
