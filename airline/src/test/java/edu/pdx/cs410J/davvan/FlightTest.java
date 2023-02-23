@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.text.ParseException;
 import java.util.Date;
 
-import static edu.pdx.cs410J.davvan.Project3.createDate;
+import static edu.pdx.cs410J.davvan.Project4.createDate;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,12 +23,12 @@ public class FlightTest {
 
     static {
         try {
-            ARRIVE_VALID = Project3.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
+            ARRIVE_VALID = Project4.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         try {
-            departvalid = Project3.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
+            departvalid = Project4.createDate("12/12/2000 1:1 pm", "MM/dd/yyyy hh:mm aa");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

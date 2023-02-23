@@ -59,7 +59,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>edu.pdx.cs410J.davvan.Project3</mainClass>
+              <mainClass>edu.pdx.cs410J.davvan.Project4</mainClass>
             </manifest>
           </archive>
         </configuration>

@@ -13,7 +13,7 @@ import static java.lang.Integer.parseInt;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project3 {
+public class Project4 {
   /**
    * Use this string to output no enough arguments.
    */
@@ -127,7 +127,7 @@ public class Project3 {
   public static void openReadme() throws IOException{
 
     try {
-      InputStream read = Project3.class.getResourceAsStream("README.txt");
+      InputStream read = Project4.class.getResourceAsStream("README.txt");
       BufferedReader reader = new BufferedReader(new InputStreamReader(read));
       String my_readme;
       while ((my_readme = reader.readLine()) != null) {

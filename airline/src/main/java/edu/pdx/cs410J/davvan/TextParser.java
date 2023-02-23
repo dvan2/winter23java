@@ -9,8 +9,8 @@ import java.io.Reader;
 import java.text.ParseException;
 import java.util.Date;
 
-import static edu.pdx.cs410J.davvan.Project3.createDate;
-import static edu.pdx.cs410J.davvan.Project3.isValidDateAndTime;
+import static edu.pdx.cs410J.davvan.Project4.createDate;
+import static edu.pdx.cs410J.davvan.Project4.isValidDateAndTime;
 import static java.lang.Integer.parseInt;
 
 /**

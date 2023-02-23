@@ -7,7 +7,6 @@ import org.w3c.dom.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -332,7 +331,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     Date date_format= null;
     try {
 
-      date_format= Project3.createDate(date, "MM/dd/yyyy HH:mm");
+      date_format= Project4.createDate(date, "MM/dd/yyyy HH:mm");
 
     } catch (ParseException e) {
       throw new ParserException("Invalid date in xml");
