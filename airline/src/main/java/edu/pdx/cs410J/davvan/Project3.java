@@ -329,14 +329,10 @@ public class Project3 {
       XmlDumper dumper = null;
       try {
         if (parsed_air != null) {
-          parsed_air.addAirline(main_airline);
+          main_airline.addAirline(parsed_air);
         }
         dumper = new XmlDumper(new FileWriter(file_name));
-        if (parsed_air != null) {
-          dumper.dump(parsed_air);
-        } else {
-          dumper.dump(main_airline);
-        }
+        dumper.dump(main_airline);
       } catch (IllegalArgumentException e) {
         //Not same flight
         System.err.println(e.getMessage());
