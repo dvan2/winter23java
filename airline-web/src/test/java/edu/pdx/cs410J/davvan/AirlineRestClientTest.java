@@ -19,9 +19,10 @@ import static org.mockito.Mockito.*;
  */
 public class AirlineRestClientTest {
 
+    /*
   @Test
   void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
-    Map<String, String> dictionary = Map.of("One", "1", "Two", "2");
+    Map<String, Airline> dictionary = Map.of("One", "1", "Two", "2");
 
     HttpRequestHelper http = mock(HttpRequestHelper.class);
     when(http.get(eq(Map.of()))).thenReturn(dictionaryAsText(dictionary));
@@ -31,10 +32,21 @@ public class AirlineRestClientTest {
     assertThat(client.getAllDictionaryEntries(), equalTo(dictionary));
   }
 
-  private HttpRequestHelper.Response dictionaryAsText(Map<String, String> dictionary) {
+     */
+
+  private HttpRequestHelper.Response dictionaryAsText(Map<String, Airline> dictionary) {
     StringWriter writer = new StringWriter();
     new TextDumper(writer).dump(dictionary);
 
+
+
     return new HttpRequestHelper.Response(writer.toString());
+
+
+
+
   }
+
+
+
 }

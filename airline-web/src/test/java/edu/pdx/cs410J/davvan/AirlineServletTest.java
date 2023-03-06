@@ -21,10 +21,13 @@ import static org.mockito.Mockito.*;
 class AirlineServletTest {
 
   @Test
-  void initiallyServletContainsNoDictionaryEntries() throws IOException {
+  void gettingNonexistentAirlineNameReturns404() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
     HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn("Airline");
+
+
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter pw = mock(PrintWriter.class);
 
@@ -34,19 +37,28 @@ class AirlineServletTest {
 
     // Nothing is written to the response's PrintWriter
     verify(pw, never()).println(anyString());
-    verify(response).setStatus(HttpServletResponse.SC_OK);
+    verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
 
   @Test
-  void addOneWordToDictionary() throws IOException {
+  void addFlightInNewAirline() throws IOException {
     AirlineServlet servlet = new AirlineServlet();
 
-    String word = "TEST WORD";
-    String definition = "TEST DEFINITION";
+    String airline_name = "Airline";
+    int flight_number= 123;
+    String flight_numberasString = "123";
+    String source = "PDX";
+    String depart = "12/12/2010 12:12 pm";
+    String dest = "DEN";
+    String arrive = "12/13/2010 1:01 am";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(word);
-    when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(definition);
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airline_name);
+    when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(flight_numberasString);
+    when(request.getParameter(AirlineServlet.SOURCE_PARAMETER)).thenReturn(source);
+    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(depart);
+    when(request.getParameter(AirlineServlet.DEST_PARAMETER)).thenReturn(dest);
+    when(request.getParameter(AirlineServlet.ARRIVE_PARAMETER)).thenReturn(arrive);
 
     HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -58,7 +70,10 @@ class AirlineServletTest {
 
     servlet.doPost(request, response);
 
-    assertThat(stringWriter.toString(), containsString(Messages.definedWordAs(word, definition)));
+    String xml = stringWriter.toString();
+    //assertThat(stringWriter.toString(), containsString(Messages.definedWordAs(airline_name, flight_number)));
+    assertThat(xml, containsString(airline_name));
+    assertThat(xml, containsString(flight_numberasString));
 
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
@@ -66,7 +81,51 @@ class AirlineServletTest {
 
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
 
-    assertThat(servlet.getDefinition(word), equalTo(definition));
+    Airline airline = servlet.getAirline(airline_name);
+    assertThat(airline.getName(), equalTo(airline_name));
+
+    Flight flight = airline.getFlights().iterator().next();
+    assertThat(flight.getNumber(), equalTo(flight_number));
+
+    HttpServletRequest request1 = mock(HttpServletRequest.class);
+    when(request1.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airline_name);
+
+    HttpServletResponse response1 = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter1 = new StringWriter();
+    PrintWriter pw1 = new PrintWriter(stringWriter1, true);
+
+    when(response1.getWriter()).thenReturn(pw1);
+
+    servlet.doGet(request1, response1);
+    System.out.println(stringWriter1.toString());
+
+  }
+
+  @Test
+  void getFlightWithValidName() throws IOException {
+    AirlineServlet servlet = new AirlineServlet();
+
+    String airline_name = "Airline";
+    int flight_number= 123;
+    String flight_numberasString = "123";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airline_name);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request, response);
+    String xml = stringWriter.toString();
+    System.out.println(xml);
   }
 
 }

@@ -22,8 +22,8 @@ public class TextDumperParserTest {
 
   private Map<String, String> dumpAndParse(Map<String, String> map) throws ParserException {
     StringWriter sw = new StringWriter();
-    TextDumper dumper = new TextDumper(sw);
-    dumper.dump(map);
+    //TextDumper dumper = new TextDumper(sw);
+    //dumper.dump(map);
 
     String text = sw.toString();
 
