@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -28,27 +29,29 @@ class AirlineRestClientIT {
   }
 
   @Test
-  void test0RemoveAllDictionaryEntries() throws IOException {
+  void test0RemoveAllAirlines() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
     client.removeAllDictionaryEntries();
   }
 
   @Test
-  void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
+  void test1EmptyServerContainsNoAirlines() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     Map<String, String> dictionary = client.getAllDictionaryEntries();
     assertThat(dictionary.size(), equalTo(0));
   }
 
   @Test
-  void test2DefineOneWord() throws IOException, ParserException {
+  void test2CreateFirstFlight() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
+    String airline_name = "Airline";
+    int flight_number = 123;
+    String flight_number_string= String.valueOf(flight_number);
+    client.addFlight(airline_name, flight_number_string);
 
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
+    Airline airline = client.getAirline(airline_name);
+    assertThat(airline.getName(), equalTo(airline_name));
+    assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flight_number_string));
   }
 
   @Test
@@ -57,7 +60,7 @@ class AirlineRestClientIT {
     String emptyString = "";
 
     HttpRequestHelper.RestException ex =
-      assertThrows(HttpRequestHelper.RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+      assertThrows(HttpRequestHelper.RestException.class, () -> client.addFlight(emptyString, emptyString));
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)));
   }}

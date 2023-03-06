@@ -54,16 +54,17 @@ public class AirlineRestClient
   /**
    * Returns the definition for the given word
    */
-  public String getDefinition(String word) throws IOException, ParserException {
-    Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, word));
+  public Airline getAirline(String airline_name) throws IOException, ParserException {
+    Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airline_name));
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
 
-    TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse().get(word);
+
+    edu.pdx.cs410J.davvan.XmlParser parser = new XmlParser(new StringReader(content));
+    return parser.parse();
   }
 
-  public void addDictionaryEntry(String word, String definition) throws IOException {
+  public void addFlight(String word, String definition) throws IOException {
     Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, word, AirlineServlet.FLIGHT_NUMBER_PARAMETER, definition));
     throwExceptionIfNotOkayHttpStatus(response);
   }

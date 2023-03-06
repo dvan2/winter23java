@@ -5,9 +5,6 @@ import edu.pdx.cs410J.ParserException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 /**
@@ -75,11 +72,12 @@ public class Project5 {
 
             } else if (definition == null) {
                 // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+                //message = PrettyPrinter.formatDictionaryEntry(word, client.getAirline(word));
+                message = PrettyPrinter.formatDictionaryEntry(word, client.getAirline(word).toString());
 
             } else {
                 // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
+                client.addFlight(word, definition);
                 message = Messages.definedWordAs(word, definition);
             }
 
