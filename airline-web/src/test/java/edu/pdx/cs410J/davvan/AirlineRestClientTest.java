@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,10 +24,23 @@ public class AirlineRestClientTest {
 
 
   @Test
-  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
+  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException, ParseException {
     String airlineName= "Airline";
     int flightNumber = 123;
+
+    String airline_name = "Airline";
+    int flight_number= 123;
+    String flight_numberasString = "123";
+    String source = "PDX";
+    String depart = "12/12/2010 12:12 pm";
+
+    String dest = "DEN";
+    String arrive = "12/13/2010 1:01 am";
     Airline airline = new Airline(airlineName);
+    Flight flight= new Flight();
+    flight.createFlight(flight_numberasString, source, depart, dest, arrive);
+
+    airline.addFlight(flight);
 
     HttpRequestHelper http = mock(HttpRequestHelper.class);
     when(http.get(eq(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airlineName)))).thenReturn(airlineAsText(airline));

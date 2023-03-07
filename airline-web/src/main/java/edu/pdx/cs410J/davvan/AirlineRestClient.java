@@ -59,7 +59,6 @@ public class AirlineRestClient
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
 
-
     edu.pdx.cs410J.davvan.XmlParser parser = new XmlParser(new StringReader(content));
     return parser.parse();
   }

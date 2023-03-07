@@ -115,6 +115,10 @@ public class Airline extends AbstractAirline<Flight> {
     }
   }
 
+  public Airline getAirline() {
+    return this;
+  }
+
   /**
    * This method returns an all flights in an airline as a string.
    * Each field is separated by a space and different flights starts on a new line.
@@ -156,13 +160,39 @@ public class Airline extends AbstractAirline<Flight> {
     name.appendChild(doc.createTextNode(this.name));
 
     for(Flight flight : flightList){
+      Element flight_element = doc.createElement("flight");
+      root.appendChild(flight_element);
+      doc = flight.dumpFlights(doc, flight_element);
+    }
+    return doc;
+  }
 
+
+  public Document dumpAirline(Document doc, Element root, String source, String dest) {
+
+    Element name = doc.createElement("name");
+    root.appendChild(name);
+    name.appendChild(doc.createTextNode(this.name));
+    for(Flight flight: flightList) {
+      if (flight.flightFound(source, dest)) {
+
+        Element flight_element = doc.createElement("flight");
+        root.appendChild(flight_element);
+        doc = flight.dumpFlights(doc, flight_element);
+      }
+    }
+    return doc;
+
+    /*
+    for(Flight flight : flightList){
 
       Element flight_element = doc.createElement("flight");
       root.appendChild(flight_element);
       doc = flight.dumpFlights(doc, flight_element);
     }
     return doc;
+
+     */
   }
 
   public void addAirline(Airline addedAir) throws IllegalArgumentException{
@@ -173,5 +203,14 @@ public class Airline extends AbstractAirline<Flight> {
     for(Flight flight: addedAir.flightList){
       this.flightList.add(flight);
     }
+  }
+
+  public boolean flightFound(String source, String dest) {
+    for(Flight flight : flightList){
+      if(flight.flightFound(source, dest)){
+        return true;
+      }
+    }
+    return false;
   }
 }

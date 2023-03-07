@@ -39,8 +39,13 @@ public class AirlineServlet extends HttpServlet {
       response.setContentType( "text/plain" );
 
       String airline_name = getParameter(AIRLINE_NAME_PARAMETER, request );
-      if (airline_name != null) {
+      String source = getParameter(SOURCE_PARAMETER, request);
+      String dest = getParameter(DEST_PARAMETER, request);
+
+      if (airline_name != null && source== null && dest== null) {
           writeFlights(airline_name, response);
+      }else if(airline_name != null && source != null && dest != null){
+          writeFlights(airline_name, response, source, dest);
       }
   }
 
@@ -71,11 +76,6 @@ public class AirlineServlet extends HttpServlet {
       String dest = getParameter(DEST_PARAMETER, request);
       String arrive = getParameter(ARRIVE_PARAMETER, request);
 
-      Airline airline = new Airline(airline_name);
-      if(airlines.size() == 0){
-          //airline = new Airline(airline_name);
-          this.airlines.put(airline_name, airline);
-      }
 
       Flight flight = new Flight();
       try {
@@ -85,7 +85,22 @@ public class AirlineServlet extends HttpServlet {
           throw new IOException("Can't create flight. " + e.getMessage());
       }
 
+      Airline airline = new Airline(airline_name);
       airline.addFlight(flight);
+      if(airlines.size() == 0) {
+          //airline = new Airline(airline_name);
+          this.airlines.put(airline_name, airline);
+      }else{
+          if(airlines.containsKey(airline_name)) {
+              airline = airlines.get(airline_name);
+              airline.addFlight(flight);
+              this.airlines.put(airline_name, airline);
+          }
+          else {
+              this.airlines.put(airline_name, airline);
+          }
+      }
+
 
       PrintWriter pw = response.getWriter();
       pw.println(Messages.definedWordAs(airline_name, flight_num_string));
@@ -127,13 +142,12 @@ public class AirlineServlet extends HttpServlet {
   }
 
   /**
-   * Writes the definition of the given word to the HTTP response.
+   * Writes a flights of the given airline name to the HTTP response.
    *
-   * The text of the message is formatted with {@link TextDumper}
+   * The text of the message is formatted with {@link XmlDumper}
    */
   private void writeFlights(String airline_name, HttpServletResponse response) throws IOException {
     Airline airline = this.airlines.get(airline_name);
-
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -141,16 +155,37 @@ public class AirlineServlet extends HttpServlet {
     } else {
       PrintWriter pw = response.getWriter();
 
-      //Map<String, Airline> airlineFlights = Map.of(airline_name, airline);
       XmlDumper dumper = new XmlDumper(pw);
-      for(Map.Entry<String, Airline> entry : airlines.entrySet()) {
-          dumper.dump(entry.getValue());
-      }
+      dumper.dump(airline);
 
       response.setStatus(HttpServletResponse.SC_OK);
     }
 
   }
+
+    private void writeFlights(String airline_name, HttpServletResponse response, String source, String dest) throws IOException {
+        Airline airline = this.airlines.get(airline_name);
+
+        if (airline == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } else {
+            //airline name exists but check for source and dest now
+            if(airline.flightFound(source, dest)) {
+                //if the flight exists with src, dest write it
+                PrintWriter pw = response.getWriter();
+
+                XmlDumper dumper = new XmlDumper(pw);
+                dumper.dump(airline, source, dest);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+
+            }else{
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+
+        }
+
+    }
 
   /**
    * Writes all the dictionary entries to the HTTP response.
@@ -184,6 +219,6 @@ public class AirlineServlet extends HttpServlet {
 
   @VisibleForTesting
   Airline getAirline(String airlineName) {
-      return this.airlines.get(airlineName);
+      return this.airlines.get(airlineName).getAirline();
   }
 }

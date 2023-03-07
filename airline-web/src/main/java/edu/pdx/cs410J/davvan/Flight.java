@@ -123,6 +123,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     this.arrive_date= flight.arrive_date;
   }
 
+
   /**
    * This method checks if the airport source and destination is exactly 3 character long.
    * If the strings are not 3 character long, an IllegalArgumentException is thrown.
@@ -157,7 +158,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     if(AirportNames.getName(this.dest)== null){
       throw new IllegalArgumentException("Destination airport code doesn't exists.");
     }
-
   }
 
   /**
@@ -427,6 +427,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
 
       this.depart_date = createDate(depart, hour_pattern);
       this.arrive_date = createDate(arrive, hour_pattern);
+      this.hasValidCode();
 
 
     }catch(ParserException e){
@@ -434,5 +435,14 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }catch(NumberFormatException e) {
       throw new IOException(flightNumString + " is not a number.");
     }
+
+
+  }
+
+  public boolean flightFound (String source, String dest) {
+    if(this.src.equals(source) && this.dest.equals(dest)) {
+      return true;
+    }
+    return false;
   }
 }

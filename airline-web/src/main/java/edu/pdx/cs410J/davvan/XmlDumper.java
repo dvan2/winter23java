@@ -69,4 +69,40 @@ public class XmlDumper implements AirlineDumper<Airline>{
             writer.close();
         }
     }
+
+    public void dump(Airline airline, String source, String dest) throws IOException {
+        AirlineXmlHelper helper = new AirlineXmlHelper();
+
+        try {
+            Document doc = null;
+            DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+            factory.setValidating(true);
+
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation dom = builder.getDOMImplementation();
+            builder.setEntityResolver(helper);
+            builder.setErrorHandler(helper);
+
+            DocumentType docType = dom.createDocumentType("airline", AirlineXmlHelper.PUBLIC_ID, AirlineXmlHelper.SYSTEM_ID);
+            doc = dom.createDocument(null, "airline", docType);
+
+            Element root = doc.getDocumentElement();
+
+            doc= airline.dumpAirline(doc, root, source, dest);
+
+            Source src = new DOMSource(doc);
+            Result res = new StreamResult(this.writer);
+
+            TransformerFactory xFactory = TransformerFactory.newInstance();
+            Transformer xform = xFactory.newTransformer();
+            xform.setOutputProperty(OutputKeys.INDENT, "yes");
+            xform.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, AirlineXmlHelper.SYSTEM_ID);
+            xform.transform(src, res);
+        }catch (TransformerException | ParserConfigurationException e){
+            throw new IOException("Error dumping to file");
+        }finally {
+            writer.close();
+        }
+    }
 }

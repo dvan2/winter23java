@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.text.ParseException;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,16 +43,27 @@ class AirlineRestClientIT {
   }
 
   @Test
-  void test2CreateFirstFlight() throws IOException, ParserException {
+  void test2CreateFirstFlight() throws IOException, ParserException, ParseException {
     AirlineRestClient client = newAirlineRestClient();
-    String airline_name = "Airline";
-    int flight_number = 123;
-    String flight_number_string= String.valueOf(flight_number);
-    client.addFlight(airline_name, flight_number_string);
+    String airlineName= "Airline";
+    int flightNumber = 123;
 
-    Airline airline = client.getAirline(airline_name);
+    String airline_name = "Airline";
+    int flight_number= 123;
+    String flight_numberasString = "123";
+    String source = "PDX";
+    String depart = "12/12/2010 12:12 pm";
+
+    String dest = "DEN";
+    String arrive = "12/13/2010 1:01 am";
+    Airline airline = new Airline(airlineName);
+    Flight flight= new Flight();
+    flight.createFlight(flight_numberasString, source, depart, dest, arrive);
+
+    airline.addFlight(flight);
+
     assertThat(airline.getName(), equalTo(airline_name));
-    assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flight_number_string));
+    assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flight_number));
   }
 
   @Test

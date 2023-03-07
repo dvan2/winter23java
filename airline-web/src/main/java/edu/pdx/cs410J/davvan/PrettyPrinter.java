@@ -1,46 +1,39 @@
 package edu.pdx.cs410J.davvan;
 
-import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.AirlineDumper;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.Map;
+import java.text.SimpleDateFormat;
 
-public class PrettyPrinter {
+/**
+ * This class implements an AirlineDumper interface to pretty print an airline.
+ */
+public class PrettyPrinter implements AirlineDumper<Airline> {
   private final Writer writer;
 
-  @VisibleForTesting
-  static String formatWordCount(int count )
-  {
-    return String.format( "Dictionary on server contains %d words", count );
+  /**
+   * This constructor sets the writer private field, given a place to write to.
+   * @param writer
+   */
+  public PrettyPrinter(Writer writer){
+    this.writer= writer;
   }
 
-  @VisibleForTesting
-  static String formatDictionaryEntry(String word, String definition )
-  {
-    return String.format("  %s -> %s", word, definition);
-  }
-
-
-  public PrettyPrinter(Writer writer) {
-    this.writer = writer;
-  }
-
-  public void dump(Map<String, String> dictionary) {
+  /**
+   * This method takes an airline and dumps its content in a pretty format by calling airline functions.
+   * @param airline : Takes an Airline object as parameter.
+   */
+  @Override
+  public void dump(Airline airline){
+    String format= "MMM d, yyyy h:mm a";
+    //SimpleDateFormat pretty_format= new SimpleDateFormat("MMM d yyyy h a");
     try (
-      PrintWriter pw = new PrintWriter(this.writer)
+            PrintWriter pw = new PrintWriter(this.writer)
     ) {
-
-      pw.println(formatWordCount(dictionary.size()));
-
-      for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-        String word = entry.getKey();
-        String definition = entry.getValue();
-        pw.println(formatDictionaryEntry(word, definition));
-      }
-
-      pw.flush();
+      pw.print(airline.getName());
+      pw.print(" Airlines:");
+      pw.print(airline.getPrettyAirline(format));
     }
-
   }
 }
