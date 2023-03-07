@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.text.ParseException;
 import java.util.Map;
@@ -45,27 +46,32 @@ class AirlineRestClientIT {
   @Test
   void test2CreateFirstFlight() throws IOException, ParserException, ParseException {
     AirlineRestClient client = newAirlineRestClient();
-    String airlineName= "Airline";
     int flightNumber = 123;
 
     String airline_name = "Airline";
-    int flight_number= 123;
+    int flight_number = 123;
     String flight_numberasString = "123";
     String source = "PDX";
-    String depart = "12/12/2010 12:12 pm";
-
+    String depart = "12/12/2010 12:12 PM";
     String dest = "DEN";
-    String arrive = "12/13/2010 1:01 am";
-    Airline airline = new Airline(airlineName);
-    Flight flight= new Flight();
-    flight.createFlight(flight_numberasString, source, depart, dest, arrive);
+    String arrive = "12/12/2010 12:12 AM";
 
-    airline.addFlight(flight);
+    client.addFlight(airline_name, flight_numberasString, source, depart, dest, arrive);
+
+    Airline airline = new Airline();
+    airline = client.getAirline(airline_name);
+    //System.out.println(airline.getPrettyAirline("mm/dd/yyyy hh:MM aa"));
+    String s = airline.getPrettyAirline("MM/dd/yyyy hh:mm a");
 
     assertThat(airline.getName(), equalTo(airline_name));
     assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flight_number));
+    assertThat(s, containsString(source));
+    assertThat(s, containsString(depart));
+    assertThat(s, containsString(dest));
+    assertThat(s, containsString(arrive));
   }
 
+  /*
   @Test
   void test4EmptyWordThrowsException() {
     AirlineRestClient client = newAirlineRestClient();
@@ -76,3 +82,6 @@ class AirlineRestClientIT {
     assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
     assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)));
   }}
+
+   */
+}

@@ -80,27 +80,21 @@ public class AirlineServlet extends HttpServlet {
       Flight flight = new Flight();
       try {
           flight.createFlight(flight_num_string, source_airport, depart, dest, arrive);
-          flight.hasValidCode();
       } catch (ParseException | IOException e) {
           throw new IOException("Can't create flight. " + e.getMessage());
       }
 
       Airline airline = new Airline(airline_name);
       airline.addFlight(flight);
-      if(airlines.size() == 0) {
-          //airline = new Airline(airline_name);
-          this.airlines.put(airline_name, airline);
-      }else{
-          if(airlines.containsKey(airline_name)) {
-              airline = airlines.get(airline_name);
-              airline.addFlight(flight);
-              this.airlines.put(airline_name, airline);
-          }
-          else {
-              this.airlines.put(airline_name, airline);
-          }
-      }
 
+      if(airlines.containsKey(airline_name)) {
+          airline = airlines.get(airline_name);
+          airline.addFlight(flight);
+          this.airlines.put(airline_name, airline);
+      }
+      else {
+          this.airlines.put(airline_name, airline);
+      }
 
       PrintWriter pw = response.getWriter();
       pw.println(Messages.definedWordAs(airline_name, flight_num_string));

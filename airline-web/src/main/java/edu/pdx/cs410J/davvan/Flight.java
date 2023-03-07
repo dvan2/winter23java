@@ -176,13 +176,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * @return : A string that is formatted in an easy-to-read paragraph about flights.
    */
   public String prettyWriteFlight(String format_pattern){
-    return "\nFlight " + this.flight_number + " departs " +
-            AirportNames.getName(this.src) + " ("  +this.src + ")" +
-            " on " + orginalFormatDate(this.depart_date, format_pattern) +
-            "\nFlight " + this.flight_number + " arrives "
-            + AirportNames.getName(this.dest) + " ("  +this.dest + ")" +
-            " on " + orginalFormatDate(this.arrive_date, format_pattern) +
-            "\nTotal Duration of the flight: " + calculateMinutes() + " minutes.\n";
+    String result = "";
+    result += "\nFlight " + this.flight_number + " departs ";
+    result += AirportNames.getName(this.src) + " ("  +this.src + ")";
+    result += " on " + orginalFormatDate(this.depart_date, format_pattern);
+    result += "\nFlight " + this.flight_number + " arrives ";
+    result += AirportNames.getName(this.dest) + " ("  +this.dest + ")";
+    result += " on " + orginalFormatDate(this.arrive_date, format_pattern);
+    result += "\nTotal Duration of the flight: " + calculateMinutes() + " minutes.\n";
+    return result;
   }
 
   /**
@@ -423,7 +425,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
       this.src = sourceAirport;
       this.dest = dest;
 
-      String hour_pattern = "mm/dd/yyyy MM:hh aa";
+      String hour_pattern = "MM/dd/yyyy hh:mm a";
 
       this.depart_date = createDate(depart, hour_pattern);
       this.arrive_date = createDate(arrive, hour_pattern);
@@ -435,7 +437,6 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     }catch(NumberFormatException e) {
       throw new IOException(flightNumString + " is not a number.");
     }
-
 
   }
 

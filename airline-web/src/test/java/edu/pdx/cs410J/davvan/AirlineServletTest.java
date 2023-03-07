@@ -388,7 +388,7 @@ class AirlineServletTest {
     String source1 = "TUL";
     String depart1 = "1/1/2010 12:12 pm";
     String dest1 = "LAX";
-    String arrive1 = "2/10/2010 1:01 am";
+    String arrive1 = "12/12/2010 1:01 am";
 
     HttpServletRequest request2 = createRequest(airline_name, flight_numberasString1, source1, depart1, dest1, arrive1);
 

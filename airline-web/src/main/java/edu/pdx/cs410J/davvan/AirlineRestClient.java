@@ -21,6 +21,7 @@ public class AirlineRestClient
 {
     private static final String WEB_APP = "airline";
     private static final String SERVLET = "flights";
+    private static final String ARRIVAL= "arrive";
 
     private final HttpRequestHelper http;
 
@@ -32,6 +33,7 @@ public class AirlineRestClient
      */
     public AirlineRestClient( String hostName, int port )
     {
+        //this(new HttpRequestHelper(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET)));
         this(new HttpRequestHelper(String.format("http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET)));
     }
 
@@ -63,8 +65,11 @@ public class AirlineRestClient
     return parser.parse();
   }
 
-  public void addFlight(String word, String definition) throws IOException {
-    Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, word, AirlineServlet.FLIGHT_NUMBER_PARAMETER, definition));
+  public void addFlight(String airline_name, String flight_Number, String src, String depart, String dest, String arrive) throws IOException {
+    Response response = http.post(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airline_name,
+            AirlineServlet.FLIGHT_NUMBER_PARAMETER, flight_Number , AirlineServlet.SOURCE_PARAMETER, src ,
+            AirlineServlet.DEPART_PARAMETER, depart, AirlineServlet.DEST_PARAMETER, dest,
+            AirlineServlet.ARRIVE_PARAMETER, arrive));
     throwExceptionIfNotOkayHttpStatus(response);
   }
 

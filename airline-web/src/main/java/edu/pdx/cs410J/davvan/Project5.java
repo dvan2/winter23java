@@ -263,7 +263,7 @@ public class Project5 {
         String airline_name = args[0 + options];
         String message;
         try {
-            client.addFlight(airline_name, flight_number);
+            client.addFlight(airline_name, flight_number, source, depart, dest, arrive);
             message = Messages.definedWordAs(airline_name, flight_number);
             /*
             if (airline_name.equals("")  flight_number = null ||) {
