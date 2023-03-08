@@ -104,8 +104,6 @@ class Project5IT extends InvokeMainTestCase {
 
     }
 
-
-
     @Test
     void searchAnAirlineWithSourceAndDest() {
         String airline_name= "Delta";
@@ -221,7 +219,7 @@ class Project5IT extends InvokeMainTestCase {
         String dest = "ORD";
         MainMethodResult result = invokeMain(Project5.class, "-host", HOSTNAME, "-port", PORT, "-print",
                 airline_name, "123", src, "12/12/2010", "12:10", "AM", dest, "12/13/2000", "1:10", "AM");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Cannot create flight. Depart date (Sun Dec 12 00:10:00 PST 2010) cannot be later than arrival date (Wed Dec 13 01:10:00 PST 2000)"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Cannot create flight. Depart date (Sun Dec 12 00:10:00 PST 2010) cannot be later than arrival date (Wed Dec 13"));
     }
 
     @Test

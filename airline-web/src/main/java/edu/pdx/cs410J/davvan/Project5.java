@@ -108,7 +108,7 @@ public class Project5 {
                 return;
             }
             if(host_current){
-                if(args[current +1]== null){
+                if(current + 1 == args.length){
                     System.err.println("Error.  No host name provided.");
                     return;
                 }

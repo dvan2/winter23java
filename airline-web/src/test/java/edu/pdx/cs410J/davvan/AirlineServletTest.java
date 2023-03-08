@@ -93,7 +93,6 @@ class AirlineServletTest {
     when(response1.getWriter()).thenReturn(pw1);
 
     servlet.doGet(request1, response1);
-    System.out.println(stringWriter1.toString());
   }
 
   private static HttpServletRequest createRequest(String airline_name, String flight_numberasString, String source, String depart, String dest, String arrive) {
@@ -319,7 +318,6 @@ class AirlineServletTest {
     when(get_response.getWriter()).thenReturn(pw1);
 
     servlet.doGet(get_request, get_response);
-    System.out.println("s1" + stringWriter1);
     assertThat(stringWriter1.toString(), containsString("Airline"));
     assertThat(stringWriter1.toString(), containsString(flight_numberasString));
     assertThat(stringWriter1.toString(), containsString(source));
@@ -338,7 +336,6 @@ class AirlineServletTest {
     when(get_response2.getWriter()).thenReturn(pwSecondAirine);
 
     servlet.doGet(get_request2, get_response2);
-    System.out.println("s1" + stringWriterSecondAir);
 
     assertThat(stringWriterSecondAir.toString(), containsString("Delta"));
     assertThat(stringWriterSecondAir.toString(), containsString("111"));
@@ -405,7 +402,6 @@ class AirlineServletTest {
     when(get_response.getWriter()).thenReturn(pw1);
 
     servlet.doGet(get_request, get_response);
-    System.out.println("s1" + stringWriter1);
     assertThat(stringWriter1.toString(), containsString("Airline"));
     assertThat(stringWriter1.toString(), not(containsString(flight_numberasString)));
     assertThat(stringWriter1.toString(), containsString(source1));
