@@ -218,6 +218,13 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   /**
+   * Formats a date with specified format pattern
+   * @param a_date : A string of date
+   * @param format_pattern : A pattern to format to
+   * @return
+   */
+
+  /**
    * This method compares the current instance of flight to another instance
    * @param o the flight to be compared.
    * @return : 0 if source airport and depart time is the same. Value Greater than 1 if this object's source is earlier in alphabet or if departure time is earlier.
@@ -238,7 +245,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
     public void hasValidDate() throws IllegalArgumentException{
       if(this.depart_date.compareTo(this.arrive_date)>0){
-        throw new IllegalArgumentException("Depart date cannot be later than arrival date.");
+        throw new IllegalArgumentException("Depart date (" + this.depart_date + ") cannot be later than arrival date (" +
+                this.arrive_date + ").");
       }
     }
 
@@ -417,27 +425,36 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   }
 
   public void createFlight(String flightNumString, String sourceAirport, String depart, String dest, String arrive) throws ParseException, IOException {
-
     try {
       this.flight_number = Integer.parseInt(flightNumString);
-
-      //Validify airport code later.
-      this.src = sourceAirport;
-      this.dest = dest;
-
-      String hour_pattern = "MM/dd/yyyy hh:mm a";
-
-      this.depart_date = createDate(depart, hour_pattern);
-      this.arrive_date = createDate(arrive, hour_pattern);
-      this.hasValidCode();
-
-
-    }catch(ParserException e){
-      throw new IOException("Bad flight argument");
-    }catch(NumberFormatException e) {
+    } catch(NumberFormatException e) {
       throw new IOException(flightNumString + " is not a number.");
     }
 
+    String hour_pattern = "MM/dd/yyyy hh:mm a";
+    try {
+      this.src = sourceAirport;
+      this.dest = dest;
+
+      this.depart_date = createDate(depart, hour_pattern);
+
+
+    }catch(ParserException e){
+      throw new IOException("Depart Date is invalid: " + depart);
+    }
+
+    try {
+      this.arrive_date = createDate(arrive, hour_pattern);
+    } catch (ParserException e) {
+      throw new IOException("Arrive Date is invalid: " + arrive);
+    }
+
+    try {
+      this.hasValidCode();
+      this.hasValidDate();
+    } catch(IllegalArgumentException e) {
+      throw new IOException(e.getMessage());
+    }
   }
 
   public boolean flightFound (String source, String dest) {

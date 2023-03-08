@@ -1,12 +1,7 @@
 David Van
-Project 3, extends the functionality of Project 1 and 2.  The main new functionality of Project3 is that you can now format an airline's information.
-The PrettyPrinter class prints information about an airline that is to be read by human.
-
-If -pretty is present in the options menu followed by a - symbol, then the program will output the airline created by the command line arguments to standard out.
-If -pretty is present in the options followed by a valid file location, the program will output the contents of airlines from a valid airline file into a new file in a nice readable format.
-
-The options should come before the arguments.  Available options are -README, -print, -textFile <filename>, -pretty - or -pretty <filename>.  These commands must come before the information about the airlines.
-To use this program properly, ensure that the options are spelled correctly and the arguments comes in the order that is specified.
+Project 5 extends all the previous project.  In project 5 the java program accepts HTTP requests and sends response to web servers.
+This is done by specifying host and port in the client program or by using a query in a web browser.
+There is get methods in the server which can be requested from the client which will get airline based on airline name and whether source and destination airport is provided.
 
 The 6 arguments and their orders are:
 1. Airline name

@@ -230,13 +230,6 @@ class Project4IT extends InvokeMainTestCase {
         //assertThat(result.getTextWrittenToStandardOut(), containsString("Unknown option command.  Please check spelling."));
     }
 
-    /*
-    @Test
-    void xmlBadFile() {
-        MainMethodResult result = invokeMain(Project3.class  ,"-xmlFile", " ", "Delta", "123", "PDX", "12/12/2000","12:12", "PM", "PDX", "03/03/2023", "12:12", "AM");
-        MatcherAssert.assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("Cannot dump to file."));
-    }
-     */
 
     @Test
     void validDateFail() {

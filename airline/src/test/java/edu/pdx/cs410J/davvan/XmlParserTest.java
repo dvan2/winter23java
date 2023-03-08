@@ -21,21 +21,6 @@ public class XmlParserTest {
 
     final String FLIGHT1= "123 PDX 12/12/2000 12:12 PDX 03/03/2023 12:12";
 
-    /*
-    @Test
-    void validXmlFileCanBeParsed() throws ParserException, ParserConfigurationException, IOException, SAXException {
-
-
-        InputStream resource = getClass().getResourceAsStream("valid-airline.txt");
-        XmlParser parser = new XmlParser(new InputStreamReader(resource));
-        Airline airline= null;
-        airline= parser.parse();
-        assertThat(airline.getName(), equalTo("Delta"));
-        assertThat(airline.getAirline("MM/dd/yyyy hh:mm"), containsString(FLIGHT1));
-    }
-
-     */
-
     @Test
     void badXmlThrowsError(@TempDir File tempDir) throws ParserException, ParserConfigurationException, IOException, SAXException {
         File textFile= new File(tempDir, "bad.xml");
@@ -107,24 +92,5 @@ public class XmlParserTest {
         assertEquals("Bad Xml content in Flight element: Source airport code has invalid length. Must be 3 character."
                 ,exception.getMessage());
     }
-
-
-    /*
-    @Test
-    void missingXmlContent(@TempDir File tempdir) throws  IOException {
-        File textFile = new File(tempdir, "bad.xml")
-        XmlDumper dumper= new XmlDumper(new FileWriter(textFile));
-        Throwable exception= assertThrows
-                (ParserException.class, () -> {
-                    Airline airline= null;
-                    airline= parser.parse();
-                });
-
-        assertEquals("Bad Xml content. Cannot get null element in Xml"
-                ,exception.getMessage());
-    }
-
-     */
-
 
 }

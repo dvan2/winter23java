@@ -115,25 +115,9 @@ public class Airline extends AbstractAirline<Flight> {
     }
   }
 
+
   public Airline getAirline() {
     return this;
-  }
-
-  /**
-   * This method returns an all flights in an airline as a string.
-   * Each field is separated by a space and different flights starts on a new line.
-   * @return : Formatted string containing all flights of an airline object.
-   * @param format_pattern : a SimpleDateFormat pattern
-   */
-  public String getAirline(String format_pattern){
-    String result= "";
-    if(flightList== null){
-      return null;
-    }
-    for(Flight flight : flightList){
-      result+= flight.writeFlight(format_pattern);
-    }
-    return result;
   }
 
   /**
@@ -182,27 +166,6 @@ public class Airline extends AbstractAirline<Flight> {
       }
     }
     return doc;
-
-    /*
-    for(Flight flight : flightList){
-
-      Element flight_element = doc.createElement("flight");
-      root.appendChild(flight_element);
-      doc = flight.dumpFlights(doc, flight_element);
-    }
-    return doc;
-
-     */
-  }
-
-  public void addAirline(Airline addedAir) throws IllegalArgumentException{
-    if(!this.name.equals(addedAir.getName())){
-      throw new IllegalArgumentException("Error.  Airline name in Xml didn't match.");
-
-    }
-    for(Flight flight: addedAir.flightList){
-      this.flightList.add(flight);
-    }
   }
 
   public boolean flightFound(String source, String dest) {

@@ -43,17 +43,6 @@ public class AirlineRestClient
     }
 
   /**
-   * Returns all dictionary entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-    Response response = http.get(Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-
-    TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parse();
-  }
-
-  /**
    * Returns the definition for the given word
    */
   public Airline getAirline(String airline_name) throws IOException, ParserException {
@@ -63,6 +52,25 @@ public class AirlineRestClient
 
     edu.pdx.cs410J.davvan.XmlParser parser = new XmlParser(new StringReader(content));
     return parser.parse();
+  }
+
+    /**
+     * This class search for an airline with specified source and destination airport code
+     * @param airline_name : The airline to search for
+     * @param source : The source code airport
+     * @param dest : The destination code airport
+     * @return An airline if found
+     * @throws IOException
+     * @throws ParserException
+     */
+  public Airline getAirline(String airline_name, String source, String dest) throws IOException, ParserException {
+      Response response = http.get(Map.of(AirlineServlet.AIRLINE_NAME_PARAMETER, airline_name,
+              AirlineServlet.SOURCE_PARAMETER, source,
+              AirlineServlet.DEST_PARAMETER, dest));
+      throwExceptionIfNotOkayHttpStatus(response);
+      String content = response.getContent();
+      XmlParser parser = new XmlParser(new StringReader(content));
+      return parser.parse();
   }
 
   public void addFlight(String airline_name, String flight_Number, String src, String depart, String dest, String arrive) throws IOException {

@@ -81,6 +81,7 @@ public class AirlineServlet extends HttpServlet {
       try {
           flight.createFlight(flight_num_string, source_airport, depart, dest, arrive);
       } catch (ParseException | IOException e) {
+          response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
           throw new IOException("Can't create flight. " + e.getMessage());
       }
 
@@ -100,7 +101,6 @@ public class AirlineServlet extends HttpServlet {
       pw.println(Messages.definedWordAs(airline_name, flight_num_string));
       pw.flush();
 
-      //System.out.println("airlines: " + airlines);
       response.setStatus( HttpServletResponse.SC_OK);
   }
 
@@ -145,6 +145,7 @@ public class AirlineServlet extends HttpServlet {
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+      //response.sendError(HttpServletResponse.SC_NOT_FOUND, "Cannot find airport name");
 
     } else {
       PrintWriter pw = response.getWriter();
@@ -180,19 +181,6 @@ public class AirlineServlet extends HttpServlet {
 
     }
 
-  /**
-   * Writes all the dictionary entries to the HTTP response.
-   *
-   * The text of the message is formatted with {@link TextDumper}
-   */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-  {
-      PrintWriter pw = response.getWriter();
-      TextDumper dumper = new TextDumper(pw);
-      dumper.dump(airlines);
-
-      response.setStatus( HttpServletResponse.SC_OK );
-  }
 
   /**
    * Returns the value of the HTTP request parameter with the given name.

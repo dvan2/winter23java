@@ -2,6 +2,7 @@ package edu.pdx.cs410J.davvan;
 
 import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
+import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.*;
 import java.text.ParseException;
@@ -15,7 +16,6 @@ import static java.lang.Integer.parseInt;
  * Airline server using REST.
  */
 public class Project5 {
-
     /**
      * Use this string to output no enough arguments.
      */
@@ -39,6 +39,8 @@ public class Project5 {
                 "dest:\tThree-letter code for arrival airport\n" +
                 "arrive:\tArrival date and time (mm/dd/yyyy HH:mm AM/PM\n\n" +
                 "Options are (options may appear in any order):\n" +
+                "-host:\tHost of the web server" +
+                "-port:\tPort of the web server" +
                 "-print:\tPrints a description of the newly added flight\n" +
                 "-README\tPrints a README for this project and exits.\n");
     }
@@ -62,95 +64,15 @@ public class Project5 {
     /**
      * Keep track of the total number of arguments expected
      */
-    static final int NUM_ARGS= 8;
+    static final int NUM_ARGS= 10;
 
     /**
      * Main class
      * @param args : All command line arguments should be passed in args.
      */
 
-    /*
-    static void hasValidCode(String source, String dest) throws IllegalArgumentException{
-        if(source.length() != 3) {
-            throw new IllegalArgumentException("Source airport code has invalid length. Must be 3 character.");
-        }
-        for (int i=0; i<3; ++i) {
-            if (Character.isDigit(source.charAt(i))) {
-                throw new IllegalArgumentException("Source airport code cannot contain number.");
-            }
-        }
-
-        if(dest.length() != 3){
-            throw new IllegalArgumentException("Destination airport code has invalid length. Must be 3 character.");
-        }
-
-        for (int i=0; i<3; ++i){
-            if(Character.isDigit(dest.charAt(i))){
-                throw new IllegalArgumentException("Source airport code cannot contain number.");
-            }
-        }
-
-        //check if valid airport code
-        if(AirportNames.getName(source)== null){
-            throw new IllegalArgumentException("Source airport code doesn't exists.");
-        }
-        if(AirportNames.getName(dest)== null){
-            throw new IllegalArgumentException("Destination airport code doesn't exists.");
-        }
-
-    }
-
-     */
 
     public static void main(String [] args) {
-        /*
-        String hostName = null;
-        String portString = null;
-        String airline_name = null;
-        String flight_number = null;
-        String source = null;
-        String depart= null;
-        String dest = null;
-        String arrive = null;
-
-        for (String arg : args) {
-            if (hostName == null) {
-                hostName = arg;
-
-            } else if ( portString == null) {
-                portString = arg;
-
-            } else if (airline_name == null) {
-                airline_name = arg;
-
-            } else if (flight_number == null) {
-                flight_number = arg;
-
-            } else {
-                usage("Extraneous command line argument: " + arg);
-            }
-        }
-
-        if (hostName == null) {
-            usage( MISSING_ARGS );
-            return;
-
-        } else if ( portString == null) {
-            usage( "Missing port" );
-            return;
-        }
-
-        int port;
-        try {
-            port = Integer.parseInt( portString );
-
-        } catch (NumberFormatException ex) {
-            usage("Port \"" + portString + "\" must be an integer");
-            return;
-        }
-
-         */
-
         //My main method:
         if(args.length == 0) {
             usage();
@@ -160,8 +82,9 @@ public class Project5 {
         String host = null;
         String port= null;
 
-        String search = null;
+        boolean search_airline= false;
         boolean print= false;
+        boolean search_source = false;
 
 
         int current= 0;
@@ -195,7 +118,7 @@ public class Project5 {
                 ++current;
             }
             if(port_current){
-                if(args[current + 1] == null) {
+                if(current + 1 == args.length) {
                     System.err.println("No port name provided.");
                     return;
                 }
@@ -205,16 +128,23 @@ public class Project5 {
             }
 
             if(search_current){
-                if(args[current +1] == null){
+                if(current + 1 == args.length){
                     System.out.println("Error. No airline name provided.");
                     return;
                 }
-                search = args[current +1];
-                options+= 2;
+                //if there is 3 arguments after options with search
+                if(current + 2 == args.length){
+                    search_airline = true;
+                }
+                if(current + 4 == args.length) {
+                    search_source = true;
+                }
+                ++options;
                 ++current;
             }
-            if(print) {
+            if(print_current) {
                 print = true;
+                options++;
             }
             ++current;
         }
@@ -223,7 +153,7 @@ public class Project5 {
             System.err.println(TOO_MANY_ARGS);
             return;
         }
-        if(args.length < NUM_ARGS + options){
+        if(args.length < NUM_ARGS + options && !search_airline &&!search_source){
             System.err.println(NOT_ENOUGH_ARGS);
             return;
         }
@@ -237,60 +167,77 @@ public class Project5 {
             return;
         }
 
-
-        Flight flight = new Flight();
-        String flight_number= args[1 + options];
-        String source = args[2 + options];
-        String depart = args[3 + options] + args[4 + options] + args[5 + options];
-        String dest = args[6 + options];
-        String arrive = args[7 + options] + args[8 + options] + args[9 + options];
-        try {
-            flight.createFlight(flight_number, source, depart, dest, arrive);
-        } catch (ParseException | IOException e) {
-            System.out.println("Cannot create flight." + e.getMessage());
-        }
-
-        Airline main_airline= new Airline(args[0 + options], flight);
-
         AirlineRestClient client = new AirlineRestClient(host, port_number);
 
         String airline_name = args[0 + options];
+
+
+        if(search_airline || search_source) {
+            try {
+                Airline to_pretty = new Airline();
+                if (search_airline) {
+                    to_pretty = client.getAirline(airline_name);
+
+                } else if (search_source) {
+                    String source = args[1 + options];
+                    String dest = args[2 + options];
+
+                    to_pretty = client.getAirline(airline_name, source, dest);
+                }
+
+                PrettyPrinter dumper = new PrettyPrinter(new PrintWriter(System.out, true));
+                dumper.dump(to_pretty);
+                return;
+
+            }catch (IOException e) {
+                System.err.println("Io exception: " + e.getMessage());
+            }catch(ParserException e) {
+                System.err.println(e.getMessage());
+            } catch(HttpRequestHelper.RestException e) {
+                System.err.println("Error.  Cannot match airport.");
+                return;
+            }
+        }
+
+        String source = args[2 + options];
+        String dest = args[6 + options];
+        Flight flight = new Flight();
+        String flight_number= args[1 + options];
+
+        String depart = args[3 + options] + " " +  args[4 + options] + " " + args[5 + options];
+
+        String arrive = args[7 + options] +" " +  args[8 + options] + " " +  args[9 + options];
+        try {
+            flight.createFlight(flight_number, source, depart, dest, arrive);
+        } catch (ParseException | IOException e) {
+            System.err.println("Cannot create flight. " + e.getMessage());
+            return;
+        }
+
+
         String message;
         try {
             client.addFlight(airline_name, flight_number, source, depart, dest, arrive);
             message = Messages.definedWordAs(airline_name, flight_number);
-            /*
-            if (airline_name.equals("")  flight_number = null ||) {
-                System.err.println("Airline name is missing");
-                return;
 
-            } else if (flight_number == null) {
-                System.err.println("");
-            } else {
-                // Post the word/definition pair
-                c
+            Airline airline= new Airline(airline_name);
+            airline.addFlight(flight);
+
+            if(print) {
+                airline.displayAirline();
             }
-            */
-
 
         } catch (IOException ex ) {
             error("While contacting server: " + ex.getMessage());
             return;
         }
-
-        System.out.println(message);
     }
-
-
 
     private static void error( String message )
     {
         PrintStream err = System.err;
         err.println("** " + message);
     }
-
-
-
 
 
     /**

@@ -231,7 +231,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    */
     public void hasValidDate() throws IllegalArgumentException{
       if(this.depart_date.compareTo(this.arrive_date)>0){
-        throw new IllegalArgumentException("Depart date cannot be later than arrival date.");
+        throw new IllegalArgumentException("Depart date (" + this.depart_date + ") cannot be later than arrival date (" +
+                this.arrive_date + ").");
       }
     }
 

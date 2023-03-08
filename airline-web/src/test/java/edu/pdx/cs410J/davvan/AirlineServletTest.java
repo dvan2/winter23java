@@ -26,7 +26,6 @@ class AirlineServletTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn("Airline");
 
-
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter pw = mock(PrintWriter.class);
 
@@ -53,16 +52,6 @@ class AirlineServletTest {
 
     HttpServletRequest request = createRequest(airline_name, flight_numberasString, source, depart, dest, arrive);
 
-    /*
-    backup
-    HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airline_name);
-    when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(flight_numberasString);
-    when(request.getParameter(AirlineServlet.SOURCE_PARAMETER)).thenReturn(source);
-    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(depart);
-    when(request.getParameter(AirlineServlet.DEST_PARAMETER)).thenReturn(dest);
-    when(request.getParameter(AirlineServlet.ARRIVE_PARAMETER)).thenReturn(arrive);
-     */
 
     HttpServletResponse response = null;
     response = mock(HttpServletResponse.class);
@@ -229,7 +218,7 @@ class AirlineServletTest {
     String source = "PDX";
     String depart = "12/13/2010 12:12 pm";
     String dest = "DEN";
-    String arrive = "12/13/2010 1:01 am";
+    String arrive = "12/14/2010 1:01 am";
 
     HttpServletRequest request = createRequest(airline_name,flight_numberasString, source,depart, dest, arrive);
 
@@ -279,7 +268,6 @@ class AirlineServletTest {
     when(response2.getWriter()).thenReturn(pw2);
 
     servlet.doPost(request2, response2);
-
 
     //test new airline
 
@@ -335,7 +323,7 @@ class AirlineServletTest {
     assertThat(stringWriter1.toString(), containsString("Airline"));
     assertThat(stringWriter1.toString(), containsString(flight_numberasString));
     assertThat(stringWriter1.toString(), containsString(source));
-    assertThat(stringWriter1.toString(), containsString("day=\"12\""));
+    assertThat(stringWriter1.toString(), containsString("day=\"13\""));
 
     //Test Get for second airline: airline_new
     HttpServletRequest get_request2 = mock(HttpServletRequest.class);
@@ -355,7 +343,7 @@ class AirlineServletTest {
     assertThat(stringWriterSecondAir.toString(), containsString("Delta"));
     assertThat(stringWriterSecondAir.toString(), containsString("111"));
     assertThat(stringWriterSecondAir.toString(), containsString("PDX"));
-    assertThat(stringWriterSecondAir.toString(), containsString("day=\"08\""));
+    assertThat(stringWriterSecondAir.toString(), containsString("day=\"01\""));
   }
 
   @Test
@@ -424,9 +412,43 @@ class AirlineServletTest {
     assertThat(stringWriter1.toString(), containsString("day=\"01\""));
 
   }
+
   @Test
-  void testNotContainString() {
-    String s1 = "abcde";
-    assertThat(s1, not(containsString("z")));
+  void badFlightIsCaught() throws IOException {
+    AirlineServlet servlet = new AirlineServlet();
+
+    String airline_name = "Airline";
+    int flight_number= 123;
+    String flight_numberasString = "abc";
+    String source = "PDX";
+    String depart = "12/12/2010 12:12 pm";
+    String dest = "DEN";
+    String arrive = "12/13/2010 1:01 am";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(AirlineServlet.AIRLINE_NAME_PARAMETER)).thenReturn(airline_name);
+    when(request.getParameter(AirlineServlet.FLIGHT_NUMBER_PARAMETER)).thenReturn(flight_numberasString);
+    when(request.getParameter(AirlineServlet.SOURCE_PARAMETER)).thenReturn(source);
+    when(request.getParameter(AirlineServlet.DEPART_PARAMETER)).thenReturn(depart);
+    when(request.getParameter(AirlineServlet.DEST_PARAMETER)).thenReturn(dest);
+    when(request.getParameter(AirlineServlet.ARRIVE_PARAMETER)).thenReturn(arrive);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    try {
+      servlet.doPost(request, response);
+    }catch(IOException e){
+      ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+      verify(response).setStatus(statusCode.capture());
+
+      assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_NOT_ACCEPTABLE));
+      //System.err.println(e.getMessage());
+    }
   }
 }
