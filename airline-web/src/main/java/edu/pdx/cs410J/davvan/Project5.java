@@ -40,10 +40,7 @@ public class Project5 {
                 "arrive:\tArrival date and time (mm/dd/yyyy HH:mm AM/PM\n\n" +
                 "Options are (options may appear in any order):\n" +
                 "-print:\tPrints a description of the newly added flight\n" +
-                "-README\tPrints a README for this project and exits.\n" +
-                "-textFile <filename>\tTo add flights to an existing airline or create new airline." +
-                "-pretty <filename>\tTo pretty format current airline and its flights to a file." +
-                "-pretty -\tTo pretty format current airline and its flights to standard out.");
+                "-README\tPrints a README for this project and exits.\n");
     }
 
     public static void openReadme() throws IOException {
@@ -165,9 +162,6 @@ public class Project5 {
 
         String search = null;
         boolean print= false;
-
-        boolean pretty_print= false;
-        boolean xml_present = false;
 
 
         int current= 0;

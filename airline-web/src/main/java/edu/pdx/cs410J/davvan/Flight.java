@@ -387,11 +387,11 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   public Document getDate(Document doc, Element root, Date depart_date){
     Element date = doc.createElement("date");
 
-    String date_string= orginalFormatDate(depart_date, "MM/dd/yyyy/hh/mm");
+    String date_string= orginalFormatDate(depart_date, "MM/dd/yyyy/HH/mm");
 
     String [] date_split = date_string.split("/", -2);
-    date.setAttribute("day", date_split[0]);
-    date.setAttribute("month", date_split[1]);
+    date.setAttribute("day", date_split[1]);
+    date.setAttribute("month", date_split[0]);
     date.setAttribute("year", date_split[2]);
 
     root.appendChild(date);

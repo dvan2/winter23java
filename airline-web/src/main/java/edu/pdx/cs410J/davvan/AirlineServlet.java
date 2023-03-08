@@ -154,7 +154,6 @@ public class AirlineServlet extends HttpServlet {
 
       response.setStatus(HttpServletResponse.SC_OK);
     }
-
   }
 
     private void writeFlights(String airline_name, HttpServletResponse response, String source, String dest) throws IOException {

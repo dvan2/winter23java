@@ -47,7 +47,7 @@ class AirlineServletTest {
     int flight_number= 123;
     String flight_numberasString = "123";
     String source = "PDX";
-    String depart = "12/12/2010 12:12 pm";
+    String depart = "12/9/2010 8:12 pm";
     String dest = "DEN";
     String arrive = "12/13/2010 1:01 am";
 
@@ -227,7 +227,7 @@ class AirlineServletTest {
     int flight_number= 123;
     String flight_numberasString = "123";
     String source = "PDX";
-    String depart = "12/12/2010 12:12 pm";
+    String depart = "12/13/2010 12:12 pm";
     String dest = "DEN";
     String arrive = "12/13/2010 1:01 am";
 
@@ -355,7 +355,7 @@ class AirlineServletTest {
     assertThat(stringWriterSecondAir.toString(), containsString("Delta"));
     assertThat(stringWriterSecondAir.toString(), containsString("111"));
     assertThat(stringWriterSecondAir.toString(), containsString("PDX"));
-    assertThat(stringWriterSecondAir.toString(), containsString("day=\"09\""));
+    assertThat(stringWriterSecondAir.toString(), containsString("day=\"08\""));
   }
 
   @Test

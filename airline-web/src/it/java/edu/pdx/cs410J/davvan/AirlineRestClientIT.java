@@ -52,9 +52,9 @@ class AirlineRestClientIT {
     int flight_number = 123;
     String flight_numberasString = "123";
     String source = "PDX";
-    String depart = "12/12/2010 12:12 PM";
+    String depart = "12/8/2010 1:10 PM";
     String dest = "DEN";
-    String arrive = "12/12/2010 12:12 AM";
+    String arrive = "12/10/2010 12:13 AM";
 
     client.addFlight(airline_name, flight_numberasString, source, depart, dest, arrive);
 
@@ -66,9 +66,9 @@ class AirlineRestClientIT {
     assertThat(airline.getName(), equalTo(airline_name));
     assertThat(airline.getFlights().iterator().next().getNumber(), equalTo(flight_number));
     assertThat(s, containsString(source));
-    assertThat(s, containsString(depart));
+    assertThat(s, containsString("12/08/2010 01:10 PM"));
     assertThat(s, containsString(dest));
-    assertThat(s, containsString(arrive));
+    assertThat(s, containsString("12/10/2010 12:13 AM"));
   }
 
   /*

@@ -33,19 +33,29 @@ class Project5IT extends InvokeMainTestCase {
     @Test
     void test1NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
-        assertThat(result.getTextWrittenToStandardError(), containsString(Project5.MISSING_ARGS));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("usage: java -jar"));
     }
 
-    /*
+
+
     @Test
-    void test2EmptyServer() {
+    void notEnoughArguments() {
         MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT );
 
-        assertThat(result.getTextWrittenToStandardError(), equalTo(""));
+        //assertThat(result.getTextWrittenToStandardError(), equalTo(""));
 
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, containsString("There are not enough arguments for a flight."));
     }
+
+    @Test
+    void createAirlineToServerAndPrint() {
+        MainMethodResult result = invokeMain( Project5.class, HOSTNAME, PORT );
+
+    }
+
+
+    /*
 
     @Test
     void test3NoDefinitionsThrowsAppointmentBookRestException() {
