@@ -76,7 +76,6 @@ public class AirlineServlet extends HttpServlet {
       String dest = getParameter(DEST_PARAMETER, request);
       String arrive = getParameter(ARRIVE_PARAMETER, request);
 
-
       Flight flight = new Flight();
       try {
           flight.createFlight(flight_num_string, source_airport, depart, dest, arrive);
@@ -145,7 +144,8 @@ public class AirlineServlet extends HttpServlet {
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-      //response.sendError(HttpServletResponse.SC_NOT_FOUND, "Cannot find airport name");
+      response.sendError(HttpServletResponse.SC_NOT_FOUND, "Airport not found");
+
 
     } else {
       PrintWriter pw = response.getWriter();

@@ -31,15 +31,22 @@ class Project5IT extends InvokeMainTestCase {
     private String readme_test= "Project 5 extends";
 
     @Test
-    void test0RemoveAllMappings() throws IOException {
-      AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
+    void RemoveAllMappings() throws IOException {
+      AirlineRestClient client = new AirlineRestClient( HOSTNAME , Integer.parseInt(PORT));
       client.removeAllDictionaryEntries();
     }
 
     @Test
-    void test1NoCommandLineArguments() {
+    void NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project5.class );
         assertThat(result.getTextWrittenToStandardOut(), containsString("usage: java -jar"));
+    }
+
+    @Test
+    void badPortThrowsException() {
+        MainMethodResult result = invokeMain( Project5.class, "-host", HOSTNAME, "-port", "12345","-print",
+                "Delta", "123", "PDX", "12/12/2010" , "12:10", "AM", "ORD", "12/13/2010" , "1:00", "AM" );
+        assertThat(result.getTextWrittenToStandardError(), containsString("** While contacting server: Connection refused: connect"));
     }
 
 
@@ -93,8 +100,77 @@ class Project5IT extends InvokeMainTestCase {
 
     @Test
     void searchNonExistsAirline() {
-        MainMethodResult result2 = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT, "-search" , "Delt");
+        MainMethodResult result2 = invokeMain(Project5.class,"-search", "-host" , HOSTNAME, "-port", PORT , "Delt", "PDX" , "DEN");
         assertThat(result2.getTextWrittenToStandardError(), containsString("Error.  Cannot match airport."));
+    }
+
+    @Test
+    void test6searchNonExistentAirlineWithAirlineInServer() {
+        String airline_name= "Delta";
+        String src = "PDX";
+        String dest= "ORD";
+
+        MainMethodResult result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT, "-print",
+                airline_name, "123", src, "12/12/2010" , "12:10", "AM", dest, "12/13/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123 departs PDX at 12/12/10, 12:10 AM arrives ORD at 12/13/10, 1:00 AM"));
+
+        result = invokeMain(Project5.class,"-search" ,"-host" , HOSTNAME, "-port", PORT , "Delt", "HRL", "FAT");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error.  Cannot match airport."));
+
+    }
+
+    @Test
+    void test7AddAnotherFLight() {
+        String airline_name= "Delta";
+        String src = "PDX";
+        String dest= "ORD";
+
+        MainMethodResult result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT, "-print",
+                airline_name, "123", src, "12/12/2010" , "12:10", "AM", dest, "12/13/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123 departs PDX at 12/12/10, 12:10 AM arrives ORD at 12/13/10, 1:00 AM"));
+
+        String airline_two= "Delta";
+        String src_two = "DEN";
+        String dest_two= "TUL";
+
+        result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT,
+                airline_two, "123", src_two, "3/2/2010" , "12:10", "AM", dest_two, "3/2/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+
+
+    }
+
+    @Test
+    void test8SearchwithMultipleFlights() {
+        String airline_name= "Delta";
+        String src = "PDX";
+        String dest= "ORD";
+
+        MainMethodResult result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT, "-print",
+                airline_name, "123", src, "12/12/2010" , "12:10", "AM", dest, "12/13/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Delta Flight 123 departs PDX at 12/12/10, 12:10 AM arrives ORD at 12/13/10, 1:00 AM"));
+
+        String src_two = "DEN";
+        String dest_two= "TUL";
+
+        result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT,
+                airline_name, "123", src_two, "3/2/2010" , "12:10", "AM", dest_two, "3/2/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+
+
+
+        result = invokeMain(Project5.class,"-host" , HOSTNAME, "-port", PORT,
+                airline_name, "123", src_two, "2/10/2010" , "12:10", "AM", dest_two, "2/10/2010" , "1:00", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+
+        result = invokeMain(Project5.class,"-search", "-host" , HOSTNAME, "-port", PORT, "-search" , "Delta", "DEN", "TUL");
+
+
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 123 departs Denver, CO (DEN) on Feb 10, 2010 12:10 AM"));
+
+
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 123 departs Denver, CO (DEN) on Mar 2, 2010 12:10 AM\n"));
+
     }
 
     @Test
@@ -119,12 +195,6 @@ class Project5IT extends InvokeMainTestCase {
     }
 
     @Test
-    void printOnly(){
-        MainMethodResult result = invokeMain(Project5.class, "-print");
-        MatcherAssert.assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString(NOT_ENOUGH_ARGS));
-    }
-
-    @Test
     void readmeFirstOptionWithPrint(){
         MainMethodResult result = invokeMain(Project5.class,"-README", "-print", "Delta", "343", "DEN", "12/12/2000", "PM","12:12", "PDX", "1/1/2022", "1:1");
         MatcherAssert.assertThat(result.getTextWrittenToStandardOut(), CoreMatchers.containsString(readme_test));
@@ -132,19 +202,19 @@ class Project5IT extends InvokeMainTestCase {
 
     @Test
     void tooManyArgumentsWithPrint(){
-        MainMethodResult result = invokeMain(Project5.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "PDX","TUL", "1/1/2022", "1:1", "AM");
+        MainMethodResult result = invokeMain(Project5.class, "-host" , HOSTNAME, "-port", PORT,"-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "PDX","TUL", "1/1/2022", "1:1", "AM");
         MatcherAssert.assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString("There is too many arguments for a flight."));
     }
 
     @Test
     void testTooManyArgumentsWithPrintAndReadme(){
-        MainMethodResult result = invokeMain(Project5.class, "-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "PDX","TUL", "1/1/2022", "1:1", "AM");
+        MainMethodResult result = invokeMain(Project5.class, "-host" , HOSTNAME, "-port", PORT,"-print", "-README", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "PDX","TUL", "1/1/2022", "1:1", "AM");
         MatcherAssert.assertThat(result.getTextWrittenToStandardOut(), CoreMatchers.containsString(readme_test));
     }
 
     @Test
     void missingAirlineDestination(){
-        MainMethodResult result = invokeMain(Project5.class, "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "1/1/2022", "1:1", "AM");
+        MainMethodResult result = invokeMain(Project5.class, "-host" , HOSTNAME, "-port", PORT,"Delta", "343", "DEN", "12/12/2000","12:12", "PM", "1/1/2022", "1:1", "AM");
         MatcherAssert.assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString(NOT_ENOUGH_ARGS));
     }
 
@@ -156,7 +226,7 @@ class Project5IT extends InvokeMainTestCase {
 
     @Test
     void notEnoughArgumentsWithPrint(){
-        MainMethodResult result = invokeMain(Project5.class, "-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "1/1/2022", "1:1", "AM");
+        MainMethodResult result = invokeMain(Project5.class, "-host" , HOSTNAME, "-port", PORT,"-print", "Delta", "343", "DEN", "12/12/2000","12:12", "PM", "1/1/2022", "1:1", "AM");
         MatcherAssert.assertThat(result.getTextWrittenToStandardError(), CoreMatchers.containsString(NOT_ENOUGH_ARGS));
     }
 
@@ -261,6 +331,7 @@ class Project5IT extends InvokeMainTestCase {
                 airline_name, "123", src, "12/12/2010", "12:10", "AM", dest, "12/13/2010", "1:10", "AM");
         assertThat(result.getTextWrittenToStandardError(), containsString("Unknown option command.  Please check spelling."));
     }
+
 
 
     /*

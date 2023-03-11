@@ -39,8 +39,8 @@ public class Project5 {
                 "dest:\tThree-letter code for arrival airport\n" +
                 "arrive:\tArrival date and time (mm/dd/yyyy HH:mm AM/PM\n\n" +
                 "Options are (options may appear in any order):\n" +
-                "-host:\tHost of the web server" +
-                "-port:\tPort of the web server" +
+                "-host:\tHost of the web server\n" +
+                "-port:\tPort of the web server\n" +
                 "-print:\tPrints a description of the newly added flight\n" +
                 "-README\tPrints a README for this project and exits.\n");
     }
@@ -82,9 +82,8 @@ public class Project5 {
         String host = null;
         String port= null;
 
-        boolean search_airline= false;
+        boolean search= false;
         boolean print= false;
-        boolean search_source = false;
 
 
         int current= 0;
@@ -128,19 +127,9 @@ public class Project5 {
             }
 
             if(search_current){
-                if(current + 1 == args.length){
-                    System.out.println("Error. No airline name provided.");
-                    return;
-                }
-                //if there is 3 arguments after options with search
-                if(current + 2 == args.length){
-                    search_airline = true;
-                }
-                if(current + 4 == args.length) {
-                    search_source = true;
-                }
-                ++options;
-                ++current;
+                search = true;
+                options++;
+
             }
             if(print_current) {
                 print = true;
@@ -149,15 +138,39 @@ public class Project5 {
             ++current;
         }
 
-        if(args.length > NUM_ARGS+ options){
+
+
+
+        boolean search_source = (search) && (args.length - options) > 1;
+        boolean search_airline = (search) && (args.length - options) == 1;
+        if(search_airline) {
+            search_source = false;
+        }
+
+
+        if (search_airline && (args.length - options) > 1) {
             System.err.println(TOO_MANY_ARGS);
             return;
         }
-        if(args.length < NUM_ARGS + options && !search_airline &&!search_source){
+
+        if (search_source && (args.length - options) < 3) {
             System.err.println(NOT_ENOUGH_ARGS);
             return;
         }
 
+
+
+
+        if(args.length > NUM_ARGS+ options){
+
+            System.err.println(TOO_MANY_ARGS);
+            return;
+
+        }
+        if(args.length < NUM_ARGS + options && !search){
+            System.err.println(NOT_ENOUGH_ARGS);
+            return;
+        }
         int port_number;
         try {
             port_number = Integer.parseInt( port );
@@ -168,9 +181,7 @@ public class Project5 {
         }
 
         AirlineRestClient client = new AirlineRestClient(host, port_number);
-
         String airline_name = args[0 + options];
-
 
         if(search_airline || search_source) {
             try {
@@ -191,10 +202,12 @@ public class Project5 {
 
             }catch (IOException e) {
                 System.err.println("Io exception: " + e.getMessage());
+                return;
             }catch(ParserException e) {
                 System.err.println(e.getMessage());
+                return;
             } catch(HttpRequestHelper.RestException e) {
-                System.err.println("Error.  Cannot match airport.");
+                System.err.println("Error.  Cannot match airport." + e.getMessage());
                 return;
             }
         }
