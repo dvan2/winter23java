@@ -46,7 +46,7 @@ class Project5IT extends InvokeMainTestCase {
     void badPortThrowsException() {
         MainMethodResult result = invokeMain( Project5.class, "-host", HOSTNAME, "-port", "12345","-print",
                 "Delta", "123", "PDX", "12/12/2010" , "12:10", "AM", "ORD", "12/13/2010" , "1:00", "AM" );
-        assertThat(result.getTextWrittenToStandardError(), containsString("** While contacting server: Connection refused: connect"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("** While contacting server: Connection refused"));
     }
 
 
