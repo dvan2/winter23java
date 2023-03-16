@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayMessage(View view) {
-        Toast.makeText(this, "Hello everyone", Toast.LENGTH_SHORT).show();
+        Flight flight = new Flight();
+        Toast.makeText(this, flight.toString(), Toast.LENGTH_LONG).show();
+
     }
 }
