@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number"
             android:minHeight="48dp" />
 
         <Button
@@ -51,13 +50,12 @@
             android:onClick="computeSum"
             android:text="=" />
 
-        <EditText
+        <TextView
             android:id="@+id/sum"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number"
             android:minHeight="48dp" />
     </LinearLayout>
 
@@ -65,8 +63,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="displayMessage"
-        android:text="Click Me"
+        android:onClick="launchCalculator"
+        android:text="@string/launch_calculator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

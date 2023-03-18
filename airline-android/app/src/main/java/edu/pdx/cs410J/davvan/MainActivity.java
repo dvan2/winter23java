@@ -2,6 +2,7 @@ package edu.pdx.cs410J.davvan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -16,9 +17,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void displayMessage(View view) {
-        Flight flight = new Flight();
-        Toast.makeText(this, flight.toString(), Toast.LENGTH_LONG).show();
+    public void launchCalculator(View view) {
+        startActivity(new Intent(this, CalculatorActivity.class));
     }
 
     public void computeSum(View view) {
@@ -28,13 +28,21 @@ public class MainActivity extends AppCompatActivity {
         String leftOperandString= leftOperandEditText.getText().toString();
         String rightOperandString = rightOperandEditText.getText().toString();
 
-        int leftOperand= Integer.parseInt(leftOperandString);
-        int rightOperand = Integer.parseInt(rightOperandString);
+        int leftOperand;
+        int rightOperand;
+        try {
+            leftOperand = Integer.parseInt(leftOperandString);
+            rightOperand = Integer.parseInt(rightOperandString);
+        }catch(NumberFormatException e){
+            Toast.makeText(this, "Invalid number: ", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
 
 
         int sum = leftOperand + rightOperand;
 
-        EditText sumEditText = findViewById(R.id.sum);
+        TextView sumEditText = findViewById(R.id.sum);
 
         sumEditText.setText(String.valueOf(sum), TextView.BufferType.EDITABLE);
 
