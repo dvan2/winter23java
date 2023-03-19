@@ -1,5 +1,8 @@
 package edu.pdx.cs410J.davvan;
 
+import static edu.pdx.cs410J.davvan.CalculatorActivity.SUM_VALUE;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,24 +14,47 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final int GET_SUM = 42;
+    private ArrayAdapter<Integer> sums;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listofSums= findViewById(R.id.sums);
-        Integer [] numbers = {1,2,3,4};
-        ArrayAdapter<Integer> sums = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, numbers);
-        listofSums.setAdapter(sums);
+        ListView listOfSums= findViewById(R.id.sums);
+        sums = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        listOfSums.setAdapter(sums);
+
     }
-
-
 
     public void launchCalculator(View view) {
-        startActivity(new Intent(this, CalculatorActivity.class));
+        startActivityForResult(new Intent(this, CalculatorActivity.class), GET_SUM);
+
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GET_SUM) {
+                if (data != null) {
+                    Integer sum = data.getSerializableExtra(SUM_VALUE, Integer.class);
+                    if (sum != null) {
+                        this.sums.add(sum);
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
 
 }
