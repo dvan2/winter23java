@@ -7,27 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/launch_calculator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
-        android:onClick="launchCalculator"
-        android:text="@string/launch_calculator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sums"
-        app:layout_constraintVertical_bias="1.0" />
-
     <ListView
         android:id="@+id/sums"
-        android:layout_width="328dp"
-        android:layout_height="349dp"
-        app:layout_constraintBottom_toTopOf="@id/launch_calculator"
+        android:layout_width="314dp"
+        android:layout_height="465dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_weight="0.3"
+            android:drawableTop="@drawable/search"
+            android:text="Search" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_weight="0.3"
+            android:drawableTop="@drawable/search"
+            android:text="Pretty" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="82dp"
+            android:layout_weight="0.3"
+            android:drawableTop="@drawable/search"
+            android:onClick="launchCalculator"
+            android:text="Add" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
