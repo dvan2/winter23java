@@ -2,35 +2,25 @@ package edu.pdx.cs410J.davvan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 
-public class CalculatorActivity extends AppCompatActivity {
+public class AddFlightActivity extends AppCompatActivity {
 
     static final String SUM_VALUE = "SUM";
     private Integer sum;
     private Airline airline;
-    DatePickerDialog picker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calculator);
+        setContentView(R.layout.activity_add);
 
     }
 
@@ -63,6 +53,11 @@ public class CalculatorActivity extends AppCompatActivity {
 
 
        Toast.makeText(this, "Added " + this.airline, Toast.LENGTH_SHORT).show();
+       Intent data = new Intent();
+       data.putExtra(SUM_VALUE, this.airline);
+       setResult(RESULT_OK, data);
+
+       finish();
    }
 
 

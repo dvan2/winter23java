@@ -6,4 +6,10 @@
     <string name="plus">+</string>
     <string name="flight_number">Flight Number</string>
     <string name="airline_name">Airline Name</string>
+    <string name="add">Add</string>
+    <string name="source_airport">Source Airport</string>
+    <string name="destination_airport">Destination Airport</string>
+    <string name="search_for_flights">Result will display here</string>
+    <string name="search">Search</string>
+    <string name="submit">Submit</string>
 </resources>

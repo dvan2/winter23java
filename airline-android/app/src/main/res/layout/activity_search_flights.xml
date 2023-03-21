@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchFlights">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="392dp"
+        android:layout_height="233dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.024">
+
+        <EditText
+            android:id="@+id/airline_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:ems="10"
+            android:hint="@string/airline_name"
+            android:inputType="textPersonName"
+            android:text="Delta"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+
+        <EditText
+            android:id="@+id/src"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:ems="10"
+            android:hint="@string/source_airport"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
+            android:text="PDX" />
+
+        <EditText
+            android:id="@+id/dest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:ems="10"
+            android:hint="@string/destination_airport"
+            android:inputType="textCapCharacters"
+            android:maxLength="3"
+            android:text="DEN" />
+
+        <Button
+            android:id="@+id/searchAirlines"
+            android:layout_width="wrap_content"
+            android:layout_height="81dp"
+            android:layout_weight=".25"
+            android:onClick="searchAirline"
+            android:drawableEnd="@drawable/search"
+            android:text="@string/search" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="365dp"
+        android:layout_height="394dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.237">
+
+        <TextView
+            android:id="@+id/resultView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:text="@string/search_for_flights"
+            android:visibility="visible" />
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

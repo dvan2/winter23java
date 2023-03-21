@@ -35,21 +35,22 @@
             android:text="Search" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/Search"
             android:layout_width="wrap_content"
             android:layout_height="82dp"
             android:layout_weight="0.3"
             android:drawableTop="@drawable/search"
+            android:onClick="searchAirlineFromMain"
             android:text="Pretty" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/addView"
             android:layout_width="wrap_content"
             android:layout_height="82dp"
             android:layout_weight="0.3"
-            android:drawableTop="@drawable/search"
+            android:drawableTop="@drawable/add"
             android:onClick="launchCalculator"
-            android:text="Add" />
+            android:text="@string/add" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
