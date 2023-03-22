@@ -11,7 +11,7 @@
         android:id="@+id/return_to_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableBottom="@drawable/home"
+        android:drawableBottom="@drawable/search"
         android:onClick="returnToMain"
         android:text="@string/return_to_main"
         app:layout_constraintBottom_toBottomOf="parent"

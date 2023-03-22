@@ -9,32 +9,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int GET_SUM = 42;
-    private ArrayAdapter<Airline> airlines;
+    private ArrayAdapter<String> airlines;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*
         ListView listOfSums= findViewById(R.id.sums);
-        try {
-            TextParser parser = new TextParser(new FileReader(getSumsFile()));
-        } catch (IOException | ParserException e) {
-
-            Toast.makeText(this, "While reading file: " + e, Toast.LENGTH_SHORT).show();
-        }
-        airlines = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, airlinesFromFile);
+        airlines = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         listOfSums.setAdapter(airlines);
-         */
     }
 
     public void launchCalculator(View view) {
@@ -56,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     Airline airline = data.getSerializableExtra(SUM_VALUE, Airline.class);
                     if (airline != null) {
                         try {
+                            airlines.add(airline.getPrettyAirline("mm/dd/yyyy hh:MM a"));
                             writeSumsToInternalStorage(airline);
                         } catch (IOException e) {
                             Toast.makeText(this, "While writing file: " + e, Toast.LENGTH_LONG).show();
