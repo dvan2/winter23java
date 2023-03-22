@@ -7,51 +7,40 @@
     tools:context=".AddFlightActivity">
 
 
-    <Button
-        android:id="@+id/return_to_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableBottom="@drawable/search"
-        android:onClick="returnToMain"
-        android:text="@string/return_to_main"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="544dp"
+        android:id="@+id/addInputs"
+        android:layout_width="390dp"
+        android:layout_height="305dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/return_to_main"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.065">
 
         <EditText
             android:id="@+id/airline_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/airline_name"
-            android:visibility="visible"
-            tools:visibility="visible"
+            android:inputType="textPersonName"
             android:text="Delta"
-            />
+            android:visibility="visible"
+            tools:visibility="visible" />
 
 
         <EditText
             android:id="@+id/flight_num"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/flight_number"
-            android:text="123"
             android:ems="10"
+            android:hint="@string/flight_number"
             android:inputType="number"
+            android:text="123"
             tools:visibility="visible" />
 
 
@@ -59,55 +48,52 @@
             android:id="@+id/src"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Source Airport"
-            android:text="PDX"
             android:ems="10"
+            android:hint="Source Airport"
             android:inputType="textCapCharacters"
-            android:maxLength="3" />
+            android:maxLength="3"
+            android:text="PDX" />
+
         <EditText
             android:id="@+id/depart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="12/12/2010 1:10 PM"
             android:ems="10"
-            android:inputType="datetime"
-             />
+            android:inputType="date|text"
+            android:text="12/12/2010 1:10 PM" />
 
         <EditText
             android:id="@+id/dest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Destination Airport"
-            android:text="DEN"
             android:ems="10"
+            android:hint="Destination Airport"
             android:inputType="textCapCharacters"
-            android:maxLength="3" />
+            android:maxLength="3"
+            android:text="DEN" />
+
         <EditText
             android:id="@+id/arrive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="12/13/2010 1:10 PM"
             android:ems="10"
-            android:inputType="datetime"
-            />
-
-
-
-
+            android:inputType="date|text"
+            android:text="12/13/2010 1:10 PM" />
 
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="124dp"
+        android:layout_height="77dp"
         android:onClick="addAirline"
         android:text="@string/submit"
-        app:layout_constraintBottom_toTopOf="@+id/return_to_main"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.944"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.322" />
+        app:layout_constraintTop_toBottomOf="@+id/addInputs"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
