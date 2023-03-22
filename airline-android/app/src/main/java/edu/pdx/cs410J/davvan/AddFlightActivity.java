@@ -34,6 +34,10 @@ public class AddFlightActivity extends AppCompatActivity {
        EditText arrive_et = findViewById(R.id.arrive);
 
        String airline_name = name_edit_text.getText().toString();
+       if(airline_name.equals("")){
+           Toast.makeText(this, "Airline name can't be empty" , Toast.LENGTH_SHORT).show();
+           return;
+       }
        String flight_num_string = flight_edit_text.getText().toString();
        String source = src_et.getText().toString();
        String depart = depart_et.getText().toString();
