@@ -12,12 +12,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+
 
     private static final int GET_SUM = 42;
     private ArrayAdapter<String> airlines;
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void searchAirlineFromMain(View view) {
         startActivity(new Intent(this, SearchFlights.class));
+    }
+
+    public void openHelp(View view) {
+        startActivity(new Intent(this, About.class));
     }
 
     @Override
@@ -78,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
         dumper.dump(airline);
     }
+
 
 
 }

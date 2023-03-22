@@ -28,7 +28,6 @@
             android:ems="10"
             android:hint="@string/airline_name"
             android:inputType="textPersonName"
-            android:text="Delta"
             android:visibility="visible"
             tools:visibility="visible" />
 
@@ -40,7 +39,6 @@
             android:ems="10"
             android:hint="@string/flight_number"
             android:inputType="number"
-            android:text="123"
             tools:visibility="visible" />
 
 
@@ -49,36 +47,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Source Airport"
+            android:hint="@string/source_airport"
             android:inputType="textCapCharacters"
             android:maxLength="3"
-            android:text="PDX" />
+            />
 
         <EditText
             android:id="@+id/depart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+
+            android:hint="@string/depart_date_mm_dd_yyyy_hh_mm"
             android:inputType="date|text"
-            android:text="12/12/2010 1:10 PM" />
+            />
 
         <EditText
             android:id="@+id/dest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Destination Airport"
+            android:hint="@string/destination_airport"
             android:inputType="textCapCharacters"
             android:maxLength="3"
-            android:text="DEN" />
+            />
 
         <EditText
             android:id="@+id/arrive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="@string/arrival_date_mm_dd_yyyy_hh_mm"
             android:inputType="date|text"
-            android:text="12/13/2010 1:10 PM" />
+            />
+
 
 
     </LinearLayout>

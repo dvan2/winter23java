@@ -31,7 +31,8 @@
             android:layout_width="wrap_content"
             android:layout_height="82dp"
             android:layout_weight="0.3"
-            android:drawableTop="@drawable/search"
+            android:drawableTop="@drawable/help"
+            android:onClick="openHelp"
             android:text="About" />
 
         <Button
@@ -52,5 +53,17 @@
             android:onClick="launchCalculator"
             android:text="@string/add" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/Heading"
+        android:layout_width="260dp"
+        android:layout_height="47dp"
+        android:text="Flights For Current Session"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/sums"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.408" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

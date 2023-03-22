@@ -12,4 +12,6 @@
     <string name="search_for_flights">Result will display here</string>
     <string name="search">Search</string>
     <string name="submit">Submit</string>
+    <string name="depart_date_mm_dd_yyyy_hh_mm">Depart Date (mm/dd/yyyy hh:MM)</string>
+    <string name="arrival_date_mm_dd_yyyy_hh_mm">Arrival Date (mm/dd/yyyy hh:MM)</string>
 </resources>
